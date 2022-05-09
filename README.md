@@ -16,7 +16,14 @@ A widget to create daily timelines, timetables, gantt charts* and more.
 
 # Usage
 
+## Installation
+Add the following line to `pubspec.yaml`:
 
+```yaml
+dependencies:
+  dynamic_timeline:
+    git: https://github.com/IvanHerreraCasas/dynamic_timeline
+```
 
 ## Basic set up
 Make sure to check out the example for more details.
