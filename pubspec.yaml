@@ -1,6 +1,6 @@
 name: dynamic_timeline
 description: A Very Good Project created by Very Good CLI.
-version: 0.1.0+
+version: 0.1.0
 publish_to: none
 
 environment:
