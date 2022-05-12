@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 ///
 /// Build on the top of the [RawTimelineItem] and handles the update methods
 /// to resize the item.
-/// 
+///
 /// If you want to handle the update methods you can create a stateful widget
 /// that returns a [RawTimelineItem]
 /// {@endtemplate}
@@ -41,7 +41,7 @@ class TimelineItem extends StatefulWidget {
   final DateTime endDateTime;
 
   /// The position in the cross axis of the item.
-  /// 
+  ///
   /// Must be less that crossAxisCount.
   final int position;
 
