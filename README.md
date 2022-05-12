@@ -5,9 +5,22 @@ A widget to create daily timelines, timetables, gantt charts* and more.
 
 > Note: This package is in early stage and has not been tested with large amount of data.
 
-|                  Daily timeline                   |                   Weekly Timetable                    |                Gantt chart*                 |
-| :-----------------------------------------------: | :---------------------------------------------------: | :-----------------------------------------: |
-| ![Daily timeline](screenshots/daily_timeline.png) | ![Weekly timetable](screenshots/weekly_timetable.png) | ![Gantt chart](screenshots/gantt_chart.png) |
+
+### Daily timeline
+
+![Daily timeline](https://raw.githubusercontent.com/IvanHerreraCasas/dynamic_timeline/main/screenshots/daily_timeline.png)
+
+### Weekly timetable
+
+![Weekly timetable](https://raw.githubusercontent.com/IvanHerreraCasas/dynamic_timeline/main/screenshots/weekly_timetable.png)
+
+### Gantt chart
+
+![Gantt chart](https://raw.githubusercontent.com/IvanHerreraCasas/dynamic_timeline/main/screenshots/gantt_chart.png)
+
+_\*Support to gantt chart must be improved._
+
+
 
 # Features
 - Easy to use API.
@@ -21,8 +34,7 @@ Add the following line to `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  dynamic_timeline:
-    git: https://github.com/IvanHerreraCasas/dynamic_timeline
+  dynamic_timeline: ^0.1.0
 ```
 
 ## Basic set up
