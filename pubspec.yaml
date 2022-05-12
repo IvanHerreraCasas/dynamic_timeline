@@ -1,7 +1,7 @@
 name: dynamic_timeline
-description: A Very Good Project created by Very Good CLI.
+description: A widget to create daily timelines, timetables, gantt charts* and more.
 version: 0.1.0
-publish_to: none
+repository: https://github.com/IvanHerreraCasas/dynamic_timeline
 
 environment:
   sdk: ">=2.16.0 <3.0.0"

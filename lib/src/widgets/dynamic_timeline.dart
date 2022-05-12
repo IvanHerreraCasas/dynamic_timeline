@@ -71,7 +71,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
 
   /// The number of items in the cross axis.
   ///
-  /// If a child has a position greater than or equal [crossAxisCount] 
+  /// If a child has a position greater than or equal [crossAxisCount]
   /// it will not be shown.
   final int crossAxisCount;
 
