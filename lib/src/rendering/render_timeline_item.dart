@@ -248,8 +248,7 @@ class RenderTimelineItem extends RenderProxyBox
           } else if (event is PointerHoverEvent) {
             _cursor = SystemMouseCursors.resizeUp;
           }
-        } else if (size.height - 5 < event.localPosition.dy &&
-            event.localPosition.dy < size.height) {
+        } else if (size.height - 5 < event.localPosition.dy) {
           if (event is PointerDownEvent) {
             _bottomDragGestureRecognizer.addPointer(event);
           } else if (event is PointerHoverEvent) {
@@ -267,8 +266,7 @@ class RenderTimelineItem extends RenderProxyBox
           } else if (event is PointerHoverEvent) {
             _cursor = SystemMouseCursors.resizeLeft;
           }
-        } else if (size.width - 5 < event.localPosition.dx &&
-            event.localPosition.dx < size.width) {
+        } else if (size.width - 5 < event.localPosition.dx) {
           if (event is PointerDownEvent) {
             _rightDragGestureRecognizer.addPointer(event);
           } else if (event is PointerHoverEvent) {
