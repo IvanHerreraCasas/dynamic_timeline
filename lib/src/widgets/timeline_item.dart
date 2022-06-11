@@ -10,7 +10,6 @@ class TimelineItem extends SingleChildRenderObjectWidget {
   /// {@macro timeline_item}
   TimelineItem({
     Key? key,
-    required Widget child,
     required this.startDateTime,
     required this.endDateTime,
     this.position = 0,
@@ -18,6 +17,7 @@ class TimelineItem extends SingleChildRenderObjectWidget {
     this.onEndDateTimeChanged,
     this.onStartDateTimeUpdated,
     this.onEndDateTimeUpdated,
+    required Widget child,
   })  : assert(
           startDateTime.isBefore(endDateTime),
           'startDateTime must be before endDateTime: '

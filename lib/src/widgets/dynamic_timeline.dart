@@ -17,7 +17,6 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
   /// {@macro dynamic_timeline}
   DynamicTimeline({
     Key? key,
-    required List<Widget> children,
     required this.firstDateTime,
     required this.lastDateTime,
     required this.labelBuilder,
@@ -35,6 +34,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     this.resizable = true,
     this.paint,
     this.textStyle,
+    required List<Widget> children,
   })  : assert(
           maxCrossAxisItemExtent != double.infinity,
           "max cross axis item extent can't be infinite. ",
@@ -118,10 +118,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       ..strokeWidth = strokeWidth
       ..strokeCap = strokeCap;
 
-    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyText1 ??
-        TextStyle(
-          color: color,
-        );
+    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyText1!;
 
     return RenderDynamicTimeline(
       firstDateTime: firstDateTime,
@@ -133,7 +130,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       crossAxisCount: crossAxisCount,
       maxCrossAxisIndicatorExtent: maxCrossAxisIndicatorExtent,
       maxCrossAxisItemExtent: maxCrossAxisItemExtent,
-      minItemDuration: minItemDuration ?? defaultIntervalDuration ~/ 10,
+      minItemDuration: minItemDuration ?? defaultIntervalDuration,
       crossAxisSpacing: crossAxisSpacing,
       resizable: resizable,
       linePaint: paint ?? defaultLinePaint,
@@ -154,10 +151,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       ..strokeWidth = strokeWidth
       ..strokeCap = strokeCap;
 
-    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyText1 ??
-        TextStyle(
-          color: color,
-        );
+    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyText1!;
 
     renderObject
       ..firstDateTime = firstDateTime
@@ -169,7 +163,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       ..crossAxisCount = crossAxisCount
       ..maxCrossAxisIndicatorExtent = maxCrossAxisIndicatorExtent
       ..maxCrossAxisItemExtent = maxCrossAxisItemExtent
-      ..minItemDuration = minItemDuration ?? defaultIntervalDuration ~/ 10
+      ..minItemDuration = minItemDuration ?? defaultIntervalDuration
       ..crossAxisSpacing = crossAxisSpacing
       ..resizable = resizable
       ..linePaint = paint ?? defaultLinePaint
