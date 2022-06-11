@@ -1,12 +1,15 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter/widgets.dart';
 
+
 /// {@template raw_timeline_item}
 /// A widget that positioned a child in a [DynamicTimeline]
 /// and detects drag gestures in the start and end sides.
 /// {@endtemplate}
+@Deprecated('Use TimelineItem instead.')
 class RawTimelineItem extends SingleChildRenderObjectWidget {
   /// {@macro raw_timeline_item}
+  @Deprecated('Use TimelineItem instead.')
   RawTimelineItem({
     Key? key,
     required Widget child,

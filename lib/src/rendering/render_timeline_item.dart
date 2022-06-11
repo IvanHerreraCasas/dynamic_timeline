@@ -194,7 +194,7 @@ class RenderTimelineItem extends RenderProxyBox
     if (super.parentData == null) return null;
     assert(
       super.parentData is DynamicTimelineParentData,
-      '$RawTimelineItem can only be direct child of $DynamicTimeline',
+      '$TimelineItem can only be direct child of $DynamicTimeline',
     );
     return super.parentData! as DynamicTimelineParentData;
   }

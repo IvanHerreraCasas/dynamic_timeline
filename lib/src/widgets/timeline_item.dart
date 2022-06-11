@@ -1,34 +1,29 @@
-import 'package:dynamic_timeline/src/widgets/raw_timeline_item.dart';
+import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter/widgets.dart';
 
+
 /// {@template timeline_item}
-/// An item that represents and event in a timeline and can be resized.
-///
-/// Build on the top of the [RawTimelineItem] and handles the update methods
-/// to resize the item.
-///
-/// If you want to handle the update methods you can create a stateful widget
-/// that returns a [RawTimelineItem]
+/// A widget that positions a child in a [DynamicTimeline]
+/// and can be resized with drag gestures on the start and end sides.
 /// {@endtemplate}
-class TimelineItem extends StatefulWidget {
+class TimelineItem extends SingleChildRenderObjectWidget {
   /// {@macro timeline_item}
   TimelineItem({
     Key? key,
-    required this.child,
+    required Widget child,
     required this.startDateTime,
     required this.endDateTime,
     this.position = 0,
     this.onStartDateTimeChanged,
     this.onEndDateTimeChanged,
+    this.onStartDateTimeUpdated,
+    this.onEndDateTimeUpdated,
   })  : assert(
           startDateTime.isBefore(endDateTime),
           'startDateTime must be before endDateTime: '
           'starDateTime: $startDateTime --- endDateTime: $endDateTime',
         ),
-        super(key: key);
-
-  /// The widget below this widget in the tree.
-  final Widget child;
+        super(key: key, child: child);
 
   /// The start date time of the event.
   ///
@@ -41,7 +36,7 @@ class TimelineItem extends StatefulWidget {
   final DateTime endDateTime;
 
   /// The position in the cross axis of the item.
-  ///
+  /// 
   /// Must be less that crossAxisCount.
   final int position;
 
@@ -51,43 +46,37 @@ class TimelineItem extends StatefulWidget {
   /// Called when the user has ended dragging the end side.
   final void Function(DateTime)? onEndDateTimeChanged;
 
-  @override
-  State<TimelineItem> createState() => _TimelineItemState();
-}
+  /// Called when the user is dragging the start side.
+  final void Function(DateTime)? onStartDateTimeUpdated;
 
-class _TimelineItemState extends State<TimelineItem> {
-  late DateTime _startDateTime;
-  late DateTime _endDateTime;
-  @override
-  void initState() {
-    super.initState();
-    _startDateTime = widget.startDateTime;
-    _endDateTime = widget.endDateTime;
-  }
-
-  void _onStartDateTimeUpdated(DateTime startDateTime) {
-    setState(() {
-      _startDateTime = startDateTime;
-    });
-  }
-
-  void _onEndDateTimeUpdated(DateTime endDateTime) {
-    setState(() {
-      _endDateTime = endDateTime;
-    });
-  }
+  /// Called when the user is dragging the end side.
+  final void Function(DateTime)? onEndDateTimeUpdated;
 
   @override
-  Widget build(BuildContext context) {
-    return RawTimelineItem(
-      startDateTime: _startDateTime,
-      endDateTime: _endDateTime,
-      position: widget.position,
-      onStartDateTimeUpdated: _onStartDateTimeUpdated,
-      onEndDateTimeUpdated: _onEndDateTimeUpdated,
-      onStartDateTimeChanged: widget.onStartDateTimeChanged,
-      onEndDateTimeChanged: widget.onEndDateTimeChanged,
-      child: widget.child,
+  RenderObject createRenderObject(BuildContext context) {
+    return RenderTimelineItem(
+      startDateTime: startDateTime,
+      endDateTime: endDateTime,
+      position: position,
+      onStartDateTimeUpdated: onStartDateTimeUpdated,
+      onEndDateTimeUpdated: onEndDateTimeUpdated,
+      onStartDateTimeChanged: onStartDateTimeChanged,
+      onEndDateTimeChanged: onEndDateTimeChanged,
     );
+  }
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    covariant RenderTimelineItem renderObject,
+  ) {
+    renderObject
+      ..startDateTime = startDateTime
+      ..endDateTime = endDateTime
+      ..position = position
+      ..onStartDateTimeUpdated = onStartDateTimeUpdated
+      ..onEndDateTimeUpdated = onEndDateTimeUpdated
+      ..onStartDateTimeChanged = onStartDateTimeChanged
+      ..onEndDateTimeChanged = onEndDateTimeChanged;
   }
 }
