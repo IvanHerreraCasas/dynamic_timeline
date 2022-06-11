@@ -95,7 +95,7 @@ class RenderTimelineItem extends RenderProxyBox
   void Function(DateTime)? get onEndDateTimeChanged => _onEndDateTimeChanged;
 
   set onEndDateTimeChanged(void Function(DateTime)? value) {
-    if (value == _onStartDateTimeChanged) return;
+    if (value == _onEndDateTimeChanged) return;
 
     _onEndDateTimeChanged = value;
   }
