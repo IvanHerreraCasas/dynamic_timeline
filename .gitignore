@@ -8,6 +8,8 @@
 .buildlog/
 .history
 .svn/
+coverage/
+genhtml.perl
 
 # IntelliJ related
 *.iml
