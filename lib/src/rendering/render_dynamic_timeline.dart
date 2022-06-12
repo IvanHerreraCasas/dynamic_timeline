@@ -11,8 +11,6 @@ class DynamicTimelineParentData extends ContainerBoxParentData<RenderBox> {
     required this.resizable,
   });
 
-
-
   DateTime? startDateTime;
   DateTime? endDateTime;
   int? position;
