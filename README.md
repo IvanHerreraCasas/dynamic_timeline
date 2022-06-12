@@ -1,6 +1,7 @@
 [![pub package][pub_package_badge]][pub_package_link]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 [![License: MIT][license_badge]][license_link]
+[![Codecov][codecov_badge]][codecov_link]
 
 A widget to create daily timelines, timetables, gantt charts* and more.
 
@@ -82,3 +83,5 @@ DynamicTimeline(
 [very_good_analysis_link]: https://pub.dev/packages/very_good_analysis
 [pub_package_badge]: https://img.shields.io/pub/v/dynamic_timeline.svg
 [pub_package_link]: https://pub.dev/packages/dynamic_timeline
+[codecov_badge]: https://codecov.io/gh/IvanHerreraCasas/dynamic_timeline/branch/main/graph/badge.svg?token=NL0JPRYYB9
+[codecov_link]: https://codecov.io/gh/IvanHerreraCasas/dynamic_timeline
