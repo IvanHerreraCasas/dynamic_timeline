@@ -34,7 +34,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     this.resizable = true,
     this.paint,
     this.textStyle,
-    required List<Widget> children,
+    required List<TimelineItem> items,
   })  : assert(
           maxCrossAxisItemExtent != double.infinity,
           "max cross axis item extent can't be infinite. ",
@@ -44,7 +44,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
           'firstDateTime must be before lastDateTime:   '
           'firstDateTime: $firstDateTime --- lastDateTime: $lastDateTime',
         ),
-        super(key: key, children: children);
+        super(key: key, children: items);
 
   /// The axis of the line.
   final Axis axis;

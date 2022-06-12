@@ -8,7 +8,7 @@ import '../helpers/helpers.dart';
 
 void main() {
   group('DynamicTimeline', () {
-    final mockChildren = [
+    final mockItems = [
       TimelineItem(
         key: const Key('1'),
         startDateTime: DateTime(1970, 1, 1, 8),
@@ -21,10 +21,6 @@ void main() {
         endDateTime: DateTime(1970, 1, 1, 11, 30),
         position: 1,
         child: const SizedBox(),
-      ),
-      Container(
-        key: const Key('container'),
-        color: Colors.red,
       ),
     ];
 
@@ -46,7 +42,7 @@ void main() {
       bool resizable = true,
       Paint? paint,
       TextStyle? textStyle,
-      List<Widget>? children,
+      List<TimelineItem>? items,
     }) {
       return DynamicTimeline(
         firstDateTime: firstDateTime ?? DateTime(1970, 1, 1, 8),
@@ -66,7 +62,7 @@ void main() {
         resizable: resizable,
         paint: paint,
         textStyle: textStyle,
-        children: children ?? mockChildren,
+        items: items ?? mockItems,
       );
     }
 
@@ -177,7 +173,7 @@ void main() {
       const resizable = false;
       final paint = Paint()..color = Colors.blue;
       const textStyle = TextStyle(color: Colors.blue);
-      final children = mockChildren.sublist(0, 1);
+      final items = mockItems.sublist(0, 1);
 
       await tester.pumpApp(
         buildSubject(
@@ -198,7 +194,7 @@ void main() {
           resizable: resizable,
           paint: paint,
           textStyle: textStyle,
-          children: children,
+          items: items,
         ),
       );
 
@@ -221,11 +217,11 @@ void main() {
       expect(widget.resizable, resizable);
       expect(widget.paint, paint);
       expect(widget.textStyle, textStyle);
-      expect(widget.children, children);
+      expect(widget.children, items);
     });
 
     group('renderObject', () {
-      group('children', () {
+      group('items', () {
         group('vertical', () {
           testWidgets(
               'renders items, '
@@ -248,18 +244,6 @@ void main() {
             );
 
             expect(find.byType(TimelineItem), findsNWidgets(2));
-          });
-
-          testWidgets(
-              'renders non events, '
-              'positions and size them correctly', (tester) async {
-            await tester.pumpApp(buildSubject());
-
-            final widgetRect = tester.getRect(
-              find.byKey(const Key('container')),
-            );
-
-            expect(widgetRect, const Offset(80, 0) & const Size(100, 100));
           });
         });
 
@@ -286,21 +270,9 @@ void main() {
 
             expect(find.byType(TimelineItem), findsNWidgets(2));
           });
-
-          testWidgets(
-              'renders non events '
-              'and positions them at the top-left corner', (tester) async {
-            await tester.pumpApp(buildSubject(axis: Axis.horizontal));
-
-            final widgetRect = tester.getRect(
-              find.byKey(const Key('container')),
-            );
-
-            expect(widgetRect, const Offset(0, 80) & const Size(100, 100));
-          });
         });
       });
-     
+
       testWidgets('computes correct size', (tester) async {
         await tester.pumpApp(buildSubject());
 

@@ -11,8 +11,7 @@ class DynamicTimelineParentData extends ContainerBoxParentData<RenderBox> {
     required this.resizable,
   });
 
-  bool get isEvent =>
-      startDateTime != null && endDateTime != null && position != null;
+
 
   DateTime? startDateTime;
   DateTime? endDateTime;
@@ -271,15 +270,9 @@ class RenderDynamicTimeline extends RenderBox
       late final DateTime endDateTime;
       late final int position;
 
-      if (childParentData.isEvent) {
-        startDateTime = childParentData.startDateTime!;
-        endDateTime = childParentData.endDateTime!;
-        position = childParentData.position!;
-      } else {
-        startDateTime = firstDateTime;
-        endDateTime = firstDateTime.add(intervalDuration);
-        position = 0;
-      }
+      startDateTime = childParentData.startDateTime!;
+      endDateTime = childParentData.endDateTime!;
+      position = childParentData.position!;
 
       final childDuration = endDateTime.difference(startDateTime);
 

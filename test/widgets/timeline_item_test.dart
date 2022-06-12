@@ -25,7 +25,7 @@ void main() {
         axis: axis,
         intervalDuration: const Duration(hours: 1),
         crossAxisCount: 2,
-        children: [
+        items: [
           TimelineItem(
             key: const Key('key'),
             startDateTime: startDateTime ?? DateTime(1970, 1, 1, 9),
