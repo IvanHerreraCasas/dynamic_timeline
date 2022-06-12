@@ -1,3 +1,4 @@
+[![pub package][pub_package_badge]][pub_package_link]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 [![License: MIT][license_badge]][license_link]
 
@@ -34,16 +35,16 @@ Add the following line to `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  dynamic_timeline: ^0.1.0
+  dynamic_timeline: ^0.1.1
 ```
 
 ## Basic set up
 Make sure to check out the example for more details.
 
-Dynamic timeline requires you to provide firstDateTime, lastDateTime,labelBuilder and a list of children.
+Dynamic timeline requires you to provide firstDateTime, lastDateTime, labelBuilder and a list of items.
 
 - labelBuilder: Used to build the label of each mark, normally a dateFormat will be used.
-- children: The event of the timeline, use TimelineItem to position the widget according to its start and end date time.
+- items: The events of the timeline, who are positioned according to its start and end date times.
 
 Another important property is intervalDuration, that is the lenght of time between each mark.
 
@@ -79,3 +80,5 @@ DynamicTimeline(
 [license_link]: https://opensource.org/licenses/MIT
 [very_good_analysis_badge]: https://img.shields.io/badge/style-very_good_analysis-B22C89.svg
 [very_good_analysis_link]: https://pub.dev/packages/very_good_analysis
+[pub_package_badge]: https://img.shields.io/pub/v/dynamic_timeline.svg
+[pub_package_link]: https://pub.dev/packages/dynamic_timeline
