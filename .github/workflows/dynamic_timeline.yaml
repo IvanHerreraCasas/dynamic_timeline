@@ -1,0 +1,16 @@
+name: dynamic_timeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+  - uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      flutter_version: 3.0.0
+  - uses: codecov/codecov-action@v2

@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 /// A widget that displays a timeline and positions its children using their
 /// start and end date times.
 ///
-/// Each child is or not a timeline event.
-/// Timeline event widgets are those who are wrapped in a [TimelineItem].
+/// Each child must be a [TimelineItem] that represents an event.
 ///
-/// If a child is not a timeline event widget, the first date time will be used
-/// as a start time, the interval duration to set the end time and positon 0.
+/// Each item must have a key in case of displaying dynamic data.
 ///
 /// This widget has a fixed size, calculated using the extent properties.
 /// {@endtemplate}
@@ -17,7 +15,6 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
   /// {@macro dynamic_timeline}
   DynamicTimeline({
     Key? key,
-    required List<Widget> children,
     required this.firstDateTime,
     required this.lastDateTime,
     required this.labelBuilder,
@@ -35,6 +32,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     this.resizable = true,
     this.paint,
     this.textStyle,
+    required List<TimelineItem> items,
   })  : assert(
           maxCrossAxisItemExtent != double.infinity,
           "max cross axis item extent can't be infinite. ",
@@ -44,7 +42,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
           'firstDateTime must be before lastDateTime:   '
           'firstDateTime: $firstDateTime --- lastDateTime: $lastDateTime',
         ),
-        super(key: key, children: children);
+        super(key: key, children: items);
 
   /// The axis of the line.
   final Axis axis;
@@ -118,10 +116,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       ..strokeWidth = strokeWidth
       ..strokeCap = strokeCap;
 
-    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyText1 ??
-        TextStyle(
-          color: color,
-        );
+    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyText1!;
 
     return RenderDynamicTimeline(
       firstDateTime: firstDateTime,
@@ -133,7 +128,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       crossAxisCount: crossAxisCount,
       maxCrossAxisIndicatorExtent: maxCrossAxisIndicatorExtent,
       maxCrossAxisItemExtent: maxCrossAxisItemExtent,
-      minItemDuration: minItemDuration ?? defaultIntervalDuration ~/ 10,
+      minItemDuration: minItemDuration ?? defaultIntervalDuration,
       crossAxisSpacing: crossAxisSpacing,
       resizable: resizable,
       linePaint: paint ?? defaultLinePaint,
@@ -154,10 +149,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       ..strokeWidth = strokeWidth
       ..strokeCap = strokeCap;
 
-    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyText1 ??
-        TextStyle(
-          color: color,
-        );
+    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyText1!;
 
     renderObject
       ..firstDateTime = firstDateTime
@@ -169,7 +161,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       ..crossAxisCount = crossAxisCount
       ..maxCrossAxisIndicatorExtent = maxCrossAxisIndicatorExtent
       ..maxCrossAxisItemExtent = maxCrossAxisItemExtent
-      ..minItemDuration = minItemDuration ?? defaultIntervalDuration ~/ 10
+      ..minItemDuration = minItemDuration ?? defaultIntervalDuration
       ..crossAxisSpacing = crossAxisSpacing
       ..resizable = resizable
       ..linePaint = paint ?? defaultLinePaint

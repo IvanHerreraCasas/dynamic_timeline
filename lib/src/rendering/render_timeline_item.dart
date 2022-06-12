@@ -95,18 +95,20 @@ class RenderTimelineItem extends RenderProxyBox
   void Function(DateTime)? get onEndDateTimeChanged => _onEndDateTimeChanged;
 
   set onEndDateTimeChanged(void Function(DateTime)? value) {
-    if (value == _onStartDateTimeChanged) return;
+    if (value == _onEndDateTimeChanged) return;
 
     _onEndDateTimeChanged = value;
   }
 
-  late final double _secondExtent;
+  late final double _microsecondExtent;
 
   late final Duration _minItemDuration;
 
   late final Axis _axis;
 
   late final bool _resizable;
+
+  late final double _minItemExtent;
 
   late final VerticalDragGestureRecognizer _topDragGestureRecognizer;
 
@@ -116,42 +118,74 @@ class RenderTimelineItem extends RenderProxyBox
 
   late final HorizontalDragGestureRecognizer _rightDragGestureRecognizer;
 
-  void _onUpdateStartDateTime(DragUpdateDetails details) {
-    late final Duration duration;
+  void _onUpdateTopOrLeft(DragUpdateDetails details) {
+    var duration = Duration.zero;
+
+    final globalDragPosition = details.globalPosition;
+
     if (_axis == Axis.vertical) {
-      duration = Duration(seconds: details.delta.dy ~/ _secondExtent);
+      final globalBottomPosition = localToGlobal(paintBounds.bottomCenter).dy;
+
+      if (details.delta.dy >= 0 ||
+          globalDragPosition.dy <= globalBottomPosition - _minItemExtent) {
+        duration = Duration(
+          microseconds: details.delta.dy ~/ _microsecondExtent,
+        );
+      }
     } else {
-      duration = Duration(seconds: details.delta.dx ~/ _secondExtent);
+      final globalRightPosition = localToGlobal(paintBounds.centerRight).dx;
+      if (details.delta.dx >= 0 ||
+          globalDragPosition.dx <= globalRightPosition - _minItemExtent) {
+        duration = Duration(
+          microseconds: details.delta.dx ~/ _microsecondExtent,
+        );
+      }
     }
 
     final possibleStartDateTime = startDateTime.add(duration);
 
     if (endDateTime.difference(possibleStartDateTime) > _minItemDuration) {
       onStartDateTimeUpdated?.call(possibleStartDateTime);
+      startDateTime = possibleStartDateTime;
     }
   }
 
-  void _onUpdateEndDateTime(DragUpdateDetails details) {
-    late final Duration duration;
+  void _onUpdateBottomOrRight(DragUpdateDetails details) {
+    var duration = Duration.zero;
+
+    final globalDragPosition = details.globalPosition;
 
     if (_axis == Axis.vertical) {
-      duration = Duration(seconds: details.delta.dy ~/ _secondExtent);
+      final globalTopPosition = localToGlobal(paintBounds.topCenter).dy;
+      if (details.delta.dy <= 0 ||
+          globalDragPosition.dy >= globalTopPosition + _minItemExtent) {
+        duration = Duration(
+          microseconds: details.delta.dy ~/ _microsecondExtent,
+        );
+      }
     } else {
-      duration = Duration(seconds: details.delta.dx ~/ _secondExtent);
+      final globalLeftPosition = localToGlobal(paintBounds.centerLeft).dx;
+      if (details.delta.dx <= 0 ||
+          globalDragPosition.dx >= globalLeftPosition + _minItemExtent) {
+        duration = Duration(
+          microseconds: details.delta.dx ~/ _microsecondExtent,
+        );
+      }
     }
 
     final possibleEndDateTime = endDateTime.add(duration);
 
     if (possibleEndDateTime.difference(startDateTime) > _minItemDuration) {
       onEndDateTimeUpdated?.call(possibleEndDateTime);
+      endDateTime = possibleEndDateTime;
     }
   }
 
-  void _onChangeStartDateTime(DragEndDetails details) {
+  void _onEndTopOrLeft(DragEndDetails details) {
     onStartDateTimeChanged?.call(startDateTime);
   }
 
-  void _onChangeEndDateTime(DragEndDetails details) {
+  void _onEndBottomOrLeft(DragEndDetails details) {
     onEndDateTimeChanged?.call(endDateTime);
   }
 
@@ -160,7 +194,7 @@ class RenderTimelineItem extends RenderProxyBox
     if (super.parentData == null) return null;
     assert(
       super.parentData is DynamicTimelineParentData,
-      '$RawTimelineItem can only be direct child of $DynamicTimeline',
+      '$TimelineItem can only be direct child of $DynamicTimeline',
     );
     return super.parentData! as DynamicTimelineParentData;
   }
@@ -172,39 +206,40 @@ class RenderTimelineItem extends RenderProxyBox
     parentData!.endDateTime = endDateTime;
     parentData!.position = position;
 
-    _secondExtent = parentData!.secondExtent;
+    _microsecondExtent = parentData!.microsecondExtent;
 
     _minItemDuration = parentData!.minItemDuration;
+
+    _minItemExtent = _minItemDuration.inMicroseconds * _microsecondExtent;
 
     _axis = parentData!.axis;
 
     _resizable = parentData!.resizable;
 
+    assert(
+      !_resizable || endDateTime.difference(startDateTime) >= _minItemDuration,
+      'resizable widgets can not have a duration less than minItemDuration',
+    );
+
     if (_resizable) {
       if (_axis == Axis.vertical) {
         _topDragGestureRecognizer = VerticalDragGestureRecognizer()
-          ..onUpdate = _onUpdateStartDateTime
-          ..onEnd = _onChangeStartDateTime;
+          ..onUpdate = _onUpdateTopOrLeft
+          ..onEnd = _onEndTopOrLeft;
 
         _bottomDragGestureRecognizer = VerticalDragGestureRecognizer()
-          ..onUpdate = _onUpdateEndDateTime
-          ..onEnd = _onChangeEndDateTime;
+          ..onUpdate = _onUpdateBottomOrRight
+          ..onEnd = _onEndBottomOrLeft;
       } else {
         _leftDragGestureRecognizer = HorizontalDragGestureRecognizer()
-          ..onUpdate = _onUpdateStartDateTime
-          ..onEnd = _onChangeStartDateTime;
+          ..onUpdate = _onUpdateTopOrLeft
+          ..onEnd = _onEndTopOrLeft;
 
         _rightDragGestureRecognizer = HorizontalDragGestureRecognizer()
-          ..onUpdate = _onUpdateEndDateTime
-          ..onEnd = _onChangeEndDateTime;
+          ..onUpdate = _onUpdateBottomOrRight
+          ..onEnd = _onEndBottomOrLeft;
       }
     }
-  }
-
-  @override
-  bool hitTestSelf(Offset position) {
-    return position.dy < 10 ||
-        (position.dy < size.height && position.dy > size.height - 10);
   }
 
   @override
@@ -212,14 +247,13 @@ class RenderTimelineItem extends RenderProxyBox
     assert(debugHandleEvent(event, entry), '');
     if (_resizable) {
       if (_axis == Axis.vertical) {
-        if (event.localPosition.dy < 10) {
+        if (event.localPosition.dy < 5) {
           if (event is PointerDownEvent) {
             _topDragGestureRecognizer.addPointer(event);
           } else if (event is PointerHoverEvent) {
             _cursor = SystemMouseCursors.resizeUp;
           }
-        } else if (size.height - 10 < event.localPosition.dy &&
-            event.localPosition.dy < size.height) {
+        } else if (size.height - 5 < event.localPosition.dy) {
           if (event is PointerDownEvent) {
             _bottomDragGestureRecognizer.addPointer(event);
           } else if (event is PointerHoverEvent) {
@@ -231,14 +265,13 @@ class RenderTimelineItem extends RenderProxyBox
           }
         }
       } else {
-        if (event.localPosition.dx < 10) {
+        if (event.localPosition.dx < 5) {
           if (event is PointerDownEvent) {
             _leftDragGestureRecognizer.addPointer(event);
           } else if (event is PointerHoverEvent) {
             _cursor = SystemMouseCursors.resizeLeft;
           }
-        } else if (size.width - 10 < event.localPosition.dx &&
-            event.localPosition.dx < size.width) {
+        } else if (size.width - 5 < event.localPosition.dx) {
           if (event is PointerDownEvent) {
             _rightDragGestureRecognizer.addPointer(event);
           } else if (event is PointerHoverEvent) {

@@ -1,6 +1,6 @@
 name: dynamic_timeline
 description: A widget to create daily timelines, timetables, gantt charts* and more.
-version: 0.1.0+1
+version: 0.1.1
 repository: https://github.com/IvanHerreraCasas/dynamic_timeline
 
 environment:
@@ -13,4 +13,4 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  very_good_analysis: ^2.4.0
+  very_good_analysis: ^3.0.0
