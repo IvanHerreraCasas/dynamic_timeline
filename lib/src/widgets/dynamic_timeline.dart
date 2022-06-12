@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 /// A widget that displays a timeline and positions its children using their
 /// start and end date times.
 ///
-/// Each child is or not a timeline event.
-/// Timeline event widgets are those who are wrapped in a [TimelineItem].
+/// Each child must be a [TimelineItem] that represents an event.
 ///
-/// If a child is not a timeline event widget, the first date time will be used
-/// as a start time, the interval duration to set the end time and positon 0.
+/// Each item must have a key in case of displaying dynamic data.
 ///
 /// This widget has a fixed size, calculated using the extent properties.
 /// {@endtemplate}
