@@ -216,6 +216,11 @@ class RenderTimelineItem extends RenderProxyBox
 
     _resizable = parentData!.resizable;
 
+    assert(
+      !_resizable || endDateTime.difference(startDateTime) >= _minItemDuration,
+      'resizable widgets can not have a duration less than minItemDuration',
+    );
+
     if (_resizable) {
       if (_axis == Axis.vertical) {
         _topDragGestureRecognizer = VerticalDragGestureRecognizer()
