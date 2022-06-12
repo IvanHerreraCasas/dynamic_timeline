@@ -53,7 +53,7 @@ class _GanttChartState extends State<GanttChart> {
           padding: const EdgeInsets.all(40),
           child: Scrollbar(
             controller: scrollController,
-            isAlwaysShown: true,
+            thumbVisibility: true,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               controller: scrollController,
@@ -63,9 +63,10 @@ class _GanttChartState extends State<GanttChart> {
                 labelBuilder: DateFormat('dd').format,
                 axis: Axis.horizontal,
                 intervalDuration: const Duration(days: 1),
+                minItemDuration: const Duration(days: 1),
                 crossAxisCount: 3,
                 intervalExtent: 20,
-                children: items,
+                items: items,
               ),
             ),
           ),

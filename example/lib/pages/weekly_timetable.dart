@@ -60,7 +60,7 @@ class _WeeklyTimetableState extends State<WeeklyTimetable> {
         child: Padding(
           padding: const EdgeInsets.all(40),
           child: Scrollbar(
-            isAlwaysShown: true,
+            thumbVisibility: true,
             controller: horizontalController,
             child: Scrollbar(
               controller: verticalController,
@@ -88,7 +88,7 @@ class _WeeklyTimetableState extends State<WeeklyTimetable> {
                         intervalDuration: const Duration(hours: 1),
                         crossAxisCount: 7,
                         intervalExtent: 50,
-                        children: items,
+                        items: items,
                       ),
                     ],
                   ),
