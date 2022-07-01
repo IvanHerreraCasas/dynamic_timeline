@@ -225,19 +225,23 @@ class RenderTimelineItem extends RenderProxyBox
       if (_axis == Axis.vertical) {
         _topDragGestureRecognizer = VerticalDragGestureRecognizer()
           ..onUpdate = _onUpdateTopOrLeft
-          ..onEnd = _onEndTopOrLeft;
+          ..onEnd = _onEndTopOrLeft
+          ..dragStartBehavior = DragStartBehavior.down;
 
         _bottomDragGestureRecognizer = VerticalDragGestureRecognizer()
           ..onUpdate = _onUpdateBottomOrRight
-          ..onEnd = _onEndBottomOrLeft;
+          ..onEnd = _onEndBottomOrLeft
+          ..dragStartBehavior = DragStartBehavior.down;
       } else {
         _leftDragGestureRecognizer = HorizontalDragGestureRecognizer()
           ..onUpdate = _onUpdateTopOrLeft
-          ..onEnd = _onEndTopOrLeft;
+          ..onEnd = _onEndTopOrLeft
+          ..dragStartBehavior = DragStartBehavior.down;
 
         _rightDragGestureRecognizer = HorizontalDragGestureRecognizer()
           ..onUpdate = _onUpdateBottomOrRight
-          ..onEnd = _onEndBottomOrLeft;
+          ..onEnd = _onEndBottomOrLeft
+          ..dragStartBehavior = DragStartBehavior.down;
       }
     }
   }
