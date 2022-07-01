@@ -35,8 +35,11 @@ void main() {
             onEndDateTimeChanged: onEndDateTimeChanged,
             onStartDateTimeUpdated: onStartDateTimeUpdated,
             onEndDateTimeUpdated: onEndDateTimeUpdated,
-            child: Container(
-              color: Colors.red,
+            child: GestureDetector(
+              onTap: () {},
+              child: Container(
+                color: Colors.red,
+              ),
             ),
           ),
         ],
