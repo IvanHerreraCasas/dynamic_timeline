@@ -1,3 +1,6 @@
+# 0.1.1+1
+* fix: conflict with other gestures
+
 # 0.1.1
 * fix: fix item not resizing properly
 * refactor: 
