@@ -23,7 +23,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     this.intervalExtent = 100,
     this.crossAxisCount = 1,
     this.maxCrossAxisIndicatorExtent = 60,
-    this.maxCrossAxisItemExtent = 100,
+    this.maxCrossAxisItemExtent,
     this.minItemDuration,
     this.crossAxisSpacing = 20,
     this.color = Colors.black,
@@ -77,7 +77,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
   final double maxCrossAxisIndicatorExtent;
 
   /// It is used to calculate the cross axis extent of the timeline.
-  final double maxCrossAxisItemExtent;
+  final double? maxCrossAxisItemExtent;
 
   /// The minimun duration that the item can be resized.
   final Duration? minItemDuration;
