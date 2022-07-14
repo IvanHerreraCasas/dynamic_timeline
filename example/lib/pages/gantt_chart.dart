@@ -66,6 +66,7 @@ class _GanttChartState extends State<GanttChart> {
                 minItemDuration: const Duration(days: 1),
                 crossAxisCount: 3,
                 intervalExtent: 20,
+                maxCrossAxisItemExtent: 100,
                 items: items,
               ),
             ),

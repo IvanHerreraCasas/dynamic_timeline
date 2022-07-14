@@ -45,7 +45,7 @@ class _WeeklyTimetableState extends State<WeeklyTimetable> {
     TimelineItem(
       startDateTime: DateTime(1970, 1, 1, 15),
       endDateTime: DateTime(1970, 1, 1, 17),
-      position: 4,
+      position: 6,
       child: const Event(title: 'Event Friday'),
     ),
   ];
@@ -60,39 +60,31 @@ class _WeeklyTimetableState extends State<WeeklyTimetable> {
         child: Padding(
           padding: const EdgeInsets.all(40),
           child: Scrollbar(
-            thumbVisibility: true,
-            controller: horizontalController,
-            child: Scrollbar(
+            controller: verticalController,
+            child: SingleChildScrollView(
               controller: verticalController,
-              child: SingleChildScrollView(
-                controller: horizontalController,
-                scrollDirection: Axis.horizontal,
-                child: SingleChildScrollView(
-                  controller: verticalController,
-                  child: Column(
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          const SizedBox(width: 60),
-                          ...List.generate(
-                            7,
-                            (index) => DayHeader(day: index),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      DynamicTimeline(
-                        firstDateTime: DateTime(1970, 01, 01, 7),
-                        lastDateTime: DateTime(1970, 01, 01, 22),
-                        labelBuilder: DateFormat('HH:mm').format,
-                        intervalDuration: const Duration(hours: 1),
-                        crossAxisCount: 7,
-                        intervalExtent: 50,
-                        items: items,
+                      const SizedBox(width: 60),
+                      ...List.generate(
+                        7,
+                        (index) => Expanded(child: DayHeader(day: index)),
                       ),
                     ],
                   ),
-                ),
+                  const SizedBox(height: 20),
+                  DynamicTimeline(
+                    firstDateTime: DateTime(1970, 01, 01, 7),
+                    lastDateTime: DateTime(1970, 01, 01, 22),
+                    labelBuilder: DateFormat('HH:mm').format,
+                    intervalDuration: const Duration(hours: 1),
+                    crossAxisCount: 7,
+                    intervalExtent: 50,
+                    items: items,
+                  ),
+                ],
               ),
             ),
           ),
