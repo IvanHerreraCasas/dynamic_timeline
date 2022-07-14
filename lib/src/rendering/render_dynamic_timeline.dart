@@ -33,7 +33,7 @@ class RenderDynamicTimeline extends RenderBox
     required double intervalExtent,
     required int crossAxisCount,
     required double maxCrossAxisIndicatorExtent,
-    required double maxCrossAxisItemExtent,
+    required double? maxCrossAxisItemExtent,
     required Duration minItemDuration,
     required double crossAxisSpacing,
     required bool resizable,
@@ -153,11 +153,11 @@ class RenderDynamicTimeline extends RenderBox
     markNeedsLayout();
   }
 
-  double _maxCrossAxisItemExtent;
+  double? _maxCrossAxisItemExtent;
 
-  double get maxCrossAxisItemExtent => _maxCrossAxisItemExtent;
+  double? get maxCrossAxisItemExtent => _maxCrossAxisItemExtent;
 
-  set maxCrossAxisItemExtent(double value) {
+  set maxCrossAxisItemExtent(double? value) {
     if (value == _maxCrossAxisItemExtent) return;
 
     _maxCrossAxisItemExtent = value;
@@ -234,8 +234,11 @@ class RenderDynamicTimeline extends RenderBox
 
   double _getCrossAxisExtent({required BoxConstraints constraints}) {
     final crossAxisSize = _getCrossAxisSize(constraints.biggest);
+
+    if (maxCrossAxisItemExtent == null) return crossAxisSize;
+
     final attemptExtent = maxCrossAxisIndicatorExtent +
-        (crossAxisSpacing + maxCrossAxisItemExtent) * crossAxisCount;
+        (crossAxisSpacing + maxCrossAxisItemExtent!) * crossAxisCount;
 
     return min(
       crossAxisSize,
@@ -264,6 +267,18 @@ class RenderDynamicTimeline extends RenderBox
     }
   }
 
+  double _getMaxCrossAxisItemExtent({required BoxConstraints constraints}) {
+    if (maxCrossAxisItemExtent != null) return maxCrossAxisItemExtent!;
+
+    final crosAxisExtent = _getCrossAxisExtent(constraints: constraints);
+
+    final freeSpaceExtent = crosAxisExtent -
+        maxCrossAxisIndicatorExtent -
+        crossAxisSpacing * crossAxisCount;
+
+    return freeSpaceExtent / crossAxisCount;
+  }
+
   @override
   void setupParentData(covariant RenderObject child) {
     if (child.parentData is! DynamicTimelineParentData) {
@@ -289,6 +304,8 @@ class RenderDynamicTimeline extends RenderBox
   @override
   void performLayout() {
     size = _computeSize(constraints: constraints);
+    final maxCrossAxisItemExtent =
+        _getMaxCrossAxisItemExtent(constraints: constraints);
 
     var child = firstChild;
 
