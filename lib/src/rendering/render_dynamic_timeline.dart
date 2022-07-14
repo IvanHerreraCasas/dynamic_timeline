@@ -206,30 +206,62 @@ class RenderDynamicTimeline extends RenderBox
     markNeedsPaint();
   }
 
-  Size _computeSize({
-    required BoxConstraints constraints,
-  }) {
-    var mainAxisExtent = 0.0, crossAxisExtent = 0.0;
+  double _getExtentSecondRate() {
+    return intervalExtent / intervalDuration.inSeconds;
+  }
 
-    // calculate crossAxisExtent
-    crossAxisExtent = maxCrossAxisIndicatorExtent +
+  Duration _getTotalDuration() {
+    return lastDateTime.difference(firstDateTime);
+  }
+
+  double _getCrossAxisSize(Size size) {
+    switch (axis) {
+      case Axis.vertical:
+        return size.width;
+      case Axis.horizontal:
+        return size.height;
+    }
+  }
+
+  double _getMainAxisSize(Size size) {
+    switch (axis) {
+      case Axis.vertical:
+        return size.height;
+      case Axis.horizontal:
+        return size.width;
+    }
+  }
+
+  double _getCrossAxisExtent({required BoxConstraints constraints}) {
+    final crossAxisSize = _getCrossAxisSize(constraints.biggest);
+    final attemptExtent = maxCrossAxisIndicatorExtent +
         (crossAxisSpacing + maxCrossAxisItemExtent) * crossAxisCount;
 
-    // calculate mainAxisExtent
-    final totalDuration = lastDateTime.difference(firstDateTime);
-    mainAxisExtent =
-        (totalDuration.inSeconds / intervalDuration.inSeconds) * intervalExtent;
+    return min(
+      crossAxisSize,
+      attemptExtent,
+    );
+  }
 
-    if (axis == Axis.vertical) {
-      mainAxisExtent = min(mainAxisExtent, constraints.maxHeight);
-      crossAxisExtent = min(crossAxisExtent, constraints.maxWidth);
-      return Size(crossAxisExtent, mainAxisExtent);
+  double _getMainAxisExtent({required BoxConstraints constraints}) {
+    final mainAxisSize = _getMainAxisSize(constraints.biggest);
+    final attemptExtent =
+        _getExtentSecondRate() * _getTotalDuration().inSeconds;
+
+    return min(mainAxisSize, attemptExtent);
+  }
+
+  Size _computeSize({required BoxConstraints constraints}) {
+    final crossAxisExtent = _getCrossAxisExtent(constraints: constraints);
+
+    final mainAxisExtent = _getMainAxisExtent(constraints: constraints);
+
+    switch (axis) {
+      case Axis.vertical:
+        return Size(crossAxisExtent, mainAxisExtent);
+      case Axis.horizontal:
+        return Size(mainAxisExtent, crossAxisExtent);
     }
-
-    mainAxisExtent = min(mainAxisExtent, constraints.maxWidth);
-    crossAxisExtent = min(crossAxisExtent, constraints.maxHeight);
-
-    return Size(mainAxisExtent, crossAxisExtent);
   }
 
   @override
@@ -275,14 +307,12 @@ class RenderDynamicTimeline extends RenderBox
       final childDuration = endDateTime.difference(startDateTime);
 
       final childMainAxisExtent =
-          (childDuration.inSeconds / intervalDuration.inSeconds) *
-              intervalExtent;
+          _getExtentSecondRate() * childDuration.inSeconds;
 
       final differenceFromFirstDate = startDateTime.difference(firstDateTime);
 
       final mainAxisPosition =
-          (differenceFromFirstDate.inSeconds / intervalDuration.inSeconds) *
-              intervalExtent;
+          _getExtentSecondRate() * differenceFromFirstDate.inSeconds;
 
       final crossAxisPosition = maxCrossAxisIndicatorExtent +
           crossAxisSpacing +
