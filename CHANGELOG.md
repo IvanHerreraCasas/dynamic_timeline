@@ -1,3 +1,6 @@
+# 0.1.2
+* feat: cross-axis responsiveness
+
 # 0.1.1+1
 * fix: conflict with other gestures
 
