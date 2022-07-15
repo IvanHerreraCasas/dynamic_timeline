@@ -36,7 +36,7 @@ Add the following line to `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  dynamic_timeline: ^0.1.1+1
+  dynamic_timeline: ^0.1.2
 ```
 
 ## Basic set up
