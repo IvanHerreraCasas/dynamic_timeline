@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs
 
 import 'dart:math';
+import 'package:dynamic_timeline/src/rendering/dynamic_timeline_layouter.dart';
+import 'package:dynamic_timeline/src/rendering/dynamic_timeline_painter.dart';
 import 'package:flutter/rendering.dart';
 
 class DynamicTimelineParentData extends ContainerBoxParentData<RenderBox> {
@@ -24,6 +26,8 @@ class RenderDynamicTimeline extends RenderBox
     with
         ContainerRenderObjectMixin<RenderBox, DynamicTimelineParentData>,
         RenderBoxContainerDefaultsMixin<RenderBox, DynamicTimelineParentData> {
+
+
   RenderDynamicTimeline({
     required DateTime firstDateTime,
     required DateTime lastDateTime,
@@ -39,106 +43,99 @@ class RenderDynamicTimeline extends RenderBox
     required bool resizable,
     required Paint linePaint,
     required TextStyle labelTextStyle,
-  })  : _firstDateTime = firstDateTime,
-        _lastDateTime = lastDateTime,
-        _labelBuilder = labelBuilder,
-        _axis = axis,
-        _intervalDuration = intervalDuration,
-        _intervalExtent = intervalExtent,
-        _crossAxisCount = crossAxisCount,
+  })  : _layouter = LayouterDynamicTimeline(
+            axis: axis,
+            maxCrossAxisItemExtent: maxCrossAxisItemExtent,
+            intervalExtent: intervalExtent,
+            maxCrossAxisIndicatorExtent: maxCrossAxisIndicatorExtent,
+            crossAxisSpacing: crossAxisSpacing,
+            crossAxisCount: crossAxisCount,
+            firstDateTime: firstDateTime,
+            lastDateTime: lastDateTime,
+            intervalDuration: intervalDuration,),
+
         _maxCrossAxisIndicatorExtent = maxCrossAxisIndicatorExtent,
-        _maxCrossAxisItemExtent = maxCrossAxisItemExtent,
         _minItemDuration = minItemDuration,
-        _crossAxixSpacing = crossAxisSpacing,
-        _resizable = resizable,
-        _linePaint = linePaint,
-        _labelTextStyle = labelTextStyle;
+        _resizable = resizable
+  {
+    _painter = DynamicTimelinePainter(layouter: _layouter,
+      linePaint: linePaint,labelBuilder: labelBuilder,labelTextStyle: labelTextStyle );
+  }
 
-  DateTime _firstDateTime;
+  late final DynamicTimelinePainter _painter;
+  final LayouterDynamicTimeline _layouter;
 
-  DateTime get firstDateTime => _firstDateTime;
+  DateTime get firstDateTime => _layouter.firstDateTime;
 
   set firstDateTime(DateTime value) {
-    if (value == _firstDateTime) return;
+    if (value == _layouter.firstDateTime) return;
 
-    _firstDateTime = value;
+    _layouter.firstDateTime = value;
     markNeedsLayout();
   }
 
-  DateTime _lastDateTime;
-
-  DateTime get lastDateTime => _lastDateTime;
+  DateTime get lastDateTime => _layouter.lastDateTime;
 
   set lastDateTime(DateTime value) {
-    if (value == _lastDateTime) return;
+    if (value == _layouter.lastDateTime) return;
 
-    _lastDateTime = value;
+    _layouter.lastDateTime = value;
     markNeedsLayout();
   }
 
-  String? Function(DateTime dateTime) _labelBuilder;
 
-  String? Function(DateTime dateTime) get labelBuilder => _labelBuilder;
+  String? Function(DateTime dateTime) get labelBuilder => _painter.labelBuilder;
 
   set labelBuilder(String? Function(DateTime dateTime) value) {
-    if (value == _labelBuilder) return;
+    if (value == _painter.labelBuilder) return;
 
-    _labelBuilder = value;
+    _painter.labelBuilder = value;
     markNeedsLayout();
   }
 
-  TextStyle _labelTextStyle;
 
-  TextStyle get labelTextStyle => _labelTextStyle;
+  TextStyle get labelTextStyle => _painter.labelTextStyle;
 
   set labelTextStyle(TextStyle value) {
-    if (value == _labelTextStyle) return;
+    if (value == _painter.labelTextStyle) return;
 
-    _labelTextStyle = value;
+    _painter.labelTextStyle = value;
     markNeedsLayout();
   }
 
-  Axis _axis;
-
-  Axis get axis => _axis;
-
+  Axis get axis => _layouter.axis;
   set axis(Axis value) {
-    if (value == _axis) return;
+    if (value == _layouter.axis) return;
 
-    _axis = value;
+    _layouter.axis = value;
     markNeedsLayout();
   }
 
-  Duration _intervalDuration;
-
-  Duration get intervalDuration => _intervalDuration;
+  Duration get intervalDuration => _layouter.intervalDuration;
 
   set intervalDuration(Duration value) {
-    if (value == _intervalDuration) return;
+    if (value == _layouter.intervalDuration) return;
 
-    _intervalDuration = value;
+    _layouter.intervalDuration = value;
     markNeedsLayout();
   }
 
-  double _intervalExtent;
 
-  double get intervalExtent => _intervalExtent;
+  double get intervalExtent => _layouter.intervalExtent;
 
   set intervalExtent(double value) {
-    if (value == _intervalExtent) return;
+    if (value == _layouter.intervalExtent) return;
 
-    _intervalExtent = value;
+    _layouter.intervalExtent = value;
     markNeedsLayout();
   }
 
-  int _crossAxisCount;
-
-  int get crossAxisCount => _crossAxisCount;
+  int get crossAxisCount => _layouter.crossAxisCount;
 
   set crossAxisCount(int value) {
-    if (value == _crossAxisCount) return;
+    if (value == _layouter.crossAxisCount) return;
 
-    _crossAxisCount = value;
+    _layouter.crossAxisCount = value;
     markNeedsLayout();
   }
 
@@ -153,14 +150,12 @@ class RenderDynamicTimeline extends RenderBox
     markNeedsLayout();
   }
 
-  double? _maxCrossAxisItemExtent;
-
-  double? get maxCrossAxisItemExtent => _maxCrossAxisItemExtent;
+  double? get maxCrossAxisItemExtent => _layouter.maxCrossAxisItemExtent;
 
   set maxCrossAxisItemExtent(double? value) {
-    if (value == _maxCrossAxisItemExtent) return;
+    if (value == _layouter.maxCrossAxisItemExtent) return;
 
-    _maxCrossAxisItemExtent = value;
+    _layouter.maxCrossAxisItemExtent = value;
     markNeedsLayout();
   }
 
@@ -174,14 +169,12 @@ class RenderDynamicTimeline extends RenderBox
     _minItemDuration = value;
   }
 
-  double _crossAxixSpacing;
-
-  double get crossAxisSpacing => _crossAxixSpacing;
+  double get crossAxisSpacing => _layouter.crossAxisSpacing;
 
   set crossAxisSpacing(double value) {
-    if (value == _crossAxixSpacing) return;
+    if (value == _layouter.crossAxisSpacing) return;
 
-    _crossAxixSpacing = value;
+    _layouter.crossAxisSpacing = value;
     markNeedsLayout();
   }
 
@@ -195,89 +188,16 @@ class RenderDynamicTimeline extends RenderBox
     _resizable = value;
   }
 
-  Paint _linePaint;
 
-  Paint get linePaint => _linePaint;
+  Paint get linePaint => _painter.linePaint;
 
   set linePaint(Paint value) {
-    if (value == _linePaint) return;
-
-    _linePaint = value;
+    if (value == _painter.linePaint) return;
+    _painter.linePaint = value;
     markNeedsPaint();
   }
 
-  double _getExtentSecondRate() {
-    return intervalExtent / intervalDuration.inSeconds;
-  }
 
-  Duration _getTotalDuration() {
-    return lastDateTime.difference(firstDateTime);
-  }
-
-  double _getCrossAxisSize(Size size) {
-    switch (axis) {
-      case Axis.vertical:
-        return size.width;
-      case Axis.horizontal:
-        return size.height;
-    }
-  }
-
-  double _getMainAxisSize(Size size) {
-    switch (axis) {
-      case Axis.vertical:
-        return size.height;
-      case Axis.horizontal:
-        return size.width;
-    }
-  }
-
-  double _getCrossAxisExtent({required BoxConstraints constraints}) {
-    final crossAxisSize = _getCrossAxisSize(constraints.biggest);
-
-    if (maxCrossAxisItemExtent == null) return crossAxisSize;
-
-    final attemptExtent = maxCrossAxisIndicatorExtent +
-        (crossAxisSpacing + maxCrossAxisItemExtent!) * crossAxisCount;
-
-    return min(
-      crossAxisSize,
-      attemptExtent,
-    );
-  }
-
-  double _getMainAxisExtent({required BoxConstraints constraints}) {
-    final mainAxisSize = _getMainAxisSize(constraints.biggest);
-    final attemptExtent =
-        _getExtentSecondRate() * _getTotalDuration().inSeconds;
-
-    return min(mainAxisSize, attemptExtent);
-  }
-
-  Size _computeSize({required BoxConstraints constraints}) {
-    final crossAxisExtent = _getCrossAxisExtent(constraints: constraints);
-
-    final mainAxisExtent = _getMainAxisExtent(constraints: constraints);
-
-    switch (axis) {
-      case Axis.vertical:
-        return Size(crossAxisExtent, mainAxisExtent);
-      case Axis.horizontal:
-        return Size(mainAxisExtent, crossAxisExtent);
-    }
-  }
-
-  double _getMaxCrossAxisItemExtent({required BoxConstraints constraints}) {
-    if (maxCrossAxisItemExtent != null) return maxCrossAxisItemExtent!;
-
-    final crosAxisExtent = _getCrossAxisExtent(constraints: constraints);
-
-    final freeSpaceExtent = crosAxisExtent -
-        maxCrossAxisIndicatorExtent -
-        crossAxisSpacing * crossAxisCount;
-
-    return freeSpaceExtent / crossAxisCount;
-  }
 
   @override
   void setupParentData(covariant RenderObject child) {
@@ -298,14 +218,13 @@ class RenderDynamicTimeline extends RenderBox
 
   @override
   Size computeDryLayout(BoxConstraints constraints) {
-    return _computeSize(constraints: constraints);
+    return _layouter.computeSize(constraints: constraints);
   }
 
   @override
   void performLayout() {
-    size = _computeSize(constraints: constraints);
-    final maxCrossAxisItemExtent =
-        _getMaxCrossAxisItemExtent(constraints: constraints);
+    size = _layouter.computeSize(constraints: constraints);
+    final maxCrossAxisItemExtent = _layouter.getMaxCrossAxisItemExtent(constraints: constraints);
 
     var child = firstChild;
 
@@ -323,13 +242,11 @@ class RenderDynamicTimeline extends RenderBox
 
       final childDuration = endDateTime.difference(startDateTime);
 
-      final childMainAxisExtent =
-          _getExtentSecondRate() * childDuration.inSeconds;
+      final childMainAxisExtent = _layouter.getExtentSecondRate() * childDuration.inSeconds;
 
       final differenceFromFirstDate = startDateTime.difference(firstDateTime);
 
-      final mainAxisPosition =
-          _getExtentSecondRate() * differenceFromFirstDate.inSeconds;
+      final mainAxisPosition = _layouter.getExtentSecondRate() * differenceFromFirstDate.inSeconds;
 
       final crossAxisPosition = maxCrossAxisIndicatorExtent +
           crossAxisSpacing +
@@ -369,89 +286,12 @@ class RenderDynamicTimeline extends RenderBox
       Offset.zero & size,
       (context, offset) {
         final canvas = context.canvas;
-        if (axis == Axis.vertical) {
-          // paint children
-          defaultPaint(context, offset);
 
-          // paint line
-          canvas.drawLine(
-            Offset(
-              offset.dx + maxCrossAxisIndicatorExtent,
-              offset.dy,
-            ),
-            Offset(
-              offset.dx + maxCrossAxisIndicatorExtent,
-              offset.dy + size.height,
-            ),
-            linePaint,
-          );
+        // paint children
+        defaultPaint(context, offset);
 
-          // paint labels
-          var dateTime = firstDateTime;
-          var labelOffset = offset;
-
-          while (dateTime.isBefore(lastDateTime)) {
-            final label = labelBuilder(dateTime);
-
-            if (label != null) {
-              TextPainter(
-                text: TextSpan(
-                  text: label,
-                  style: labelTextStyle,
-                ),
-                textDirection: TextDirection.ltr,
-                ellipsis: '.',
-              )
-                // - 10 to have space between the label and the line
-                ..layout(maxWidth: size.width - 10)
-                ..paint(canvas, labelOffset);
-            }
-            labelOffset =
-                Offset(labelOffset.dx, labelOffset.dy + intervalExtent);
-            dateTime = dateTime.add(intervalDuration);
-          }
-        } else {
-          // paint children
-          defaultPaint(context, offset);
-
-          // paint line
-          canvas.drawLine(
-            Offset(
-              offset.dx,
-              offset.dy + maxCrossAxisIndicatorExtent,
-            ),
-            Offset(
-              offset.dx + size.width,
-              offset.dy + maxCrossAxisIndicatorExtent,
-            ),
-            linePaint,
-          );
-
-          // paint labels
-          var dateTime = firstDateTime;
-          var labelOffset = offset;
-
-          while (dateTime.isBefore(lastDateTime)) {
-            final label = labelBuilder(dateTime);
-
-            if (label != null) {
-              TextPainter(
-                text: TextSpan(
-                  text: label,
-                  style: labelTextStyle,
-                ),
-                textDirection: TextDirection.ltr,
-                ellipsis: '.',
-              )
-                // - 10 to have space between the label and the line
-                ..layout(maxWidth: size.width - 10)
-                ..paint(canvas, labelOffset);
-            }
-            labelOffset =
-                Offset(labelOffset.dx + intervalExtent, labelOffset.dy);
-            dateTime = dateTime.add(intervalDuration);
-          }
-        }
+        if (axis == Axis.vertical) _painter.paintVertical(canvas, offset, size);
+        else _painter.paintHorizontal(canvas, offset,size);
       },
     );
   }

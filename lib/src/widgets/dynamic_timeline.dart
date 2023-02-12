@@ -22,7 +22,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     this.intervalDuration,
     this.intervalExtent = 100,
     this.crossAxisCount = 1,
-    this.maxCrossAxisIndicatorExtent = 60,
+    this.maxCrossAxisIndicatorExtent = 80,
     this.maxCrossAxisItemExtent,
     this.minItemDuration,
     this.crossAxisSpacing = 20,
