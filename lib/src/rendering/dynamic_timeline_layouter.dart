@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class LayouterDynamicTimeline{
+class DynamicTimelineLayouter{
 
-  LayouterDynamicTimeline({
+  DynamicTimelineLayouter({
     required this.axis,
     required this.maxCrossAxisItemExtent,
     required this.intervalExtent,

@@ -1,8 +1,7 @@
-// ignore_for_file: public_member_api_docs
-
-import 'dart:math';
+import 'package:dynamic_timeline/src/rendering/painter/dynamic_timeline_painter.dart';
 import 'package:dynamic_timeline/src/rendering/dynamic_timeline_layouter.dart';
-import 'package:dynamic_timeline/src/rendering/dynamic_timeline_painter.dart';
+import 'painter/horizontal_timeline_painter.dart';
+import 'painter/vertical_timeline_painter.dart';
 import 'package:flutter/rendering.dart';
 
 class DynamicTimelineParentData extends ContainerBoxParentData<RenderBox> {
@@ -27,7 +26,6 @@ class RenderDynamicTimeline extends RenderBox
         ContainerRenderObjectMixin<RenderBox, DynamicTimelineParentData>,
         RenderBoxContainerDefaultsMixin<RenderBox, DynamicTimelineParentData> {
 
-
   RenderDynamicTimeline({
     required DateTime firstDateTime,
     required DateTime lastDateTime,
@@ -43,7 +41,7 @@ class RenderDynamicTimeline extends RenderBox
     required bool resizable,
     required Paint linePaint,
     required TextStyle labelTextStyle,
-  })  : _layouter = LayouterDynamicTimeline(
+  })  : _layouter = DynamicTimelineLayouter(
             axis: axis,
             maxCrossAxisItemExtent: maxCrossAxisItemExtent,
             intervalExtent: intervalExtent,
@@ -58,12 +56,14 @@ class RenderDynamicTimeline extends RenderBox
         _minItemDuration = minItemDuration,
         _resizable = resizable
   {
-    _painter = DynamicTimelinePainter(layouter: _layouter,
-      linePaint: linePaint,labelBuilder: labelBuilder,labelTextStyle: labelTextStyle );
+    _painter = axis == Axis.vertical?VerticalTimelinePainter(layouter: _layouter,
+      linePaint: linePaint,labelBuilder: labelBuilder,labelTextStyle: labelTextStyle ):
+    HorizontalTimelinePainter(layouter: _layouter,
+        linePaint: linePaint,labelBuilder: labelBuilder,labelTextStyle: labelTextStyle );
   }
 
   late final DynamicTimelinePainter _painter;
-  final LayouterDynamicTimeline _layouter;
+  final DynamicTimelineLayouter _layouter;
 
   DateTime get firstDateTime => _layouter.firstDateTime;
 
@@ -290,8 +290,7 @@ class RenderDynamicTimeline extends RenderBox
         // paint children
         defaultPaint(context, offset);
 
-        if (axis == Axis.vertical) _painter.paintVertical(canvas, offset, size);
-        else _painter.paintHorizontal(canvas, offset,size);
+        _painter.paint(canvas, offset, size);
       },
     );
   }
