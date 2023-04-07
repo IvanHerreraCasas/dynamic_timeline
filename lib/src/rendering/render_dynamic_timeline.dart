@@ -1,7 +1,9 @@
 import 'package:dynamic_timeline/src/rendering/painter/dynamic_timeline_painter.dart';
 import 'package:dynamic_timeline/src/rendering/dynamic_timeline_layout.dart';
+import 'package:flutter/material.dart';
 import '../../dynamic_timeline.dart';
 import '../widgets/timeline_label_container.dart';
+import 'painter/background_painter.dart';
 import 'painter/horizontal_timeline_painter.dart';
 import 'painter/vertical_timeline_painter.dart';
 import 'package:flutter/rendering.dart';
@@ -291,6 +293,17 @@ class RenderDynamicTimeline extends RenderBox
       Offset.zero & size,
       (context, offset) {
         final canvas = context.canvas;
+
+
+        final intervalMainAxisExtend = _layoutProcessor.getExtentSecondRate() * intervalDuration.inSeconds;
+        final crossAxisExtend =  size.height - maxCrossAxisIndicatorExtent;
+        var numberOfIntervals = (lastDateTime.difference(firstDateTime).inMinutes / intervalDuration.inMinutes).floor();
+
+        var backgroundPainter = BackgroundPainter(axis: axis,
+            intervalMainAxisExtend: intervalMainAxisExtend,
+            crossAxisExtend: crossAxisExtend, numberOfIntervals: numberOfIntervals);
+        backgroundPainter.paint(canvas,offset, maxCrossAxisIndicatorExtent);
+
 
         // paint children
         defaultPaint(context, offset);

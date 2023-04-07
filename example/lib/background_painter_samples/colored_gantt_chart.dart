@@ -54,7 +54,7 @@ class _ColoredGanttChartState extends State<ColoredGanttChart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Gantt Chart')),
+      appBar: AppBar(title: const Text('Colored Gantt Chart')),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(10),
