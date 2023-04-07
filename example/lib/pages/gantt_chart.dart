@@ -13,9 +13,8 @@ class GanttChart extends StatefulWidget {
 class _GanttChartState extends State<GanttChart> {
   late final ScrollController scrollController;
   final items = [
-
     TimelineItem(
-      startDateTime: DateTime(2022, 1,1),
+      startDateTime: DateTime(2022, 1, 1),
       endDateTime: DateTime(2022, 1, 15),
       child: const Event(title: 'Event 1'),
       position: 0,
@@ -68,13 +67,17 @@ class _GanttChartState extends State<GanttChart> {
               child: DynamicTimeline(
                 firstDateTime: DateTime(2022, 1, 1),
                 lastDateTime: DateTime(2022, 12, 31),
-                labelBuilder: (date) => Transform(
-                  child:  Text(DateFormat('dd').format(date),),
-                  alignment: FractionalOffset.center,
-                  transform: new Matrix4.identity()
-                    ..rotateZ(-70 * 3.1415927 / 180),
-
-              ),
+                labelBuilder: (date) => Column(children: [
+                  Expanded(child: Container()),
+                  Transform(
+                    child: Text(
+                      DateFormat('dd').format(date),
+                    ),
+                    alignment: FractionalOffset.center,
+                    transform: new Matrix4.identity()..rotateZ(-70 * 3.1415927 / 180),
+                  ),
+                  SizedBox(width: double.infinity,height: 3)
+                ]),
                 axis: Axis.horizontal,
                 intervalDuration: const Duration(days: 1),
                 minItemDuration: const Duration(days: 1),
