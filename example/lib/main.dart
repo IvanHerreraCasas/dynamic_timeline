@@ -1,4 +1,4 @@
-import 'package:dynamic_timeline_example/sample_collections/getting_started_samples.dart';
+import 'package:dynamic_timeline_example/sample_collections/overview_samples.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Row( children: [ Spacer(), GettingStartedSamples(),Spacer(),], ),
+        child: Row( children: [ Spacer(), OverviewSamples(),Spacer(),], ),
       ),
     );
   }

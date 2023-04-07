@@ -1,16 +1,16 @@
-import '../getting_started_samples/weekly_timetable.dart';
-import '../getting_started_samples/daily_timeline.dart';
-import '../getting_started_samples/gantt_chart.dart';
+import '../overview_samples/weekly_timetable.dart';
+import '../overview_samples/daily_timeline.dart';
+import '../overview_samples/gantt_chart.dart';
 import 'package:flutter/material.dart';
 import 'sample_collection_card.dart';
 
-class GettingStartedSamples extends StatelessWidget {
+class OverviewSamples extends StatelessWidget {
 
-  const GettingStartedSamples({Key? key}) : super(key: key);
+  const OverviewSamples({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SampleCollectionCard(sampleSelectionWidgets: [ElevatedButton(
+    return SampleCollectionCard(title: 'Timelines overview', sampleSelectionWidgets: [ElevatedButton(
       onPressed: () => Navigator.push(
         context,
         MaterialPageRoute(
