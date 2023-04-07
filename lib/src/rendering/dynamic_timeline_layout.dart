@@ -42,7 +42,7 @@ class DynamicTimelineLayout{
     if (maxCrossAxisItemExtent.isInfinite) return crossAxisSize;
 
     final attemptExtent = maxCrossAxisIndicatorExtent +
-        (crossAxisSpacing + maxCrossAxisItemExtent!) * crossAxisCount;
+        (crossAxisSpacing + maxCrossAxisItemExtent) * crossAxisCount;
 
     return min(
       crossAxisSize,
