@@ -13,10 +13,18 @@ class GanttChart extends StatefulWidget {
 class _GanttChartState extends State<GanttChart> {
   late final ScrollController scrollController;
   final items = [
+
     TimelineItem(
-      startDateTime: DateTime(2022, 1, 1),
+      startDateTime: DateTime(2022, 1,1),
       endDateTime: DateTime(2022, 1, 15),
       child: const Event(title: 'Event 1'),
+      position: 0,
+    ),
+    TimelineItem(
+      startDateTime: DateTime(2022, 1, 4),
+      endDateTime: DateTime(2022, 1, 15),
+      child: const Event(title: 'Event 1'),
+      position: 0,
     ),
     TimelineItem(
       startDateTime: DateTime(2022, 1, 20),
@@ -50,7 +58,7 @@ class _GanttChartState extends State<GanttChart> {
       appBar: AppBar(title: const Text('Gantt Chart')),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(40),
+          padding: const EdgeInsets.all(10),
           child: Scrollbar(
             controller: scrollController,
             thumbVisibility: true,
@@ -60,13 +68,14 @@ class _GanttChartState extends State<GanttChart> {
               child: DynamicTimeline(
                 firstDateTime: DateTime(2022, 1, 1),
                 lastDateTime: DateTime(2022, 12, 31),
-                labelBuilder: DateFormat('dd').format,
+                labelTextBuilder: DateFormat('dd').format,
+                labelBuilder: (date) => Text(DateFormat('dd').format(date),),
                 axis: Axis.horizontal,
                 intervalDuration: const Duration(days: 1),
                 minItemDuration: const Duration(days: 1),
                 crossAxisCount: 3,
                 intervalExtent: 20,
-                maxCrossAxisItemExtent: 100,
+                maxCrossAxisItemExtent: 30,
                 items: items,
               ),
             ),

@@ -1,6 +1,8 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter/material.dart';
 
+import 'timeline_label_container.dart';
+
 /// {@template dynamic_timeline}
 /// A widget that displays a timeline and positions its children using their
 /// start and end date times.
@@ -17,7 +19,8 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     Key? key,
     required this.firstDateTime,
     required this.lastDateTime,
-    required this.labelBuilder,
+    required this.labelTextBuilder,
+    required Widget Function(DateTime labelDate) labelBuilder,
     this.axis = Axis.vertical,
     this.intervalDuration,
     this.intervalExtent = 100,
@@ -33,16 +36,39 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     this.paint,
     this.textStyle,
     required List<TimelineItem> items,
-  })  : assert(
-          maxCrossAxisItemExtent != double.infinity,
-          "max cross axis item extent can't be infinite. ",
-        ),
+  })
+      : assert(
+  maxCrossAxisItemExtent != double.infinity,
+  "max cross axis item extent can't be infinite. ",
+  ),
         assert(
-          firstDateTime.isBefore(lastDateTime),
-          'firstDateTime must be before lastDateTime:   '
-          'firstDateTime: $firstDateTime --- lastDateTime: $lastDateTime',
+        firstDateTime.isBefore(lastDateTime),
+        'firstDateTime must be before lastDateTime:   '
+            'firstDateTime: $firstDateTime --- lastDateTime: $lastDateTime',
         ),
-        super(key: key, children: items);
+        super(key: key, children: _buildAllChildren(items, firstDateTime,
+          lastDateTime, intervalDuration, labelBuilder));
+
+  static List<TimelineItem> _buildAllChildren(List<TimelineItem> items,
+      DateTime firstDateTime, DateTime lastDateTime, Duration? intervalDuration,
+      Widget Function(DateTime labelDate) labelBuilder) {
+    var interval = intervalDuration ??
+        _getDefaultIntervalDuration(firstDateTime, lastDateTime);
+    List<TimelineItem> toAdd = _buildAllLabels(firstDateTime, lastDateTime, interval, labelBuilder);
+    items.addAll(toAdd);
+    return items;
+  }
+
+  static List<TimelineItem> _buildAllLabels(DateTime firstDateTime,DateTime lastDateTime,
+      Duration interval, Widget Function(DateTime labelDate) labelBuilder,) {
+    var numberOfIntervals = (lastDateTime.difference(firstDateTime).inMinutes / interval.inMinutes).floor();
+     var toAdd = List<TimelineItem>.generate(numberOfIntervals, (index)
+    => TimelineLabelContainer(
+        startDateTime: firstDateTime.add(interval * index),interval: interval,
+        child: labelBuilder(firstDateTime.add(interval * index)))
+    );
+    return toAdd;
+  }
 
   /// The axis of the line.
   final Axis axis;
@@ -56,7 +82,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
   /// Called to build the label of each mark.
   ///
   /// Note: DateFormat can be used.
-  final String? Function(DateTime) labelBuilder;
+  final String? Function(DateTime) labelTextBuilder;
 
   /// The lenght of time between each mark.
   final Duration? intervalDuration;
@@ -108,20 +134,22 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final defaultIntervalDuration =
-        lastDateTime.difference(firstDateTime) ~/ 20;
+    Duration defaultIntervalDuration = _getDefaultIntervalDuration(firstDateTime, lastDateTime);
 
     final defaultLinePaint = Paint()
       ..color = color
       ..strokeWidth = strokeWidth
       ..strokeCap = strokeCap;
 
-    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyText1!;
+    final defaultLabelTextStyle = Theme
+        .of(context)
+        .textTheme
+        .bodyText1!;
 
     return RenderDynamicTimeline(
       firstDateTime: firstDateTime,
       lastDateTime: lastDateTime,
-      labelBuilder: labelBuilder,
+      labelBuilder: labelTextBuilder,
       axis: axis,
       intervalDuration: intervalDuration ?? defaultIntervalDuration,
       intervalExtent: intervalExtent,
@@ -136,25 +164,28 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     );
   }
 
+  static Duration _getDefaultIntervalDuration(DateTime firstDateTime, DateTime lastDateTime) =>
+      lastDateTime.difference(firstDateTime) ~/ 20;
+
   @override
-  void updateRenderObject(
-    BuildContext context,
-    covariant RenderDynamicTimeline renderObject,
-  ) {
-    final defaultIntervalDuration =
-        lastDateTime.difference(firstDateTime) ~/ 20;
+  void updateRenderObject(BuildContext context,
+      covariant RenderDynamicTimeline renderObject,) {
+    var defaultIntervalDuration = _getDefaultIntervalDuration(firstDateTime, lastDateTime);
 
     final defaultLinePaint = Paint()
       ..color = color
       ..strokeWidth = strokeWidth
       ..strokeCap = strokeCap;
 
-    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyText1!;
+    final defaultLabelTextStyle = Theme
+        .of(context)
+        .textTheme
+        .bodyText1!;
 
     renderObject
       ..firstDateTime = firstDateTime
       ..lastDateTime = lastDateTime
-      ..labelBuilder = labelBuilder
+      ..labelBuilder = labelTextBuilder
       ..axis = axis
       ..intervalDuration = intervalDuration ?? defaultIntervalDuration
       ..intervalExtent = intervalExtent

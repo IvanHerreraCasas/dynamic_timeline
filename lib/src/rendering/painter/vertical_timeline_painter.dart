@@ -33,7 +33,7 @@ class VerticalTimelinePainter extends DynamicTimelinePainter{
     _currentOffset = offset;
     paintLabels(canvas,size);
   }
-  
+
   @override
   void activateNextLabelTransformation(Canvas canvas){
     canvas.translate(_currentOffset.dx,_currentOffset.dy);

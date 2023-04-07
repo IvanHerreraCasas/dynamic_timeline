@@ -13,6 +13,7 @@ abstract class DynamicTimelinePainter  {
   String? Function(DateTime) labelBuilder;
   TextStyle labelTextStyle;
 
+
   void paintLabels(Canvas canvas, Size size){
     var dateTime = layouter.firstDateTime;
     while (dateTime.isBefore(layouter.lastDateTime)) {

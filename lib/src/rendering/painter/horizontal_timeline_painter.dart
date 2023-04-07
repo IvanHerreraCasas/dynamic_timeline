@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'dynamic_timeline_painter.dart';
 
 class HorizontalTimelinePainter extends DynamicTimelinePainter{
-  HorizontalTimelinePainter({required DynamicTimelineLayouter layouter, required Paint linePaint, required String? Function(DateTime actualDate) labelBuilder, required TextStyle labelTextStyle}) : super(layouter: layouter, linePaint: linePaint, labelBuilder: labelBuilder, labelTextStyle: labelTextStyle);
+  HorizontalTimelinePainter({required DynamicTimelineLayouter layouter, required Paint linePaint, required String? Function(DateTime actualDate) labelBuilder, required TextStyle labelTextStyle}) :
+        super(layouter: layouter, linePaint: linePaint, labelBuilder: labelBuilder, labelTextStyle: labelTextStyle);
 
 
   Offset _currentOffset = Offset(0,0);

@@ -197,8 +197,6 @@ class RenderDynamicTimeline extends RenderBox
     markNeedsPaint();
   }
 
-
-
   @override
   void setupParentData(covariant RenderObject child) {
     if (child.parentData is! DynamicTimelineParentData) {
