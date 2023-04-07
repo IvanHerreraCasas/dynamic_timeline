@@ -1,9 +1,9 @@
-import '../dynamic_timeline_layouter.dart';
+import '../dynamic_timeline_layout.dart';
 import 'package:flutter/material.dart';
 import 'dynamic_timeline_painter.dart';
 
 class HorizontalTimelinePainter extends DynamicTimelinePainter{
-  HorizontalTimelinePainter({required DynamicTimelineLayouter layouter, required Paint linePaint, required TextStyle labelTextStyle}) :
+  HorizontalTimelinePainter({required DynamicTimelineLayout layouter, required Paint linePaint, required TextStyle labelTextStyle}) :
         super(layouter: layouter, linePaint: linePaint, labelTextStyle: labelTextStyle);
 
 

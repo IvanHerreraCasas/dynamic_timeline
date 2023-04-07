@@ -1,5 +1,5 @@
 import 'package:dynamic_timeline/src/rendering/painter/dynamic_timeline_painter.dart';
-import 'package:dynamic_timeline/src/rendering/dynamic_timeline_layouter.dart';
+import 'package:dynamic_timeline/src/rendering/dynamic_timeline_layout.dart';
 import '../../dynamic_timeline.dart';
 import '../widgets/timeline_label_container.dart';
 import 'painter/horizontal_timeline_painter.dart';
@@ -35,13 +35,13 @@ class RenderDynamicTimeline extends RenderBox
     required double intervalExtent,
     required int crossAxisCount,
     required double maxCrossAxisIndicatorExtent,
-    required double? maxCrossAxisItemExtent,
+    required double maxCrossAxisItemExtent,
     required Duration minItemDuration,
     required double crossAxisSpacing,
     required bool resizable,
     required Paint linePaint,
     required TextStyle labelTextStyle,
-  })  : _layouter = DynamicTimelineLayouter(
+  })  : _layoutProcessor = DynamicTimelineLayout(
           axis: axis,
           maxCrossAxisItemExtent: maxCrossAxisItemExtent,
           intervalExtent: intervalExtent,
@@ -57,33 +57,33 @@ class RenderDynamicTimeline extends RenderBox
         _resizable = resizable {
     _painter = axis == Axis.vertical
         ? VerticalTimelinePainter(
-            layouter: _layouter,
+            layouter: _layoutProcessor,
             linePaint: linePaint,
             labelTextStyle: labelTextStyle)
         : HorizontalTimelinePainter(
-            layouter: _layouter,
+            layouter: _layoutProcessor,
             linePaint: linePaint,
             labelTextStyle: labelTextStyle);
   }
 
   late final DynamicTimelinePainter _painter;
-  final DynamicTimelineLayouter _layouter;
+  final DynamicTimelineLayout _layoutProcessor;
 
-  DateTime get firstDateTime => _layouter.firstDateTime;
+  DateTime get firstDateTime => _layoutProcessor.firstDateTime;
 
   set firstDateTime(DateTime value) {
-    if (value == _layouter.firstDateTime) return;
+    if (value == _layoutProcessor.firstDateTime) return;
 
-    _layouter.firstDateTime = value;
+    _layoutProcessor.firstDateTime = value;
     markNeedsLayout();
   }
 
-  DateTime get lastDateTime => _layouter.lastDateTime;
+  DateTime get lastDateTime => _layoutProcessor.lastDateTime;
 
   set lastDateTime(DateTime value) {
-    if (value == _layouter.lastDateTime) return;
+    if (value == _layoutProcessor.lastDateTime) return;
 
-    _layouter.lastDateTime = value;
+    _layoutProcessor.lastDateTime = value;
     markNeedsLayout();
   }
 
@@ -96,39 +96,39 @@ class RenderDynamicTimeline extends RenderBox
     markNeedsLayout();
   }
 
-  Axis get axis => _layouter.axis;
+  Axis get axis => _layoutProcessor.axis;
 
   set axis(Axis value) {
-    if (value == _layouter.axis) return;
+    if (value == _layoutProcessor.axis) return;
 
-    _layouter.axis = value;
+    _layoutProcessor.axis = value;
     markNeedsLayout();
   }
 
-  Duration get intervalDuration => _layouter.intervalDuration;
+  Duration get intervalDuration => _layoutProcessor.intervalDuration;
 
   set intervalDuration(Duration value) {
-    if (value == _layouter.intervalDuration) return;
+    if (value == _layoutProcessor.intervalDuration) return;
 
-    _layouter.intervalDuration = value;
+    _layoutProcessor.intervalDuration = value;
     markNeedsLayout();
   }
 
-  double get intervalExtent => _layouter.intervalExtent;
+  double get intervalExtent => _layoutProcessor.intervalExtent;
 
   set intervalExtent(double value) {
-    if (value == _layouter.intervalExtent) return;
+    if (value == _layoutProcessor.intervalExtent) return;
 
-    _layouter.intervalExtent = value;
+    _layoutProcessor.intervalExtent = value;
     markNeedsLayout();
   }
 
-  int get crossAxisCount => _layouter.crossAxisCount;
+  int get crossAxisCount => _layoutProcessor.crossAxisCount;
 
   set crossAxisCount(int value) {
-    if (value == _layouter.crossAxisCount) return;
+    if (value == _layoutProcessor.crossAxisCount) return;
 
-    _layouter.crossAxisCount = value;
+    _layoutProcessor.crossAxisCount = value;
     markNeedsLayout();
   }
 
@@ -143,12 +143,12 @@ class RenderDynamicTimeline extends RenderBox
     markNeedsLayout();
   }
 
-  double? get maxCrossAxisItemExtent => _layouter.maxCrossAxisItemExtent;
+  double get maxCrossAxisItemExtent => _layoutProcessor.maxCrossAxisItemExtent;
 
-  set maxCrossAxisItemExtent(double? value) {
-    if (value == _layouter.maxCrossAxisItemExtent) return;
+  set maxCrossAxisItemExtent(double value) {
+    if (value == _layoutProcessor.maxCrossAxisItemExtent) return;
 
-    _layouter.maxCrossAxisItemExtent = value;
+    _layoutProcessor.maxCrossAxisItemExtent = value;
     markNeedsLayout();
   }
 
@@ -162,12 +162,12 @@ class RenderDynamicTimeline extends RenderBox
     _minItemDuration = value;
   }
 
-  double get crossAxisSpacing => _layouter.crossAxisSpacing;
+  double get crossAxisSpacing => _layoutProcessor.crossAxisSpacing;
 
   set crossAxisSpacing(double value) {
-    if (value == _layouter.crossAxisSpacing) return;
+    if (value == _layoutProcessor.crossAxisSpacing) return;
 
-    _layouter.crossAxisSpacing = value;
+    _layoutProcessor.crossAxisSpacing = value;
     markNeedsLayout();
   }
 
@@ -208,13 +208,13 @@ class RenderDynamicTimeline extends RenderBox
 
   @override
   Size computeDryLayout(BoxConstraints constraints) {
-    return _layouter.computeSize(constraints: constraints);
+    return _layoutProcessor.computeSize(constraints: constraints);
   }
 
   @override
   void performLayout() {
-    size = _layouter.computeSize(constraints: constraints);
-    final maxCrossAxisItemExtent = _layouter.getMaxCrossAxisItemExtent(constraints: constraints);
+    size = _layoutProcessor.computeSize(constraints: constraints);
+    final maxCrossAxisItemExtent = _layoutProcessor.getMaxCrossAxisItemExtent(constraints: constraints);
 
     var child = firstChild;
 
@@ -235,11 +235,11 @@ class RenderDynamicTimeline extends RenderBox
 
       final childDuration = endDateTime.difference(startDateTime);
 
-      final childMainAxisExtent = _layouter.getExtentSecondRate() * childDuration.inSeconds;
+      final childMainAxisExtent = _layoutProcessor.getExtentSecondRate() * childDuration.inSeconds;
 
       final differenceFromFirstDate = startDateTime.difference(firstDateTime);
 
-      final mainAxisPosition = _layouter.getExtentSecondRate() * differenceFromFirstDate.inSeconds;
+      final mainAxisPosition = _layoutProcessor.getExtentSecondRate() * differenceFromFirstDate.inSeconds;
 
       final crossAxisPosition =
           _getCrossAxisPositionFor(maxCrossAxisItemExtent, position, timeLineChild);

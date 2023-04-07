@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class DynamicTimelineLayouter{
+class DynamicTimelineLayout{
 
-  DynamicTimelineLayouter({
+  DynamicTimelineLayout({
     required this.axis,
     required this.maxCrossAxisItemExtent,
     required this.intervalExtent,
@@ -19,15 +19,14 @@ class DynamicTimelineLayouter{
   Duration intervalDuration;
   DateTime lastDateTime;
   double maxCrossAxisIndicatorExtent;
-  double? maxCrossAxisItemExtent;
+  double maxCrossAxisItemExtent;
   double intervalExtent;
   double crossAxisSpacing;
   int crossAxisCount;
-
   Axis axis;
 
   double getMaxCrossAxisItemExtent({required BoxConstraints constraints}) {
-    if (maxCrossAxisItemExtent != null) return maxCrossAxisItemExtent!;
+    if (maxCrossAxisItemExtent.isFinite) return maxCrossAxisItemExtent;
 
     final crossAxisExtent = _getCrossAxisExtent(constraints: constraints);
 
@@ -40,7 +39,7 @@ class DynamicTimelineLayouter{
   double _getCrossAxisExtent({required BoxConstraints constraints}) {
     final crossAxisSize = _getCrossAxisSize(constraints.biggest);
 
-    if (maxCrossAxisItemExtent == null) return crossAxisSize;
+    if (maxCrossAxisItemExtent.isInfinite) return crossAxisSize;
 
     final attemptExtent = maxCrossAxisIndicatorExtent +
         (crossAxisSpacing + maxCrossAxisItemExtent!) * crossAxisCount;

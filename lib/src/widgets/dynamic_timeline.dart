@@ -148,7 +148,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       intervalExtent: intervalExtent,
       crossAxisCount: crossAxisCount,
       maxCrossAxisIndicatorExtent: maxCrossAxisIndicatorExtent,
-      maxCrossAxisItemExtent: maxCrossAxisItemExtent,
+      maxCrossAxisItemExtent: maxCrossAxisItemExtent??double.infinity,
       minItemDuration: minItemDuration ?? defaultIntervalDuration,
       crossAxisSpacing: crossAxisSpacing,
       resizable: resizable,
@@ -183,7 +183,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       ..intervalExtent = intervalExtent
       ..crossAxisCount = crossAxisCount
       ..maxCrossAxisIndicatorExtent = maxCrossAxisIndicatorExtent
-      ..maxCrossAxisItemExtent = maxCrossAxisItemExtent
+      ..maxCrossAxisItemExtent = maxCrossAxisItemExtent??double.infinity
       ..minItemDuration = minItemDuration ?? defaultIntervalDuration
       ..crossAxisSpacing = crossAxisSpacing
       ..resizable = resizable
