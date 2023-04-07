@@ -1,6 +1,4 @@
-import '../overview_samples/weekly_timetable.dart';
-import '../overview_samples/daily_timeline.dart';
-import '../overview_samples/gantt_chart.dart';
+import '../overview_samples/pages.dart';
 import 'package:flutter/material.dart';
 import 'sample_collection_card.dart';
 

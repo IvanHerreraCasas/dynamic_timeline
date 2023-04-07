@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SampleCollectionCard extends StatelessWidget {
-  const SampleCollectionCard({Key? key, required this.sampleSelectionWidgets }) : super(key: key);
+  const SampleCollectionCard({Key? key, required this.title, required this.sampleSelectionWidgets})
+      : super(key: key);
 
+  final String title;
   final List<Widget> sampleSelectionWidgets;
 
   @override
@@ -12,8 +14,8 @@ class SampleCollectionCard extends StatelessWidget {
         children: [
           Container(
             margin: const EdgeInsets.all(10),
-            child: const Text(
-              'Getting started',
+            child: Text(
+              title,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),

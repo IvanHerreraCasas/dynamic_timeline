@@ -1,6 +1,8 @@
 import 'package:dynamic_timeline_example/sample_collections/overview_samples.dart';
 import 'package:flutter/material.dart';
 
+import 'sample_collections/background_painter_samples.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -27,7 +29,17 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Row( children: [ Spacer(), OverviewSamples(),Spacer(),], ),
+        child: Row(
+          children: const [
+            Spacer(),
+            OverviewSamples(),
+            SizedBox(
+              width: 40,
+            ),
+            BackgroundPainterSamples(),
+            Spacer(),
+          ],
+        ),
       ),
     );
   }
