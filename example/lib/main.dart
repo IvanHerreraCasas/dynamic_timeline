@@ -1,4 +1,4 @@
-import 'package:dynamic_timeline_example/pages/pages.dart';
+import 'package:dynamic_timeline_example/sample_collections/getting_started_samples.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -27,41 +27,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const DailyTimeline(),
-                ),
-              ),
-              child: const Text('Daily timeline'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const WeeklyTimetable(),
-                ),
-              ),
-              child: const Text('Weekly timeline'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const GanttChart(),
-                ),
-              ),
-              child: const Text('Gantt chart'),
-            ),
-          ],
-        ),
+        child: Row( children: [ Spacer(), GettingStartedSamples(),Spacer(),], ),
       ),
     );
   }
