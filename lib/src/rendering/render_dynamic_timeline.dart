@@ -1,5 +1,7 @@
 import 'package:dynamic_timeline/src/rendering/painter/dynamic_timeline_painter.dart';
 import 'package:dynamic_timeline/src/rendering/dynamic_timeline_layouter.dart';
+import '../../dynamic_timeline.dart';
+import '../widgets/timeline_label_container.dart';
 import 'painter/horizontal_timeline_painter.dart';
 import 'painter/vertical_timeline_painter.dart';
 import 'package:flutter/rendering.dart';
@@ -25,11 +27,9 @@ class RenderDynamicTimeline extends RenderBox
     with
         ContainerRenderObjectMixin<RenderBox, DynamicTimelineParentData>,
         RenderBoxContainerDefaultsMixin<RenderBox, DynamicTimelineParentData> {
-
   RenderDynamicTimeline({
     required DateTime firstDateTime,
     required DateTime lastDateTime,
-    required String? Function(DateTime) labelBuilder,
     required Axis axis,
     required Duration intervalDuration,
     required double intervalExtent,
@@ -42,24 +42,28 @@ class RenderDynamicTimeline extends RenderBox
     required Paint linePaint,
     required TextStyle labelTextStyle,
   })  : _layouter = DynamicTimelineLayouter(
-            axis: axis,
-            maxCrossAxisItemExtent: maxCrossAxisItemExtent,
-            intervalExtent: intervalExtent,
-            maxCrossAxisIndicatorExtent: maxCrossAxisIndicatorExtent,
-            crossAxisSpacing: crossAxisSpacing,
-            crossAxisCount: crossAxisCount,
-            firstDateTime: firstDateTime,
-            lastDateTime: lastDateTime,
-            intervalDuration: intervalDuration,),
-
+          axis: axis,
+          maxCrossAxisItemExtent: maxCrossAxisItemExtent,
+          intervalExtent: intervalExtent,
+          maxCrossAxisIndicatorExtent: maxCrossAxisIndicatorExtent,
+          crossAxisSpacing: crossAxisSpacing,
+          crossAxisCount: crossAxisCount,
+          firstDateTime: firstDateTime,
+          lastDateTime: lastDateTime,
+          intervalDuration: intervalDuration,
+        ),
         _maxCrossAxisIndicatorExtent = maxCrossAxisIndicatorExtent,
         _minItemDuration = minItemDuration,
-        _resizable = resizable
-  {
-    _painter = axis == Axis.vertical?VerticalTimelinePainter(layouter: _layouter,
-      linePaint: linePaint,labelBuilder: labelBuilder,labelTextStyle: labelTextStyle ):
-    HorizontalTimelinePainter(layouter: _layouter,
-        linePaint: linePaint,labelBuilder: labelBuilder,labelTextStyle: labelTextStyle );
+        _resizable = resizable {
+    _painter = axis == Axis.vertical
+        ? VerticalTimelinePainter(
+            layouter: _layouter,
+            linePaint: linePaint,
+            labelTextStyle: labelTextStyle)
+        : HorizontalTimelinePainter(
+            layouter: _layouter,
+            linePaint: linePaint,
+            labelTextStyle: labelTextStyle);
   }
 
   late final DynamicTimelinePainter _painter;
@@ -83,17 +87,6 @@ class RenderDynamicTimeline extends RenderBox
     markNeedsLayout();
   }
 
-
-  String? Function(DateTime dateTime) get labelBuilder => _painter.labelBuilder;
-
-  set labelBuilder(String? Function(DateTime dateTime) value) {
-    if (value == _painter.labelBuilder) return;
-
-    _painter.labelBuilder = value;
-    markNeedsLayout();
-  }
-
-
   TextStyle get labelTextStyle => _painter.labelTextStyle;
 
   set labelTextStyle(TextStyle value) {
@@ -104,6 +97,7 @@ class RenderDynamicTimeline extends RenderBox
   }
 
   Axis get axis => _layouter.axis;
+
   set axis(Axis value) {
     if (value == _layouter.axis) return;
 
@@ -119,7 +113,6 @@ class RenderDynamicTimeline extends RenderBox
     _layouter.intervalDuration = value;
     markNeedsLayout();
   }
-
 
   double get intervalExtent => _layouter.intervalExtent;
 
@@ -188,7 +181,6 @@ class RenderDynamicTimeline extends RenderBox
     _resizable = value;
   }
 
-
   Paint get linePaint => _painter.linePaint;
 
   set linePaint(Paint value) {
@@ -228,7 +220,10 @@ class RenderDynamicTimeline extends RenderBox
 
     // define children layout and position
     while (child != null) {
-      final childParentData = child.parentData! as DynamicTimelineParentData;
+      if (!(child is RenderTimelineItem)) continue;
+
+      final timeLineChild = child as RenderTimelineItem;
+      final childParentData = timeLineChild.parentData!;
 
       late final DateTime startDateTime;
       late final DateTime endDateTime;
@@ -246,16 +241,17 @@ class RenderDynamicTimeline extends RenderBox
 
       final mainAxisPosition = _layouter.getExtentSecondRate() * differenceFromFirstDate.inSeconds;
 
-      final crossAxisPosition = maxCrossAxisIndicatorExtent +
-          crossAxisSpacing +
-          (crossAxisSpacing + maxCrossAxisItemExtent) * position;
+      final crossAxisPosition =
+          _getCrossAxisPositionFor(maxCrossAxisItemExtent, position, timeLineChild);
 
       if (axis == Axis.vertical) {
         child.layout(
           BoxConstraints(
             minHeight: childMainAxisExtent,
             maxHeight: childMainAxisExtent,
-            maxWidth: maxCrossAxisItemExtent,
+            maxWidth: timeLineChild.isTimelineLabelItem
+                ? maxCrossAxisIndicatorExtent
+                : maxCrossAxisItemExtent,
           ),
         );
 
@@ -265,7 +261,9 @@ class RenderDynamicTimeline extends RenderBox
           BoxConstraints(
             minWidth: childMainAxisExtent,
             maxWidth: childMainAxisExtent,
-            maxHeight: maxCrossAxisItemExtent,
+            maxHeight: timeLineChild.isTimelineLabelItem
+                ? maxCrossAxisIndicatorExtent
+                : maxCrossAxisItemExtent,
           ),
         );
 
@@ -274,6 +272,15 @@ class RenderDynamicTimeline extends RenderBox
 
       child = childParentData.nextSibling;
     }
+  }
+
+  double _getCrossAxisPositionFor(
+      double maxCrossAxisItemExtent, int position, RenderTimelineItem? child) {
+    if (child?.isTimelineLabelItem ?? false == true)
+      return (crossAxisSpacing + maxCrossAxisItemExtent) * position;
+    return maxCrossAxisIndicatorExtent +
+        crossAxisSpacing +
+        (crossAxisSpacing + maxCrossAxisItemExtent) * position;
   }
 
   @override

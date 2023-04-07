@@ -15,9 +15,11 @@ class RenderTimelineItem extends RenderProxyBox
     required void Function(DateTime)? onEndDateTimeUpdated,
     required void Function(DateTime)? onStartDateTimeChanged,
     required void Function(DateTime)? onEndDateTimeChanged,
+    bool? isTimelineLabelItem,
   })  : _startDateTime = startDateTime,
         _endDateTime = endDateTime,
         _position = position,
+        _isTimelineLabelItem = isTimelineLabelItem ?? false,
         _onStartDateTimeUpdated = onStartDateTimeUpdated,
         _onEndDateTimeUpdated = onEndDateTimeUpdated,
         _onStartDateTimeChanged = onStartDateTimeChanged,
@@ -34,6 +36,9 @@ class RenderTimelineItem extends RenderProxyBox
     parentData!.startDateTime = _startDateTime;
     markParentNeedsLayout();
   }
+
+  final bool _isTimelineLabelItem ;
+  bool  get isTimelineLabelItem => _isTimelineLabelItem;
 
   DateTime _endDateTime;
 

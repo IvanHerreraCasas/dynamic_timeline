@@ -11,7 +11,6 @@ class DynamicTimelineLabelBuilderTests{
         DynamicTimeline(
           firstDateTime: DateTime(2023,1,1),
           lastDateTime: DateTime(2023,1,3) ,
-          labelTextBuilder:  (labelDate) => 'date',
           labelBuilder: (labelDate)  {
             calls++;
             return Text('date');
@@ -29,7 +28,6 @@ class DynamicTimelineLabelBuilderTests{
         DynamicTimeline(
           firstDateTime: DateTime(2023,1,1),
           lastDateTime: DateTime(2023,1,3) ,
-          labelTextBuilder:  (labelDate) => 'date',
           labelBuilder: (labelDate)  {
             callDates.add(labelDate);
             return Text('date');

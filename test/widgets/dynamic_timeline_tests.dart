@@ -48,7 +48,6 @@ class DynamicTimelineTests {
         return DynamicTimeline(
           firstDateTime: firstDateTime ?? DateTime(1970, 1, 1, 8),
           lastDateTime: lastDateTime ?? DateTime(1970, 1, 1, 12),
-          labelTextBuilder: labelBuilder ?? (_) => 'Date',
           labelBuilder: (date) => const Text('Date',),
           axis: axis,
           intervalDuration: intervalDuration,
@@ -91,7 +90,6 @@ class DynamicTimelineTests {
 
           expect(renderDynamicTimeline.firstDateTime, DateTime(1970, 1, 1, 8));
           expect(renderDynamicTimeline.lastDateTime, DateTime(1970, 1, 1, 12));
-          expect(renderDynamicTimeline.labelBuilder, labelBuilder);
           expect(renderDynamicTimeline.axis, Axis.vertical);
           expect(
             renderDynamicTimeline.intervalDuration,
@@ -211,7 +209,6 @@ class DynamicTimelineTests {
 
         expect(widget.firstDateTime, firstDateTime);
         expect(widget.lastDateTime, lastDateTime);
-        expect(widget.labelTextBuilder, labelBuilder);
         expect(widget.axis, axis);
         expect(widget.intervalDuration, intervalDuration);
         expect(widget.crossAxisCount, crossAxisCount);

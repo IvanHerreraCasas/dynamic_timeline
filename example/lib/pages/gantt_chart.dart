@@ -68,8 +68,13 @@ class _GanttChartState extends State<GanttChart> {
               child: DynamicTimeline(
                 firstDateTime: DateTime(2022, 1, 1),
                 lastDateTime: DateTime(2022, 12, 31),
-                labelTextBuilder: DateFormat('dd').format,
-                labelBuilder: (date) => Text(DateFormat('dd').format(date),),
+                labelBuilder: (date) => Transform(
+                  child:  Text(DateFormat('dd').format(date),),
+                  alignment: FractionalOffset.center,
+                  transform: new Matrix4.identity()
+                    ..rotateZ(-70 * 3.1415927 / 180),
+
+              ),
                 axis: Axis.horizontal,
                 intervalDuration: const Duration(days: 1),
                 minItemDuration: const Duration(days: 1),

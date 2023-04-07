@@ -6,11 +6,9 @@ class VerticalTimelinePainter extends DynamicTimelinePainter{
 
   VerticalTimelinePainter({required DynamicTimelineLayouter layouter,
     required Paint linePaint,
-    required String? Function(DateTime dateLabel) labelBuilder,
     required TextStyle labelTextStyle}) :
         super(layouter: layouter,
           linePaint: linePaint,
-          labelBuilder: labelBuilder,
           labelTextStyle: labelTextStyle);
 
   Offset _currentOffset = Offset(0,0);
@@ -31,12 +29,6 @@ class VerticalTimelinePainter extends DynamicTimelinePainter{
     );
 
     _currentOffset = offset;
-    paintLabels(canvas,size);
   }
 
-  @override
-  void activateNextLabelTransformation(Canvas canvas){
-    canvas.translate(_currentOffset.dx,_currentOffset.dy);
-    _currentOffset = Offset(_currentOffset.dx, _currentOffset.dy + layouter.intervalExtent);
-  }
 }

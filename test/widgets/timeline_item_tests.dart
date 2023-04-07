@@ -21,7 +21,6 @@ class TimelineItemTests {
         return DynamicTimeline(
           firstDateTime: DateTime(1970, 1, 1, 8),
           lastDateTime: DateTime(1970, 1, 1, 12),
-          labelTextBuilder: (_) => 'Date',
           labelBuilder: (date) => const Text('Date',),
           axis: axis,
           intervalDuration: const Duration(hours: 1),

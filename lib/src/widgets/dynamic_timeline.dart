@@ -19,7 +19,6 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     Key? key,
     required this.firstDateTime,
     required this.lastDateTime,
-    required this.labelTextBuilder,
     required Widget Function(DateTime labelDate) labelBuilder,
     this.axis = Axis.vertical,
     this.intervalDuration,
@@ -78,11 +77,6 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
 
   /// The last datetime in the timeline.
   final DateTime lastDateTime;
-
-  /// Called to build the label of each mark.
-  ///
-  /// Note: DateFormat can be used.
-  final String? Function(DateTime) labelTextBuilder;
 
   /// The lenght of time between each mark.
   final Duration? intervalDuration;
@@ -149,7 +143,6 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     return RenderDynamicTimeline(
       firstDateTime: firstDateTime,
       lastDateTime: lastDateTime,
-      labelBuilder: labelTextBuilder,
       axis: axis,
       intervalDuration: intervalDuration ?? defaultIntervalDuration,
       intervalExtent: intervalExtent,
@@ -185,7 +178,6 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     renderObject
       ..firstDateTime = firstDateTime
       ..lastDateTime = lastDateTime
-      ..labelBuilder = labelTextBuilder
       ..axis = axis
       ..intervalDuration = intervalDuration ?? defaultIntervalDuration
       ..intervalExtent = intervalExtent
