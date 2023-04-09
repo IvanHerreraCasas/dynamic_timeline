@@ -1,19 +1,21 @@
 import 'dart:math';
 
+import 'package:dynamic_timeline/src/rendering/painter/interval_painter/background_painter.dart';
 import 'package:flutter/material.dart';
 
-class DynamicTimelineLayout{
+import 'painter/interval_painter/interval_painter_data.dart';
 
-  DynamicTimelineLayout({
-    required this.axis,
-    required this.maxCrossAxisItemExtent,
-    required this.intervalExtent,
-    required this.maxCrossAxisIndicatorExtent,
-    required this.crossAxisSpacing,
-    required this.crossAxisCount,
-    required this.firstDateTime,
-    required this.lastDateTime,
-    required this.intervalDuration});
+class DynamicTimelineLayout {
+  DynamicTimelineLayout(
+      {required this.axis,
+      required this.maxCrossAxisItemExtent,
+      required this.intervalExtent,
+      required this.maxCrossAxisIndicatorExtent,
+      required this.crossAxisSpacing,
+      required this.crossAxisCount,
+      required this.firstDateTime,
+      required this.lastDateTime,
+      required this.intervalDuration});
 
   DateTime firstDateTime;
   Duration intervalDuration;
@@ -24,6 +26,7 @@ class DynamicTimelineLayout{
   double crossAxisSpacing;
   int crossAxisCount;
   Axis axis;
+  Size _recentSize = Size.zero;
 
   double getMaxCrossAxisItemExtent({required BoxConstraints constraints}) {
     if (maxCrossAxisItemExtent.isFinite) return maxCrossAxisItemExtent;
@@ -41,8 +44,8 @@ class DynamicTimelineLayout{
 
     if (maxCrossAxisItemExtent.isInfinite) return crossAxisSize;
 
-    final attemptExtent = maxCrossAxisIndicatorExtent +
-        (crossAxisSpacing + maxCrossAxisItemExtent) * crossAxisCount;
+    final attemptExtent =
+        maxCrossAxisIndicatorExtent + (crossAxisSpacing + maxCrossAxisItemExtent) * crossAxisCount;
 
     return min(
       crossAxisSize,
@@ -70,8 +73,7 @@ class DynamicTimelineLayout{
 
   double _getMainAxisExtent({required BoxConstraints constraints}) {
     final mainAxisSize = _getMainAxisSize(constraints.biggest);
-    final attemptExtent =
-        getExtentSecondRate() * _getTotalDuration().inSeconds;
+    final attemptExtent = getExtentSecondRate() * _getTotalDuration().inSeconds;
 
     return min(mainAxisSize, attemptExtent);
   }
@@ -84,18 +86,34 @@ class DynamicTimelineLayout{
     return lastDateTime.difference(firstDateTime);
   }
 
-
   Size computeSize({required BoxConstraints constraints}) {
     final crossAxisExtent = _getCrossAxisExtent(constraints: constraints);
 
     final mainAxisExtent = _getMainAxisExtent(constraints: constraints);
 
-    switch (axis) {
-      case Axis.vertical:
-        return Size(crossAxisExtent, mainAxisExtent);
-      case Axis.horizontal:
-        return Size(mainAxisExtent, crossAxisExtent);
-    }
+    return _recentSize = (axis == Axis.vertical)
+        ? Size(crossAxisExtent, mainAxisExtent)
+        : Size(mainAxisExtent, crossAxisExtent);
   }
 
+  void updateLayoutDataFor(
+      IntervalPainter intervalPainter) {
+    final intervalMainAxisExtend = getExtentSecondRate() * intervalDuration.inSeconds;
+
+    final crossAxisExtend = (axis == Axis.horizontal?_recentSize.height:_recentSize.width )- maxCrossAxisIndicatorExtent;
+    var numberOfIntervals =
+        (lastDateTime.difference(firstDateTime).inMinutes / intervalDuration.inMinutes).floor();
+
+    if (axis == Axis.horizontal) {
+      intervalPainter.setLayout(data:  IntervalPainterData(
+          intervalSize: Size(intervalMainAxisExtend, crossAxisExtend),
+          numberOfIntervals: numberOfIntervals,
+          offset: Offset(0, maxCrossAxisIndicatorExtent)));
+    } else {
+      intervalPainter.setLayout(data: IntervalPainterData(
+          intervalSize: Size(crossAxisExtend, intervalMainAxisExtend),
+          numberOfIntervals: numberOfIntervals,
+          offset: Offset(maxCrossAxisIndicatorExtent, 0)));
+    }
+  }
 }

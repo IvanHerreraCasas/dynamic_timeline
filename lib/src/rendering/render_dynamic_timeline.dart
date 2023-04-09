@@ -284,6 +284,7 @@ class RenderDynamicTimeline extends RenderBox
 
       child = childParentData.nextSibling;
     }
+    intervalPainters.forEach(_layoutProcessor.updateLayoutDataFor);
   }
 
   double _getCrossAxisPositionFor(
@@ -304,28 +305,7 @@ class RenderDynamicTimeline extends RenderBox
       (context, offset) {
         final canvas = context.canvas;
 
-        final intervalMainAxisExtend =
-            _layoutProcessor.getExtentSecondRate() * intervalDuration.inSeconds;
-        final crossAxisExtend =
-            (axis == Axis.horizontal ? size.height : size.width) - maxCrossAxisIndicatorExtent;
-        var numberOfIntervals =
-            (lastDateTime.difference(firstDateTime).inMinutes / intervalDuration.inMinutes).floor();
-
-        for(var painter in intervalPainters) {
-          if (axis == Axis.horizontal) {
-            painter.setLayout(data: IntervalPainterData(
-                intervalSize: Size(intervalMainAxisExtend, crossAxisExtend),
-                numberOfIntervals: numberOfIntervals,
-                offset: offset + Offset(0, maxCrossAxisIndicatorExtent)));
-            painter.paint(canvas,);
-          } else {
-            painter.setLayout(data: IntervalPainterData(
-                intervalSize: Size(crossAxisExtend, intervalMainAxisExtend),
-                numberOfIntervals: numberOfIntervals,
-                offset: offset + Offset(maxCrossAxisIndicatorExtent, 0)));
-            painter.paint(canvas,);
-          }
-        }
+        intervalPainters.forEach((painter)=> painter.paint(canvas));
 
         // paint children
         defaultPaint(context, offset);
