@@ -1,6 +1,7 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter/material.dart';
 
+import '../rendering/painter/interval_painter/background_painter.dart';
 import 'timeline_label_container.dart';
 
 /// {@template dynamic_timeline}
@@ -34,6 +35,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     this.resizable = true,
     this.paint,
     this.textStyle,
+    this.intervalPainters = const [],
     required List<TimelineItem> items,
   })
       : assert(
@@ -83,6 +85,11 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
 
   /// The number of logical pixels between each mark.
   final double intervalExtent;
+
+  /// Interval painter are used to color the background of the timeline.
+  /// intervals can be along the items direction (cross axis)
+  /// or the time direction (main axis).
+  final List<IntervalPainter> intervalPainters;
 
   /// If true the items can be resized, dragging in the main axis extremes.
   final bool resizable;
@@ -146,6 +153,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       axis: axis,
       intervalDuration: intervalDuration ?? defaultIntervalDuration,
       intervalExtent: intervalExtent,
+      intervalPainters: intervalPainters,
       crossAxisCount: crossAxisCount,
       maxCrossAxisIndicatorExtent: maxCrossAxisIndicatorExtent,
       maxCrossAxisItemExtent: maxCrossAxisItemExtent??double.infinity,
@@ -181,6 +189,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       ..axis = axis
       ..intervalDuration = intervalDuration ?? defaultIntervalDuration
       ..intervalExtent = intervalExtent
+      ..intervalPainters = intervalPainters
       ..crossAxisCount = crossAxisCount
       ..maxCrossAxisIndicatorExtent = maxCrossAxisIndicatorExtent
       ..maxCrossAxisItemExtent = maxCrossAxisItemExtent??double.infinity

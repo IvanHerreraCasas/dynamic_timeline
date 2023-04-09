@@ -3,8 +3,9 @@ import 'package:dynamic_timeline/src/rendering/dynamic_timeline_layout.dart';
 import 'package:flutter/material.dart';
 import '../../dynamic_timeline.dart';
 import '../widgets/timeline_label_container.dart';
-import 'painter/background_painter.dart';
+import 'painter/interval_painter/background_painter.dart';
 import 'painter/horizontal_timeline_painter.dart';
+import 'painter/interval_painter/interval_painter_data.dart';
 import 'painter/vertical_timeline_painter.dart';
 import 'package:flutter/rendering.dart';
 
@@ -43,6 +44,7 @@ class RenderDynamicTimeline extends RenderBox
     required bool resizable,
     required Paint linePaint,
     required TextStyle labelTextStyle,
+    required List<IntervalPainter> intervalPainters,
   })  : _layoutProcessor = DynamicTimelineLayout(
           axis: axis,
           maxCrossAxisItemExtent: maxCrossAxisItemExtent,
@@ -56,20 +58,26 @@ class RenderDynamicTimeline extends RenderBox
         ),
         _maxCrossAxisIndicatorExtent = maxCrossAxisIndicatorExtent,
         _minItemDuration = minItemDuration,
+        _intervalPainters= intervalPainters,
         _resizable = resizable {
     _painter = axis == Axis.vertical
         ? VerticalTimelinePainter(
-            layouter: _layoutProcessor,
-            linePaint: linePaint,
-            labelTextStyle: labelTextStyle)
+            layouter: _layoutProcessor, linePaint: linePaint, labelTextStyle: labelTextStyle)
         : HorizontalTimelinePainter(
-            layouter: _layoutProcessor,
-            linePaint: linePaint,
-            labelTextStyle: labelTextStyle);
+            layouter: _layoutProcessor, linePaint: linePaint, labelTextStyle: labelTextStyle);
   }
 
   late final DynamicTimelinePainter _painter;
   final DynamicTimelineLayout _layoutProcessor;
+
+  final  List<IntervalPainter> _intervalPainters;
+  List<IntervalPainter> get intervalPainters => _intervalPainters;
+  set intervalPainters(List<IntervalPainter> value) {
+    if (value == _intervalPainters) return;
+    _intervalPainters.clear();
+    _intervalPainters.addAll(value);
+    markNeedsPaint();
+  }
 
   DateTime get firstDateTime => _layoutProcessor.firstDateTime;
 
@@ -216,7 +224,8 @@ class RenderDynamicTimeline extends RenderBox
   @override
   void performLayout() {
     size = _layoutProcessor.computeSize(constraints: constraints);
-    final maxCrossAxisItemExtent = _layoutProcessor.getMaxCrossAxisItemExtent(constraints: constraints);
+    final maxCrossAxisItemExtent =
+        _layoutProcessor.getMaxCrossAxisItemExtent(constraints: constraints);
 
     var child = firstChild;
 
@@ -241,7 +250,8 @@ class RenderDynamicTimeline extends RenderBox
 
       final differenceFromFirstDate = startDateTime.difference(firstDateTime);
 
-      final mainAxisPosition = _layoutProcessor.getExtentSecondRate() * differenceFromFirstDate.inSeconds;
+      final mainAxisPosition =
+          _layoutProcessor.getExtentSecondRate() * differenceFromFirstDate.inSeconds;
 
       final crossAxisPosition =
           _getCrossAxisPositionFor(maxCrossAxisItemExtent, position, timeLineChild);
@@ -294,16 +304,28 @@ class RenderDynamicTimeline extends RenderBox
       (context, offset) {
         final canvas = context.canvas;
 
+        final intervalMainAxisExtend =
+            _layoutProcessor.getExtentSecondRate() * intervalDuration.inSeconds;
+        final crossAxisExtend =
+            (axis == Axis.horizontal ? size.height : size.width) - maxCrossAxisIndicatorExtent;
+        var numberOfIntervals =
+            (lastDateTime.difference(firstDateTime).inMinutes / intervalDuration.inMinutes).floor();
 
-        final intervalMainAxisExtend = _layoutProcessor.getExtentSecondRate() * intervalDuration.inSeconds;
-        final crossAxisExtend =  size.height - maxCrossAxisIndicatorExtent;
-        var numberOfIntervals = (lastDateTime.difference(firstDateTime).inMinutes / intervalDuration.inMinutes).floor();
-
-        var backgroundPainter = BackgroundPainter(axis: axis,
-            intervalMainAxisExtend: intervalMainAxisExtend,
-            crossAxisExtend: crossAxisExtend, numberOfIntervals: numberOfIntervals);
-        backgroundPainter.paint(canvas,offset, maxCrossAxisIndicatorExtent);
-
+        for(var painter in intervalPainters) {
+          if (axis == Axis.horizontal) {
+            painter.setLayout(data: IntervalPainterData(
+                intervalSize: Size(intervalMainAxisExtend, crossAxisExtend),
+                numberOfIntervals: numberOfIntervals,
+                offset: offset + Offset(0, maxCrossAxisIndicatorExtent)));
+            painter.paint(canvas,);
+          } else {
+            painter.setLayout(data: IntervalPainterData(
+                intervalSize: Size(crossAxisExtend, intervalMainAxisExtend),
+                numberOfIntervals: numberOfIntervals,
+                offset: offset + Offset(maxCrossAxisIndicatorExtent, 0)));
+            painter.paint(canvas,);
+          }
+        }
 
         // paint children
         defaultPaint(context, offset);

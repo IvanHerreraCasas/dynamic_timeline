@@ -84,6 +84,7 @@ class _ColoredGanttChartState extends State<ColoredGanttChart> {
                 crossAxisCount: 3,
                 intervalExtent: 20,
                 maxCrossAxisItemExtent: 30,
+                intervalPainters: [HorizontalIntervalPainter()],
                 items: items,
               ),
             ),
