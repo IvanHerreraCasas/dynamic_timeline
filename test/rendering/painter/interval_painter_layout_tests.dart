@@ -18,7 +18,7 @@ class IntervalPainterLayoutTests {
         },
       );
 
-      test('Initialization horizontal painter on horizontal tine-line', () {
+      test('Initialization horizontal painter on tine-line main axis direction', () {
         final painter = HorizontalIntervalPainter();
         final layoutEngine = TestLayoutEngineFactory.create(axis: Axis.horizontal,);
         const elementSizeConstraint = BoxConstraints(
@@ -30,7 +30,7 @@ class IntervalPainterLayoutTests {
 
         // we need to call compute size beforehand to have a valid
         // initialization for "_recentSize"
-        layoutEngine..computeSize(constraints: elementSizeConstraint)
+        layoutEngine..updateConstraints( elementSizeConstraint)
         ..updateLayoutDataFor(painter);
 
         expect(painter.data.intervalSize.width, layoutEngine.intervalExtent);
@@ -41,7 +41,53 @@ class IntervalPainterLayoutTests {
         expect(painter.data.numberOfIntervals, 3);
       });
 
-      test('Initialization vertical painter on vertical tine-line', () {
+      test('Initialization horizontal painter on tine-line cross axis direction', () {
+        final painter = HorizontalIntervalPainter();
+        final layoutEngine = TestLayoutEngineFactory.create(axis: Axis.vertical,);
+        const elementSizeConstraint = BoxConstraints(
+          minHeight: 500,
+          maxHeight: 500,
+          maxWidth: 400,
+          minWidth: 400,
+        );
+
+        // we need to call compute size beforehand to have a valid
+        // initialization for "_recentSize"
+        layoutEngine..updateConstraints( elementSizeConstraint)
+          ..updateLayoutDataFor(painter);
+
+        // 170 = (elementSizeConstraint.maxWidth-layoutEngine.maxCrossAxisIndicatorExtent)/2;
+        expect(painter.data.intervalSize.width, 170);
+        expect(painter.data.intervalSize.height, 150);
+        expect(painter.data.offset.dx, layoutEngine.maxCrossAxisIndicatorExtent);
+        expect(painter.data.offset.dy, 0);
+        expect(painter.data.numberOfIntervals, 2);
+      });
+
+      test('Initialization vertical painter on tine-line cross axis direction', () {
+        final painter = VerticalIntervalPainter();
+        final layoutEngine = TestLayoutEngineFactory.create(axis: Axis.horizontal,);
+        const elementSizeConstraint = BoxConstraints(
+          minHeight: 500,
+          maxHeight: 500,
+          maxWidth: 400,
+          minWidth: 400,
+        );
+
+        // we need to call compute size beforehand to have a valid
+        // initialization for "_recentSize"
+        layoutEngine..updateConstraints( elementSizeConstraint)
+          ..updateLayoutDataFor(painter);
+
+        expect(painter.data.intervalSize.width, 150);
+        // 220 = (elementSizeConstraint.maxHeight-layoutEngine.maxCrossAxisIndicatorExtent)/2;
+        expect(painter.data.intervalSize.height, 220);
+        expect(painter.data.offset.dx, 0);
+        expect(painter.data.offset.dy, layoutEngine.maxCrossAxisIndicatorExtent);
+        expect(painter.data.numberOfIntervals, 2);
+      });
+
+      test('Initialization vertical painter on tine-line main axis direction', () {
         final painter = VerticalIntervalPainter();
         final layoutEngine = TestLayoutEngineFactory.create(axis: Axis.vertical,);
         const elementSizeConstraint = BoxConstraints(
@@ -53,7 +99,7 @@ class IntervalPainterLayoutTests {
 
         // we need to call compute size beforehand to have a valid
         // initialization for "_recentSize"
-        layoutEngine..computeSize(constraints: elementSizeConstraint)
+        layoutEngine..updateConstraints(elementSizeConstraint)
           ..updateLayoutDataFor(painter);
 
         expect(painter.data.intervalSize.width, elementSizeConstraint.maxWidth

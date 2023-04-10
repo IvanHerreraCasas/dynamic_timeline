@@ -3,7 +3,7 @@ import 'package:dynamic_timeline/src/rendering/dynamic_timeline_layout.dart';
 import 'package:flutter/material.dart';
 import '../../dynamic_timeline.dart';
 import '../widgets/timeline_label_container.dart';
-import 'painter/interval_painter/background_painter.dart';
+import 'painter/interval_painter/interval_painter.dart';
 import 'painter/horizontal_timeline_painter.dart';
 import 'painter/interval_painter/interval_painter_data.dart';
 import 'painter/vertical_timeline_painter.dart';
@@ -218,14 +218,16 @@ class RenderDynamicTimeline extends RenderBox
 
   @override
   Size computeDryLayout(BoxConstraints constraints) {
-    return _layoutProcessor.computeSize(constraints: constraints);
+    _layoutProcessor.updateConstraints(constraints);
+    return _layoutProcessor.computeSize();
   }
 
   @override
   void performLayout() {
-    size = _layoutProcessor.computeSize(constraints: constraints);
+    _layoutProcessor.updateConstraints(constraints);
+    size = _layoutProcessor.computeSize();
     final maxCrossAxisItemExtent =
-        _layoutProcessor.getMaxCrossAxisItemExtent(constraints: constraints);
+        _layoutProcessor.getMaxCrossAxisItemExtent();
 
     var child = firstChild;
 
@@ -305,7 +307,7 @@ class RenderDynamicTimeline extends RenderBox
       (context, offset) {
         final canvas = context.canvas;
 
-        intervalPainters.forEach((painter)=> painter.paint(canvas));
+        intervalPainters.forEach((painter)=> painter.paint(canvas,offset));
 
         // paint children
         defaultPaint(context, offset);
