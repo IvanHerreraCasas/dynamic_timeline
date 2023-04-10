@@ -29,10 +29,10 @@ class HorizontalIntervalPainter extends IntervalPainter {
       if (i % 2 == 0)
         canvas.drawRect(
             Rect.fromLTWH(
-                canvasOffset.dx + data.mainAxisOffset + i * data.intervalSize.width,
+                canvasOffset.dx + data.mainAxisOffset + i * data.mainAxisExtend,
                 canvasOffset.dy + data.crossAxisOffset,
-                data.intervalSize.width,
-                data.intervalSize.height),
+                data.mainAxisExtend,
+                data.crossAxisExtend),
             paint);
     }
   }
@@ -55,9 +55,9 @@ class VerticalIntervalPainter extends IntervalPainter {
         canvas.drawRect(
             Rect.fromLTWH(
                 canvasOffset.dx + data.crossAxisOffset,
-                canvasOffset.dy + data.mainAxisOffset + i * data.intervalSize.height,
-                data.intervalSize.width,
-                data.intervalSize.height),
+                canvasOffset.dy + data.mainAxisOffset + i * data.mainAxisExtend,
+                data.crossAxisExtend,
+                data.mainAxisExtend),
             paint);
     }
   }

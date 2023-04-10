@@ -12,7 +12,8 @@ class IntervalPainterLayoutTests {
         'Creation of empty IntervalPainterData --> data gets initialized as zero',
         () {
           final data = IntervalPainterData();
-          expect(data.intervalSize, Size.zero);
+          expect(data.crossAxisExtend, 0);
+          expect(data.mainAxisExtend, 0);
           expect(data.numberOfIntervals, 0);
           expect(data.mainAxisOffset, 0);
           expect(data.crossAxisOffset, 0);
@@ -21,7 +22,9 @@ class IntervalPainterLayoutTests {
 
       test('Initialization horizontal painter on tine-line main axis direction', () {
         final painter = HorizontalIntervalPainter();
-        final layoutEngine = TestLayoutEngineFactory.create(axis: Axis.horizontal,);
+        final layoutEngine = TestLayoutEngineFactory.create(
+          axis: Axis.horizontal,
+        );
         const elementSizeConstraint = BoxConstraints(
           minHeight: 500,
           maxHeight: 500,
@@ -31,12 +34,13 @@ class IntervalPainterLayoutTests {
 
         // we need to call compute size beforehand to have a valid
         // initialization for "_recentSize"
-        layoutEngine..updateConstraints( elementSizeConstraint)
-        ..updateLayoutDataFor(painter);
+        layoutEngine
+          ..updateConstraints(elementSizeConstraint)
+          ..updateLayoutDataFor(painter);
 
-        expect(painter.data.intervalSize.width, layoutEngine.intervalExtent);
-        expect(painter.data.intervalSize.height, elementSizeConstraint.maxHeight
-            -layoutEngine.maxCrossAxisIndicatorExtent);
+        expect(painter.data.mainAxisExtend, layoutEngine.intervalExtent);
+        expect(painter.data.crossAxisExtend,
+            elementSizeConstraint.maxHeight - layoutEngine.maxCrossAxisIndicatorExtent);
         expect(painter.data.mainAxisOffset, 0);
         expect(painter.data.crossAxisOffset, layoutEngine.maxCrossAxisIndicatorExtent);
         expect(painter.data.numberOfIntervals, 3);
@@ -44,7 +48,9 @@ class IntervalPainterLayoutTests {
 
       test('Initialization horizontal painter on tine-line cross axis direction', () {
         final painter = HorizontalIntervalPainter();
-        final layoutEngine = TestLayoutEngineFactory.create(axis: Axis.vertical,);
+        final layoutEngine = TestLayoutEngineFactory.create(
+          axis: Axis.vertical,
+        );
         const elementSizeConstraint = BoxConstraints(
           minHeight: 500,
           maxHeight: 500,
@@ -54,12 +60,13 @@ class IntervalPainterLayoutTests {
 
         // we need to call compute size beforehand to have a valid
         // initialization for "_recentSize"
-        layoutEngine..updateConstraints( elementSizeConstraint)
+        layoutEngine
+          ..updateConstraints(elementSizeConstraint)
           ..updateLayoutDataFor(painter);
 
         // 170 = (elementSizeConstraint.maxWidth-layoutEngine.maxCrossAxisIndicatorExtent)/2;
-        expect(painter.data.intervalSize.width, 170);
-        expect(painter.data.intervalSize.height, 150);
+        expect(painter.data.mainAxisExtend, 170);
+        expect(painter.data.crossAxisExtend, 150);
         expect(painter.data.mainAxisOffset, layoutEngine.maxCrossAxisIndicatorExtent);
         expect(painter.data.crossAxisOffset, 0);
         expect(painter.data.numberOfIntervals, 2);
@@ -67,7 +74,9 @@ class IntervalPainterLayoutTests {
 
       test('Initialization vertical painter on tine-line cross axis direction', () {
         final painter = VerticalIntervalPainter();
-        final layoutEngine = TestLayoutEngineFactory.create(axis: Axis.horizontal,);
+        final layoutEngine = TestLayoutEngineFactory.create(
+          axis: Axis.horizontal,
+        );
         const elementSizeConstraint = BoxConstraints(
           minHeight: 500,
           maxHeight: 500,
@@ -77,12 +86,13 @@ class IntervalPainterLayoutTests {
 
         // we need to call compute size beforehand to have a valid
         // initialization for "_recentSize"
-        layoutEngine..updateConstraints( elementSizeConstraint)
+        layoutEngine
+          ..updateConstraints(elementSizeConstraint)
           ..updateLayoutDataFor(painter);
 
-        expect(painter.data.intervalSize.width, 150);
+        expect(painter.data.crossAxisExtend, 150);
         // 220 = (elementSizeConstraint.maxHeight-layoutEngine.maxCrossAxisIndicatorExtent)/2;
-        expect(painter.data.intervalSize.height, 220);
+        expect(painter.data.mainAxisExtend, 220);
         expect(painter.data.crossAxisOffset, 0);
         expect(painter.data.mainAxisOffset, layoutEngine.maxCrossAxisIndicatorExtent);
         expect(painter.data.numberOfIntervals, 2);
@@ -90,7 +100,9 @@ class IntervalPainterLayoutTests {
 
       test('Initialization vertical painter on tine-line main axis direction', () {
         final painter = VerticalIntervalPainter();
-        final layoutEngine = TestLayoutEngineFactory.create(axis: Axis.vertical,);
+        final layoutEngine = TestLayoutEngineFactory.create(
+          axis: Axis.vertical,
+        );
         const elementSizeConstraint = BoxConstraints(
           minHeight: 500,
           maxHeight: 500,
@@ -100,17 +112,17 @@ class IntervalPainterLayoutTests {
 
         // we need to call compute size beforehand to have a valid
         // initialization for "_recentSize"
-        layoutEngine..updateConstraints(elementSizeConstraint)
+        layoutEngine
+          ..updateConstraints(elementSizeConstraint)
           ..updateLayoutDataFor(painter);
 
-        expect(painter.data.intervalSize.width, elementSizeConstraint.maxWidth
-            -layoutEngine.maxCrossAxisIndicatorExtent);
-        expect(painter.data.intervalSize.height, layoutEngine.intervalExtent);
+        expect(painter.data.crossAxisExtend,
+            elementSizeConstraint.maxWidth - layoutEngine.maxCrossAxisIndicatorExtent);
+        expect(painter.data.mainAxisExtend, layoutEngine.intervalExtent);
         expect(painter.data.crossAxisOffset, layoutEngine.maxCrossAxisIndicatorExtent);
         expect(painter.data.mainAxisOffset, 0);
         expect(painter.data.numberOfIntervals, 3);
       });
-
     });
   }
 }

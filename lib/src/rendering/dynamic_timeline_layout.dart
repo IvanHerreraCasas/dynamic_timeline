@@ -103,27 +103,19 @@ class DynamicTimelineLayout {
     final intervalMainAxisExtend = _isMainAxis(intervalPainter)
         ? getExtentSecondRate() * intervalDuration.inSeconds
         : getMaxCrossAxisItemExtent() + crossAxisSpacing;
-    final intervalOffset = _isMainAxis(intervalPainter) ? maxCrossAxisIndicatorExtent:0;
+    final intervalOffset = _isMainAxis(intervalPainter) ? maxCrossAxisIndicatorExtent : 0;
+    final crossAxisExtend = intervalPainter.painterDirection == Axis.horizontal
+        ? computeSize().height - intervalOffset
+        : computeSize().width - intervalOffset;
 
-    if (intervalPainter.painterDirection == Axis.horizontal) {
-      intervalPainter.setLayout(
-          data: IntervalPainterData(
-              intervalSize: Size(intervalMainAxisExtend, computeSize().height - intervalOffset),
-              numberOfIntervals:
-                  _isMainAxis(intervalPainter) ? _getIntervalCount() : crossAxisCount,
-              mainAxisOffset: intervalPainter.painterDirection == axis ? 0 : maxCrossAxisIndicatorExtent,
-              crossAxisOffset: intervalPainter.painterDirection == axis ? maxCrossAxisIndicatorExtent : 0,
+    intervalPainter.setLayout(
+        data: IntervalPainterData(
+      mainAxisExtend: intervalMainAxisExtend,
+      crossAxisExtend: crossAxisExtend,
+      numberOfIntervals: _isMainAxis(intervalPainter) ? _getIntervalCount() : crossAxisCount,
+      mainAxisOffset: intervalPainter.painterDirection == axis ? 0 : maxCrossAxisIndicatorExtent,
+      crossAxisOffset: intervalPainter.painterDirection == axis ? maxCrossAxisIndicatorExtent : 0,
     ));
-    } else {
-      intervalPainter.setLayout(
-          data: IntervalPainterData(
-              intervalSize: Size(computeSize().width - intervalOffset, intervalMainAxisExtend),
-              numberOfIntervals:
-                  _isMainAxis(intervalPainter) ? _getIntervalCount() : crossAxisCount,
-            mainAxisOffset:  intervalPainter.painterDirection == axis ? 0 : maxCrossAxisIndicatorExtent,
-            crossAxisOffset: intervalPainter.painterDirection == axis ? maxCrossAxisIndicatorExtent : 0,
-          ));
-    }
   }
 
   int _getIntervalCount() =>
