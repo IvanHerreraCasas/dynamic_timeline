@@ -1,4 +1,5 @@
-import 'package:dynamic_timeline/src/rendering/painter/interval_painter/interval_painter_data.dart';
+import 'package:dynamic_timeline/src/rendering/painter/interval_painter/colored_interval_painer.dart';
+import 'package:dynamic_timeline/src/rendering/painter/interval_painter/background_painter_data.dart';
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'test_layout_engine_factory.dart';
@@ -11,7 +12,7 @@ class IntervalPainterLayoutTests {
       test(
         'Creation of empty IntervalPainterData --> data gets initialized as zero',
         () {
-          final data = IntervalPainterData();
+          final data = BackgroundPainterData();
           expect(data.crossAxisExtend, 0);
           expect(data.mainAxisExtend, 0);
           expect(data.numberOfIntervals, 0);
@@ -21,7 +22,7 @@ class IntervalPainterLayoutTests {
       );
 
       test('Initialization horizontal painter on tine-line main axis direction', () {
-        final painter = HorizontalIntervalPainter();
+        final painter =  ColoredIntervalPainter.createHorizontal();
         final layoutEngine = TestLayoutEngineFactory.create(
           axis: Axis.horizontal,
         );
@@ -47,7 +48,7 @@ class IntervalPainterLayoutTests {
       });
 
       test('Initialization horizontal painter on tine-line cross axis direction', () {
-        final painter = HorizontalIntervalPainter();
+        final painter =  ColoredIntervalPainter.createHorizontal();
         final layoutEngine = TestLayoutEngineFactory.create(
           axis: Axis.vertical,
         );
@@ -73,7 +74,7 @@ class IntervalPainterLayoutTests {
       });
 
       test('Initialization vertical painter on tine-line cross axis direction', () {
-        final painter = VerticalIntervalPainter();
+        final painter =  ColoredIntervalPainter.createVertical();
         final layoutEngine = TestLayoutEngineFactory.create(
           axis: Axis.horizontal,
         );
@@ -99,7 +100,7 @@ class IntervalPainterLayoutTests {
       });
 
       test('Initialization vertical painter on tine-line main axis direction', () {
-        final painter = VerticalIntervalPainter();
+        final painter = ColoredIntervalPainter.createVertical();
         final layoutEngine = TestLayoutEngineFactory.create(
           axis: Axis.vertical,
         );

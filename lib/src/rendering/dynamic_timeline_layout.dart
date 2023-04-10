@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:dynamic_timeline/src/rendering/painter/interval_painter/interval_painter.dart';
 import 'package:flutter/material.dart';
 
-import 'painter/interval_painter/interval_painter_data.dart';
+import 'painter/interval_painter/background_painter_data.dart';
 
 class DynamicTimelineLayout {
   DynamicTimelineLayout(
@@ -100,19 +100,19 @@ class DynamicTimelineLayout {
   }
 
   void updateLayoutDataFor(IntervalPainter intervalPainter) {
-    final intervalMainAxisExtend = _isMainAxis(intervalPainter)
+    final intervalMainAxisExtend = _isOnMainAxis(intervalPainter)
         ? getExtentSecondRate() * intervalDuration.inSeconds
         : getMaxCrossAxisItemExtent() + crossAxisSpacing;
-    final intervalOffset = _isMainAxis(intervalPainter) ? maxCrossAxisIndicatorExtent : 0;
+    final intervalOffset = _isOnMainAxis(intervalPainter) ? maxCrossAxisIndicatorExtent : 0;
     final crossAxisExtend = intervalPainter.painterDirection == Axis.horizontal
         ? computeSize().height - intervalOffset
         : computeSize().width - intervalOffset;
 
     intervalPainter.setLayout(
-        data: IntervalPainterData(
+        data: BackgroundPainterData(
       mainAxisExtend: intervalMainAxisExtend,
       crossAxisExtend: crossAxisExtend,
-      numberOfIntervals: _isMainAxis(intervalPainter) ? _getIntervalCount() : crossAxisCount,
+      numberOfIntervals: _isOnMainAxis(intervalPainter) ? _getIntervalCount() : crossAxisCount,
       mainAxisOffset: intervalPainter.painterDirection == axis ? 0 : maxCrossAxisIndicatorExtent,
       crossAxisOffset: intervalPainter.painterDirection == axis ? maxCrossAxisIndicatorExtent : 0,
     ));
@@ -121,5 +121,5 @@ class DynamicTimelineLayout {
   int _getIntervalCount() =>
       (lastDateTime.difference(firstDateTime).inMinutes / intervalDuration.inMinutes).floor();
 
-  bool _isMainAxis(IntervalPainter intervalPainter) => intervalPainter.painterDirection == axis;
+  bool _isOnMainAxis(IntervalPainter intervalPainter) => intervalPainter.painterDirection == axis;
 }

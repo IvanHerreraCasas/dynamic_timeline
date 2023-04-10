@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-class IntervalPainterData {
-  IntervalPainterData(
+class BackgroundPainterData {
+
+  BackgroundPainterData(
       {this.mainAxisExtend = 0,
       this.crossAxisExtend = 0,
       this.numberOfIntervals = 0,

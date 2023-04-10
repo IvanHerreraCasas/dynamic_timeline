@@ -82,7 +82,7 @@ class _ColoredWeeklyTimetableState extends State<ColoredWeeklyTimetable> {
                     intervalDuration: const Duration(hours: 1),
                     crossAxisCount: 7,
                     intervalExtent: 50,
-                    intervalPainters: [VerticalIntervalPainter()],
+                    intervalPainters: [ColoredIntervalPainter.createVertical()],
                     //intervalPainters: [HorizontalIntervalPainter()],
                     items: items,
                   ),

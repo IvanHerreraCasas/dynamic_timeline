@@ -5,7 +5,7 @@ import '../../dynamic_timeline.dart';
 import '../widgets/timeline_label_container.dart';
 import 'painter/interval_painter/interval_painter.dart';
 import 'painter/horizontal_timeline_painter.dart';
-import 'painter/interval_painter/interval_painter_data.dart';
+import 'painter/interval_painter/background_painter_data.dart';
 import 'painter/vertical_timeline_painter.dart';
 import 'package:flutter/rendering.dart';
 
