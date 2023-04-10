@@ -14,7 +14,8 @@ class IntervalPainterLayoutTests {
           final data = IntervalPainterData();
           expect(data.intervalSize, Size.zero);
           expect(data.numberOfIntervals, 0);
-          expect(data.offset, Offset.zero);
+          expect(data.mainAxisOffset, 0);
+          expect(data.crossAxisOffset, 0);
         },
       );
 
@@ -36,8 +37,8 @@ class IntervalPainterLayoutTests {
         expect(painter.data.intervalSize.width, layoutEngine.intervalExtent);
         expect(painter.data.intervalSize.height, elementSizeConstraint.maxHeight
             -layoutEngine.maxCrossAxisIndicatorExtent);
-        expect(painter.data.offset.dx, 0);
-        expect(painter.data.offset.dy, layoutEngine.maxCrossAxisIndicatorExtent);
+        expect(painter.data.mainAxisOffset, 0);
+        expect(painter.data.crossAxisOffset, layoutEngine.maxCrossAxisIndicatorExtent);
         expect(painter.data.numberOfIntervals, 3);
       });
 
@@ -59,8 +60,8 @@ class IntervalPainterLayoutTests {
         // 170 = (elementSizeConstraint.maxWidth-layoutEngine.maxCrossAxisIndicatorExtent)/2;
         expect(painter.data.intervalSize.width, 170);
         expect(painter.data.intervalSize.height, 150);
-        expect(painter.data.offset.dx, layoutEngine.maxCrossAxisIndicatorExtent);
-        expect(painter.data.offset.dy, 0);
+        expect(painter.data.mainAxisOffset, layoutEngine.maxCrossAxisIndicatorExtent);
+        expect(painter.data.crossAxisOffset, 0);
         expect(painter.data.numberOfIntervals, 2);
       });
 
@@ -82,8 +83,8 @@ class IntervalPainterLayoutTests {
         expect(painter.data.intervalSize.width, 150);
         // 220 = (elementSizeConstraint.maxHeight-layoutEngine.maxCrossAxisIndicatorExtent)/2;
         expect(painter.data.intervalSize.height, 220);
-        expect(painter.data.offset.dx, 0);
-        expect(painter.data.offset.dy, layoutEngine.maxCrossAxisIndicatorExtent);
+        expect(painter.data.crossAxisOffset, 0);
+        expect(painter.data.mainAxisOffset, layoutEngine.maxCrossAxisIndicatorExtent);
         expect(painter.data.numberOfIntervals, 2);
       });
 
@@ -105,8 +106,8 @@ class IntervalPainterLayoutTests {
         expect(painter.data.intervalSize.width, elementSizeConstraint.maxWidth
             -layoutEngine.maxCrossAxisIndicatorExtent);
         expect(painter.data.intervalSize.height, layoutEngine.intervalExtent);
-        expect(painter.data.offset.dx, layoutEngine.maxCrossAxisIndicatorExtent);
-        expect(painter.data.offset.dy, 0);
+        expect(painter.data.crossAxisOffset, layoutEngine.maxCrossAxisIndicatorExtent);
+        expect(painter.data.mainAxisOffset, 0);
         expect(painter.data.numberOfIntervals, 3);
       });
 

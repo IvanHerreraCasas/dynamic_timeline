@@ -111,18 +111,18 @@ class DynamicTimelineLayout {
               intervalSize: Size(intervalMainAxisExtend, computeSize().height - intervalOffset),
               numberOfIntervals:
                   _isMainAxis(intervalPainter) ? _getIntervalCount() : crossAxisCount,
-              offset: _isMainAxis(intervalPainter)
-                  ? Offset(0, maxCrossAxisIndicatorExtent)
-                  : Offset(maxCrossAxisIndicatorExtent, 0)));
+              mainAxisOffset: intervalPainter.painterDirection == axis ? 0 : maxCrossAxisIndicatorExtent,
+              crossAxisOffset: intervalPainter.painterDirection == axis ? maxCrossAxisIndicatorExtent : 0,
+    ));
     } else {
       intervalPainter.setLayout(
           data: IntervalPainterData(
               intervalSize: Size(computeSize().width - intervalOffset, intervalMainAxisExtend),
               numberOfIntervals:
                   _isMainAxis(intervalPainter) ? _getIntervalCount() : crossAxisCount,
-              offset: _isMainAxis(intervalPainter)
-                  ? Offset(maxCrossAxisIndicatorExtent, 0)
-                  : Offset(0, maxCrossAxisIndicatorExtent)));
+            mainAxisOffset:  intervalPainter.painterDirection == axis ? 0 : maxCrossAxisIndicatorExtent,
+            crossAxisOffset: intervalPainter.painterDirection == axis ? maxCrossAxisIndicatorExtent : 0,
+          ));
     }
   }
 

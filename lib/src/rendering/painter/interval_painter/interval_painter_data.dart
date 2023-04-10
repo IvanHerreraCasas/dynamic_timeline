@@ -5,9 +5,11 @@ class IntervalPainterData {
   IntervalPainterData(
       {this.intervalSize = Size.zero,
         this.numberOfIntervals=0,
-        this.offset=Offset.zero});
+        this.mainAxisOffset=0,
+        this.crossAxisOffset=0});
 
   final Size intervalSize;
   final int numberOfIntervals;
-  final Offset offset;
+  final double mainAxisOffset;
+  final double crossAxisOffset;
 }
