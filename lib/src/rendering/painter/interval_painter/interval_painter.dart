@@ -3,17 +3,16 @@ import 'background_painter_data.dart';
 import 'background_painter.dart';
 
 abstract class IntervalPainter extends BackgroundPainter {
+
+
   IntervalPainter({required Axis drawingAxis})
       : _regionCalculation = drawingAxis == Axis.horizontal
             ? _horizontalRegionCalculation
             : _verticalRegionCalculation,
         this._painterDirection = drawingAxis;
 
-  final Axis _painterDirection;
-
   Rect Function(BackgroundPainterData data, Offset canvasOffset, int idx) _regionCalculation;
-
-  void paintCallback(Canvas canvas, Rect drawingRegion, int intervalIdx);
+  final Axis _painterDirection;
 
   @override
   Axis get painterDirection => _painterDirection;
@@ -24,6 +23,8 @@ abstract class IntervalPainter extends BackgroundPainter {
       paintCallback(canvas, _regionCalculation(data, canvasOffset, idx), idx);
     }
   }
+
+  void paintCallback(Canvas canvas, Rect drawingRegion, int intervalIdx);
 
   static Rect _horizontalRegionCalculation(
       BackgroundPainterData data, Offset canvasOffset, int idx) {

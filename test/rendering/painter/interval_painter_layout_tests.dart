@@ -2,6 +2,7 @@ import 'package:dynamic_timeline/src/rendering/painter/interval_painter/colored_
 import 'package:dynamic_timeline/src/rendering/painter/interval_painter/background_painter_data.dart';
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shouldly/shouldly.dart';
 import 'test_layout_engine_factory.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
@@ -13,16 +14,16 @@ class IntervalPainterLayoutTests {
         'Creation of empty IntervalPainterData --> data gets initialized as zero',
         () {
           final data = BackgroundPainterData();
-          expect(data.crossAxisExtend, 0);
-          expect(data.mainAxisExtend, 0);
-          expect(data.numberOfIntervals, 0);
-          expect(data.mainAxisOffset, 0);
-          expect(data.crossAxisOffset, 0);
+          data.crossAxisExtend.should.be(0);
+          data.mainAxisExtend.should.be(0);
+          data.numberOfIntervals.should.be(0);
+          data.mainAxisOffset.should.be(0);
+          data.crossAxisOffset.should.be(0);
         },
       );
 
       test('Initialization horizontal painter on tine-line main axis direction', () {
-        final painter =  ColoredIntervalPainter.createHorizontal();
+        final painter = ColoredIntervalPainter.createHorizontal();
         final layoutEngine = TestLayoutEngineFactory.create(
           axis: Axis.horizontal,
         );
@@ -39,16 +40,16 @@ class IntervalPainterLayoutTests {
           ..updateConstraints(elementSizeConstraint)
           ..updateLayoutDataFor(painter);
 
-        expect(painter.data.mainAxisExtend, layoutEngine.intervalExtent);
-        expect(painter.data.crossAxisExtend,
-            elementSizeConstraint.maxHeight - layoutEngine.maxCrossAxisIndicatorExtent);
-        expect(painter.data.mainAxisOffset, 0);
-        expect(painter.data.crossAxisOffset, layoutEngine.maxCrossAxisIndicatorExtent);
-        expect(painter.data.numberOfIntervals, 3);
+        painter.data.mainAxisExtend.should.be(layoutEngine.intervalExtent);
+        painter.data.crossAxisExtend.should
+            .be(elementSizeConstraint.maxHeight - layoutEngine.maxCrossAxisIndicatorExtent);
+        painter.data.mainAxisOffset.should.be(0);
+        painter.data.crossAxisOffset.should.be(layoutEngine.maxCrossAxisIndicatorExtent);
+        painter.data.numberOfIntervals.should.be(3);
       });
 
       test('Initialization horizontal painter on tine-line cross axis direction', () {
-        final painter =  ColoredIntervalPainter.createHorizontal();
+        final painter = ColoredIntervalPainter.createHorizontal();
         final layoutEngine = TestLayoutEngineFactory.create(
           axis: Axis.vertical,
         );
@@ -66,15 +67,15 @@ class IntervalPainterLayoutTests {
           ..updateLayoutDataFor(painter);
 
         // 170 = (elementSizeConstraint.maxWidth-layoutEngine.maxCrossAxisIndicatorExtent)/2;
-        expect(painter.data.mainAxisExtend, 170);
-        expect(painter.data.crossAxisExtend, 150);
-        expect(painter.data.mainAxisOffset, layoutEngine.maxCrossAxisIndicatorExtent);
-        expect(painter.data.crossAxisOffset, 0);
-        expect(painter.data.numberOfIntervals, 2);
+        painter.data.mainAxisExtend.should.be(170);
+        painter.data.crossAxisExtend.should.be(150);
+        painter.data.mainAxisOffset.should.be(layoutEngine.maxCrossAxisIndicatorExtent);
+        painter.data.crossAxisOffset.should.be(0);
+        painter.data.numberOfIntervals.should.be(2);
       });
 
       test('Initialization vertical painter on tine-line cross axis direction', () {
-        final painter =  ColoredIntervalPainter.createVertical();
+        final painter = ColoredIntervalPainter.createVertical();
         final layoutEngine = TestLayoutEngineFactory.create(
           axis: Axis.horizontal,
         );
@@ -91,12 +92,12 @@ class IntervalPainterLayoutTests {
           ..updateConstraints(elementSizeConstraint)
           ..updateLayoutDataFor(painter);
 
-        expect(painter.data.crossAxisExtend, 150);
+        painter.data.crossAxisExtend.should.be( 150);
         // 220 = (elementSizeConstraint.maxHeight-layoutEngine.maxCrossAxisIndicatorExtent)/2;
-        expect(painter.data.mainAxisExtend, 220);
-        expect(painter.data.crossAxisOffset, 0);
-        expect(painter.data.mainAxisOffset, layoutEngine.maxCrossAxisIndicatorExtent);
-        expect(painter.data.numberOfIntervals, 2);
+        painter.data.mainAxisExtend.should.be( 220);
+        painter.data.crossAxisOffset.should.be( 0);
+        painter.data.mainAxisOffset.should.be( layoutEngine.maxCrossAxisIndicatorExtent);
+        painter.data.numberOfIntervals.should.be( 2);
       });
 
       test('Initialization vertical painter on tine-line main axis direction', () {
@@ -117,12 +118,12 @@ class IntervalPainterLayoutTests {
           ..updateConstraints(elementSizeConstraint)
           ..updateLayoutDataFor(painter);
 
-        expect(painter.data.crossAxisExtend,
+        painter.data.crossAxisExtend.should.be(
             elementSizeConstraint.maxWidth - layoutEngine.maxCrossAxisIndicatorExtent);
-        expect(painter.data.mainAxisExtend, layoutEngine.intervalExtent);
-        expect(painter.data.crossAxisOffset, layoutEngine.maxCrossAxisIndicatorExtent);
-        expect(painter.data.mainAxisOffset, 0);
-        expect(painter.data.numberOfIntervals, 3);
+        painter.data.mainAxisExtend.should.be( layoutEngine.intervalExtent);
+        painter.data.crossAxisOffset.should.be( layoutEngine.maxCrossAxisIndicatorExtent);
+        painter.data.mainAxisOffset.should.be( 0);
+        painter.data.numberOfIntervals.should.be( 3);
       });
     });
   }

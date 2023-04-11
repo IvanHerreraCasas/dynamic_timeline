@@ -1,6 +1,7 @@
 import 'package:dynamic_timeline/src/rendering/dynamic_timeline_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shouldly/shouldly.dart';
 
 import 'test_layout_engine_factory.dart';
 
@@ -19,7 +20,7 @@ class DynamicTimelineLayoutTests {
               minWidth: 300,
             ));
           final newSize = layoutEngine.computeSize();
-          expect(newSize.width, 300);
+          newSize.width.should.be( 300);
         },
       );
       test(
@@ -35,8 +36,8 @@ class DynamicTimelineLayoutTests {
               minWidth: 300,
             ));
           final newSize = layoutEngine.computeSize();
-          //
-          expect(newSize.width, 144);
+
+          newSize.width.should.be( 144);
         },
       );
 
@@ -52,8 +53,8 @@ class DynamicTimelineLayoutTests {
               minWidth: 300,
             ));
           final newSize = layoutEngine.computeSize();
-          //
-          expect(newSize.height < 500, true);
+
+          newSize.height.should.beLessThan( 500);
         },
       );
       test(
@@ -68,7 +69,7 @@ class DynamicTimelineLayoutTests {
               minWidth: 300,
             ));
           final newSize = layoutEngine.computeSize();
-          expect(newSize.height, 100);
+          newSize.height.should.be( 100);
         },
       );
 
@@ -92,8 +93,8 @@ class DynamicTimelineLayoutTests {
           final newSizeHorizontal = layoutEngineHorizontal.computeSize();
           final newSizeVertical = layoutEngineVertical.computeSize();
 
-          expect(newSizeHorizontal.height, newSizeVertical.width);
-          expect(newSizeHorizontal.width, newSizeVertical.height);
+          newSizeHorizontal.height.should.be( newSizeVertical.width);
+          newSizeHorizontal.width.should.be( newSizeVertical.height);
         },
       );
     });
