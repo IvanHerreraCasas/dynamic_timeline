@@ -88,7 +88,8 @@ class _ColoredGanttChartState extends State<ColoredGanttChart> {
                 intervalPainters: [
                   ColoredIntervalPainter.createVertical(intervalColorCallback: (interval) => interval%2 == 1 ?Colors.blue.withOpacity(0.2):null),
 
-                  ColoredIntervalPainter.createHorizontal()],
+                  ColoredIntervalPainter.createHorizontal(),
+                  IntervalDecorationPainter.createVertical()],
                 //intervalPainters: [VerticalIntervalPainter()],
                 items: items,
               ),
