@@ -11,7 +11,8 @@ class ColoredIntervalPainterTests {
       test('Calling the painter on 3 intervals and a callback always returning a color '
           '--> The fake canvas gets called all 3 times', () {
         var canvas = _FakeCanvas();
-        var cip = ColoredIntervalPainter.createHorizontal(intervalColorCallback: (idx) => Colors.red);
+        var cip = ColoredIntervalPainter.createHorizontal(paint: Paint()..color = Colors.red,
+        intervalSelector: (idx) => true);
         cip.data = BackgroundPainterData(
           crossAxisExtend: 300,
           mainAxisExtend: 500,
@@ -21,6 +22,22 @@ class ColoredIntervalPainterTests {
         );
         cip.paint(canvas, Offset.zero);
        canvas.numDrawRectCalls.should.be( 3);
+      });
+
+      test('Calling the painter on 3 intervals and default interval selector '
+          '--> only even intervals get painted so there should be only to calls to draw rect', () {
+        var canvas = _FakeCanvas();
+        var cip = ColoredIntervalPainter.createHorizontal(paint: Paint()..color = Colors.yellow,);
+        cip.data = BackgroundPainterData(
+          crossAxisExtend: 300,
+          mainAxisExtend: 500,
+          mainAxisOffset: 0,
+          crossAxisOffset: 0,
+          numberOfIntervals: 3,
+        );
+        cip.paint(canvas, Offset.zero);
+        canvas.numDrawRectCalls.should.be( 2);
+        canvas.getDrawRectCalls(1).paint.color.should.be( Colors.yellow);
       });
 
       test('Calling the painter on 3 intervals with default callback '
@@ -42,7 +59,7 @@ class ColoredIntervalPainterTests {
       test('Calling a horizontal painter on 1 interval '
           '--> Gets called with all the right parameters', () {
         var canvas = _FakeCanvas();
-        var cip = ColoredIntervalPainter.createHorizontal(intervalColorCallback: (idx) => Colors.red);
+        var cip = ColoredIntervalPainter.createHorizontal(paint: Paint()..color = Colors.red);
         cip.data = BackgroundPainterData(
           crossAxisExtend: 300,
           mainAxisExtend: 500,
@@ -61,7 +78,7 @@ class ColoredIntervalPainterTests {
       test('Calling a vertical painter on 1 interval '
           '--> Gets called with all the right parameters', () {
         var canvas = _FakeCanvas();
-        var cip = ColoredIntervalPainter.createVertical(intervalColorCallback: (idx) => Colors.red);
+        var cip = ColoredIntervalPainter.createVertical(paint: Paint()..color = Colors.green);
         cip.data = BackgroundPainterData(
           crossAxisExtend: 300,
           mainAxisExtend: 500,
@@ -75,14 +92,14 @@ class ColoredIntervalPainterTests {
         canvas.getDrawRectCalls(0).rect.height.should.be( 500);
         canvas.getDrawRectCalls(0).rect.left.should.be( 10);
         canvas.getDrawRectCalls(0).rect.top.should.be( 50);
-        canvas.getDrawRectCalls(0).paint.color.should.be(Colors.red);
+        canvas.getDrawRectCalls(0).paint.color.should.be(Colors.green);
       });
 
-      test('Calling a vertical painter on 2 intervals with first blue and second green '
-          '--> The paint color should be switched accordingly', () {
+      test('Calling a vertical painter on 2 intervals with always true selector'
+          '--> Draw rect should be called twice', () {
         var canvas = _FakeCanvas();
-        var cip = ColoredIntervalPainter.createVertical(intervalColorCallback:
-            (idx) => [Colors.blue,Colors.green][idx]);
+        var cip = ColoredIntervalPainter.createVertical(intervalSelector:
+            (idx) => true);
         cip.data = BackgroundPainterData(
           crossAxisExtend: 300,
           mainAxisExtend: 500,
@@ -93,8 +110,7 @@ class ColoredIntervalPainterTests {
         cip.paint(canvas, Offset.zero);
 
 
-        canvas.getDrawRectCalls(0).paint.color.should.be(Colors.blue);
-        canvas.getDrawRectCalls(1).paint.color.should.be(Colors.green);
+        canvas.numDrawRectCalls.should.be( 2);
       });
     });
   }

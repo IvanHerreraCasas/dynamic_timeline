@@ -22,16 +22,14 @@ class IntervalDecorationPainter extends IntervalPainter {
 
   IntervalDecorationPainter._(this._linePainter,
       {required super.drawingAxis, bool Function(int intervalIdx)? intervalSelector, Paint? paint})
-      : _intervalSelector = intervalSelector ?? ((intervalIdx) => true),
-        _paint = paint ?? (Paint()..color = Colors.black26);
+      : _paint = paint ?? (Paint()..color = Colors.black26),
+      super(intervalSelector: intervalSelector?? ((intervalIdx) => true));
 
   final void Function(Canvas canvas, Rect drawingRegion, Paint paint) _linePainter;
-  final bool Function(int intervalIdx) _intervalSelector;
   final Paint _paint;
 
   @override
   void paintCallback(Canvas canvas, Rect drawingRegion, int intervalIdx) {
-    if (!_intervalSelector(intervalIdx)) return;
     _linePainter(canvas, drawingRegion, _paint);
   }
 
