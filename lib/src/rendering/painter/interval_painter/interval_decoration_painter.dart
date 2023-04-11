@@ -2,19 +2,37 @@ import 'package:flutter/material.dart';
 import 'interval_painter.dart';
 
 class IntervalDecorationPainter extends IntervalPainter {
-  static IntervalDecorationPainter createHorizontal() =>
-      IntervalDecorationPainter._(_drawHorizontal, drawingAxis: Axis.horizontal);
+  static IntervalDecorationPainter createHorizontal(
+          {Paint? paint, bool Function(int intervalIdx)? intervalSelector}) =>
+      IntervalDecorationPainter._(
+        _drawHorizontal,
+        paint: paint,
+        intervalSelector: intervalSelector,
+        drawingAxis: Axis.horizontal,
+      );
 
-  static IntervalDecorationPainter createVertical() =>
-      IntervalDecorationPainter._(_drawVertical, drawingAxis: Axis.vertical);
+  static IntervalDecorationPainter createVertical(
+          {Paint? paint, bool Function(int intervalIdx)? intervalSelector}) =>
+      IntervalDecorationPainter._(
+        _drawVertical,
+        paint: paint,
+        intervalSelector: intervalSelector,
+        drawingAxis: Axis.vertical,
+      );
 
-  IntervalDecorationPainter._(this._linePainter, {required super.drawingAxis});
+  IntervalDecorationPainter._(this._linePainter,
+      {required super.drawingAxis, bool Function(int intervalIdx)? intervalSelector, Paint? paint})
+      : _intervalSelector = intervalSelector ?? ((intervalIdx) => true),
+        _paint = paint ?? (Paint()..color = Colors.black26);
 
   final void Function(Canvas canvas, Rect drawingRegion, Paint paint) _linePainter;
+  final bool Function(int intervalIdx) _intervalSelector;
+  final Paint _paint;
 
   @override
   void paintCallback(Canvas canvas, Rect drawingRegion, int intervalIdx) {
-    _linePainter(canvas, drawingRegion, Paint()..color = Colors.black26);
+    if (!_intervalSelector(intervalIdx)) return;
+    _linePainter(canvas, drawingRegion, _paint);
   }
 
   static void _drawHorizontal(Canvas canvas, Rect drawingRegion, Paint paint) =>

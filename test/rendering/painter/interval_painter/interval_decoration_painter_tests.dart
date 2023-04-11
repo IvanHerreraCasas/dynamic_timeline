@@ -1,14 +1,15 @@
 import 'package:dynamic_timeline/src/rendering/painter/interval_painter/background_painter_data.dart';
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../../helpers/helpers.dart';
 import 'package:flutter/material.dart';
+import '../../../helpers/helpers.dart';
 import 'package:shouldly/shouldly.dart';
 
 class IntervalDecorationPainterTests {
   static void run() {
     group('Interval painter decoration tests', () {
-      test('Vertical decoration line gets painted correctly '
+      test(
+          'Vertical decoration line gets painted correctly '
           '--> coordinates as expected from the painter data', () {
         var canvas = _FakeCanvas();
         var idp = IntervalDecorationPainter.createVertical();
@@ -22,16 +23,15 @@ class IntervalDecorationPainterTests {
         );
         idp.paint(canvas, Offset.zero);
 
-        canvas.getDrawLineCalls(0).p1.dx.should.be( 10);
-        canvas.getDrawLineCalls(0).p1.dy.should.be( 550);
+        canvas.getDrawLineCalls(0).p1.dx.should.be(10);
+        canvas.getDrawLineCalls(0).p1.dy.should.be(550);
 
-        canvas.getDrawLineCalls(0).p2.dx.should.be( 310);
-        canvas.getDrawLineCalls(0).p2.dy.should.be( 550);
-
+        canvas.getDrawLineCalls(0).p2.dx.should.be(310);
+        canvas.getDrawLineCalls(0).p2.dy.should.be(550);
       });
 
-
-      test('Horizontal decoration line gets painted correctly '
+      test(
+          'Horizontal decoration line gets painted correctly '
           '--> coordinates as expected from the painter data', () {
         var canvas = _FakeCanvas();
         var idp = IntervalDecorationPainter.createHorizontal();
@@ -45,13 +45,94 @@ class IntervalDecorationPainterTests {
         );
         idp.paint(canvas, Offset.zero);
 
-        canvas.getDrawLineCalls(0).p1.dx.should.be( 550);
-        canvas.getDrawLineCalls(0).p1.dy.should.be( 10);
+        canvas.getDrawLineCalls(0).p1.dx.should.be(550);
+        canvas.getDrawLineCalls(0).p1.dy.should.be(10);
 
-        canvas.getDrawLineCalls(0).p2.dx.should.be( 550);
-        canvas.getDrawLineCalls(0).p2.dy.should.be( 310);
-
+        canvas.getDrawLineCalls(0).p2.dx.should.be(550);
+        canvas.getDrawLineCalls(0).p2.dy.should.be(310);
       });
+
+      test(
+          'Interval selector for even index validation for vertical decorator '
+          '--> for 3 intervals there are only 2 painted ', () {
+        var canvas = _FakeCanvas();
+        var idp = IntervalDecorationPainter.createHorizontal(
+          intervalSelector: (idx) => idx % 2 == 0,
+        );
+
+        idp.data = BackgroundPainterData(
+          crossAxisExtend: 300,
+          mainAxisExtend: 500,
+          mainAxisOffset: 50,
+          crossAxisOffset: 10,
+          numberOfIntervals: 3,
+        );
+        idp.paint(canvas, Offset.zero);
+
+        canvas.numDrawRectCalls.should.be(2);
+      });
+
+      test(
+          'Interval selector for odd index validation for horizontal decorator '
+              '--> for 3 intervals there are only 1 painted ', () {
+        var canvas = _FakeCanvas();
+        var idp = IntervalDecorationPainter.createHorizontal(
+          intervalSelector: (idx) => idx % 2 != 0,
+        );
+
+        idp.data = BackgroundPainterData(
+          crossAxisExtend: 300,
+          mainAxisExtend: 500,
+          mainAxisOffset: 50,
+          crossAxisOffset: 10,
+          numberOfIntervals: 3,
+        );
+        idp.paint(canvas, Offset.zero);
+
+        canvas.numDrawRectCalls.should.be(1);
+      });
+
+
+      test(
+          'Changing the decoration color to red on a horizontal decorator', () {
+        var canvas = _FakeCanvas();
+        var idp = IntervalDecorationPainter.createHorizontal(
+          intervalSelector: (idx) => idx % 2 != 0,
+          paint: Paint()..color = Colors.red,
+        );
+
+        idp.data = BackgroundPainterData(
+          crossAxisExtend: 300,
+          mainAxisExtend: 500,
+          mainAxisOffset: 50,
+          crossAxisOffset: 10,
+          numberOfIntervals: 3,
+        );
+        idp.paint(canvas, Offset.zero);
+
+        canvas.getDrawLineCalls(0).paint.color.should.be(Colors.red);
+      });
+
+      test(
+          'Changing the decoration color to green on a vertical decorator', () {
+        var canvas = _FakeCanvas();
+        var idp = IntervalDecorationPainter.createVertical(
+          paint: Paint()..color = Colors.green,
+        );
+
+        idp.data = BackgroundPainterData(
+          crossAxisExtend: 300,
+          mainAxisExtend: 500,
+          mainAxisOffset: 50,
+          crossAxisOffset: 10,
+          numberOfIntervals: 2,
+        );
+        idp.paint(canvas, Offset.zero);
+
+        canvas.getDrawLineCalls(0).paint.color.should.be(Colors.green);
+        canvas.getDrawLineCalls(1).paint.color.should.be(Colors.green);
+      });
+
     });
   }
 }

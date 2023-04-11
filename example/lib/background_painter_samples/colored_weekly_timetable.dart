@@ -1,8 +1,7 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
 import '../widgets/widgets.dart';
+import 'package:intl/intl.dart';
 
 class ColoredWeeklyTimetable extends StatefulWidget {
   const ColoredWeeklyTimetable({Key? key}) : super(key: key);
@@ -78,12 +77,18 @@ class _ColoredWeeklyTimetableState extends State<ColoredWeeklyTimetable> {
                   DynamicTimeline(
                     firstDateTime: DateTime(1970, 01, 01, 7),
                     lastDateTime: DateTime(1970, 01, 01, 22),
-                    labelBuilder: (date) => Text(DateFormat('HH:mm').format(date),),
+                    labelBuilder: (date) => Text(
+                      DateFormat('HH:mm').format(date),
+                    ),
                     intervalDuration: const Duration(hours: 1),
                     crossAxisCount: 7,
                     intervalExtent: 50,
-                    intervalPainters: [ColoredIntervalPainter.createVertical(),
-                      IntervalDecorationPainter.createHorizontal()],
+                    intervalPainters: [
+                      ColoredIntervalPainter.createVertical(),
+                      IntervalDecorationPainter.createHorizontal(
+                        intervalSelector: (intervalIdx) => intervalIdx % 2 == 0 ,
+                      )
+                    ],
                     //intervalPainters: [HorizontalIntervalPainter()],
                     items: items,
                   ),
