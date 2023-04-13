@@ -67,9 +67,9 @@ class _WeekHeaderGanttState extends State<WeekHeaderGantt> {
               controller: scrollController,
               child: DynamicTimeline(
                 firstDateTime: DateTime(2022, 1, 1),
-                lastDateTime: DateTime(2022, 12, 31),
+                lastDateTime: DateTime(2022, 1, 1).add(Duration(days: 7*5+3)),
                 labelBuilder: LabelBuilder(
-                  labelIntervalSpread: 7,
+                  intervalExtend: 7,
                   builder: (date) => WeekHeader(date: date),
                 ),
                 axis: Axis.horizontal,

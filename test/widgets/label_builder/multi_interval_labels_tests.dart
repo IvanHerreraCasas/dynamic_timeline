@@ -16,7 +16,7 @@ class MultiIntervalLabelsTests {
             firstDateTime: DateTime(2023, 1, 1),
             lastDateTime: DateTime(2023, 1, 3),
             labelBuilder: LabelBuilder(
-              labelIntervalSpread: 2,
+              intervalExtend: 2,
               builder: (labelDate) {
                 calls++;
                 return Text('date');
@@ -39,7 +39,7 @@ class MultiIntervalLabelsTests {
             firstDateTime: DateTime(2023, 1, 1),
             lastDateTime: DateTime(2023, 1, 5),
             labelBuilder: LabelBuilder(
-              labelIntervalSpread: 2,
+              intervalExtend: 2,
               builder: (labelDate) {
                 calls++;
                 return Text('date');
@@ -63,7 +63,7 @@ class MultiIntervalLabelsTests {
             firstDateTime: startDate,
             lastDateTime: DateTime(2023, 1, 5),
             labelBuilder: LabelBuilder(
-              labelIntervalSpread: 2,
+              intervalExtend: 2,
               builder: (labelDate) {
                 dates.add(labelDate);
                 return Text('date');
@@ -89,7 +89,7 @@ class MultiIntervalLabelsTests {
             firstDateTime: startDate,
             lastDateTime: DateTime(2023, 1, 5),
             labelBuilder: LabelBuilder(
-              labelIntervalSpread: 2,
+              intervalExtend: 2,
               builder: (labelDate) {
                 dates.add(labelDate);
                 return Text('date');
@@ -111,33 +111,36 @@ class MultiIntervalLabelsTests {
         },
       );
 
-      // test('Creating a 3 days timeline with iterval 1D and label spred 2D'
-      //     '-->  Shoould crop the last header by one day since 2 won\'t fit in ',
-      //       () {
-      //     final List<DateTime> dates = [];
-      //     final startDate = DateTime(2023,1,1);
-      //     final timelines = DynamicTimeline(
-      //       firstDateTime: startDate,
-      //       lastDateTime: DateTime(2023,1,4) ,
-      //       labelIntervalSpread: 2,
-      //       labelBuilder: (labelDate)  {
-      //         dates.add(labelDate);
-      //         return Text('date');
-      //       },
-      //       items: [],
-      //       intervalDuration: const Duration(days: 1),
-      //     );
-      //
-      //     final item1= (timelines.children[0] as TimelineItem);
-      //     final item2= (timelines.children[1] as TimelineItem);
-      //
-      //     final item1Duration = item1.endDateTime.difference(item1.startDateTime);
-      //     final item2Duration = item2.endDateTime.difference(item2.startDateTime);
-      //
-      //     item1Duration.should.be(Duration(days: 2));
-      //     item2Duration.should.be(Duration(days: 1));
-      //   },
-      // );
+      test(
+        'Creating a 3 days timeline with iterval 1D and label extend 2D'
+        '-->  Should still ceil to the upper limit, since the last header gets'
+            ' cropped by the bounding box ',
+        () {
+          final List<DateTime> dates = [];
+          final startDate = DateTime(2023, 1, 1);
+          final timelines = DynamicTimeline(
+            firstDateTime: startDate,
+            lastDateTime: DateTime(2023, 1, 4),
+            labelBuilder: LabelBuilder(
+                intervalExtend: 2,
+                builder: (labelDate) {
+                  dates.add(labelDate);
+                  return Text('date');
+                }),
+            items: [],
+            intervalDuration: const Duration(days: 1),
+          );
+
+          final item1 = (timelines.children[0] as TimelineItem);
+          final item2 = (timelines.children[1] as TimelineItem);
+
+          final item1Duration = item1.endDateTime.difference(item1.startDateTime);
+          final item2Duration = item2.endDateTime.difference(item2.startDateTime);
+
+          item1Duration.should.be(Duration(days: 2));
+          item2Duration.should.be(Duration(days: 2));
+        },
+      );
     });
   }
 }
