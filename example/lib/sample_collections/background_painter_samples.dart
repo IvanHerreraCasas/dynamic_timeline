@@ -27,6 +27,24 @@ class BackgroundPainterSamples extends StatelessWidget {
           ),
         ),
         child: const Text('Colored Weekly Timeline'),
+      ), const SizedBox(height: 20),
+      ElevatedButton(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const WeekHeaderGantt(),
+          ),
+        ),
+        child: const Text('Week header Timeline'),
+      ),const SizedBox(height: 20),
+      ElevatedButton(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const FancyGantt(),
+          ),
+        ),
+        child: const Text('Fancy Gantt Chart'),
       ),
       const SizedBox(height: 20),]);
   }

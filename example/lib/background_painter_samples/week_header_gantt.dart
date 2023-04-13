@@ -15,14 +15,14 @@ class _WeekHeaderGanttState extends State<WeekHeaderGantt> {
   late final ScrollController scrollController;
   final items = [
     TimelineItem(
-      startDateTime: DateTime(2022, 1, 1),
+      startDateTime: DateTime(2022, 1, 4),
       endDateTime: DateTime(2022, 1, 15),
       child: const Event(title: 'Event 1'),
       position: 0,
     ),
     TimelineItem(
-      startDateTime: DateTime(2022, 1, 4),
-      endDateTime: DateTime(2022, 1, 15),
+      startDateTime: DateTime(2022, 3, 4),
+      endDateTime: DateTime(2022, 3, 15),
       child: const Event(title: 'Event 1'),
       position: 0,
     ),
@@ -33,11 +33,24 @@ class _WeekHeaderGanttState extends State<WeekHeaderGantt> {
       child: const Event(title: 'Event 2'),
     ),
     TimelineItem(
+      startDateTime: DateTime(2022, 4, 20),
+      endDateTime: DateTime(2022, 5, 1),
+      position: 1,
+      child: const Event(title: 'Event 2'),
+    ),
+    TimelineItem(
       startDateTime: DateTime(2022, 2, 1),
       endDateTime: DateTime(2022, 3, 15),
       position: 2,
       child: const Event(title: 'Event 3'),
     ),
+    TimelineItem(
+      startDateTime: DateTime(2022, 5, 1),
+      endDateTime: DateTime(2022, 6, 15),
+      position: 2,
+      child: const Event(title: 'Event 3'),
+    ),
+
   ];
 
   @override
@@ -66,8 +79,8 @@ class _WeekHeaderGanttState extends State<WeekHeaderGantt> {
               scrollDirection: Axis.horizontal,
               controller: scrollController,
               child: DynamicTimeline(
-                firstDateTime: DateTime(2022, 1, 1),
-                lastDateTime: DateTime(2022, 1, 1).add(Duration(days: 7*5+3)),
+                firstDateTime: DateTime(2022, 1, 3),
+                lastDateTime: DateTime(2022, 7, 31),
                 labelBuilder: LabelBuilder(
                   intervalExtend: 7,
                   builder: (date) => WeekHeader(date: date),
