@@ -31,43 +31,61 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     this.crossAxisSpacing = 20,
     this.color = Colors.black,
     this.strokeWidth = 2,
+    this.labelIntervalSpread = 1,
     this.strokeCap = StrokeCap.round,
     this.resizable = true,
     this.paint,
     this.textStyle,
     this.intervalPainters = const [],
     required List<TimelineItem> items,
-  })
-      : assert(
-  maxCrossAxisItemExtent != double.infinity,
-  "max cross axis item extent can't be infinite. ",
-  ),
-        assert(
-        firstDateTime.isBefore(lastDateTime),
-        'firstDateTime must be before lastDateTime:   '
-            'firstDateTime: $firstDateTime --- lastDateTime: $lastDateTime',
+  })  : assert(
+          maxCrossAxisItemExtent != double.infinity,
+          "max cross axis item extent can't be infinite. ",
         ),
-        super(key: key, children: _buildAllChildren(items, firstDateTime,
-          lastDateTime, intervalDuration, labelBuilder));
+        assert(
+          firstDateTime.isBefore(lastDateTime),
+          'firstDateTime must be before lastDateTime:   '
+          'firstDateTime: $firstDateTime --- lastDateTime: $lastDateTime',
+        ),
+        super(
+            key: key,
+            children: _buildAllChildren(items, firstDateTime, lastDateTime, intervalDuration,
+                labelIntervalSpread, labelBuilder));
 
-  static List<TimelineItem> _buildAllChildren(List<TimelineItem> items,
-      DateTime firstDateTime, DateTime lastDateTime, Duration? intervalDuration,
+  static List<TimelineItem> _buildAllChildren(
+      List<TimelineItem> items,
+      DateTime firstDateTime,
+      DateTime lastDateTime,
+      Duration? intervalDuration,
+      int labelIntervalSpread,
       Widget Function(DateTime labelDate) labelBuilder) {
-    var interval = intervalDuration ??
-        _getDefaultIntervalDuration(firstDateTime, lastDateTime);
-    List<TimelineItem> toAdd = _buildAllLabels(firstDateTime, lastDateTime, interval, labelBuilder);
+    var interval = intervalDuration ?? _getDefaultIntervalDuration(firstDateTime, lastDateTime);
+    List<TimelineItem> toAdd = _buildAllLabels(
+      firstDateTime,
+      lastDateTime,
+      interval,
+      labelIntervalSpread,
+      labelBuilder,
+    );
     items.addAll(toAdd);
     return items;
   }
 
-  static List<TimelineItem> _buildAllLabels(DateTime firstDateTime,DateTime lastDateTime,
-      Duration interval, Widget Function(DateTime labelDate) labelBuilder,) {
-    var numberOfIntervals = (lastDateTime.difference(firstDateTime).inMinutes / interval.inMinutes).floor();
-     var toAdd = List<TimelineItem>.generate(numberOfIntervals, (index)
-    => TimelineLabelContainer(
-        startDateTime: firstDateTime.add(interval * index),interval: interval,
-        child: labelBuilder(firstDateTime.add(interval * index)))
-    );
+  static List<TimelineItem> _buildAllLabels(
+    DateTime firstDateTime,
+    DateTime lastDateTime,
+    Duration interval,
+    int labelIntervalSpread,
+    Widget Function(DateTime labelDate) labelBuilder,
+  ) {
+    var numberOfIntervals =
+        ((lastDateTime.difference(firstDateTime).inMinutes / interval.inMinutes).floor() /labelIntervalSpread).ceil();
+    var toAdd = List<TimelineItem>.generate(
+        numberOfIntervals,
+        (index) => TimelineLabelContainer(
+            startDateTime: firstDateTime.add(interval * labelIntervalSpread * index),
+            interval: interval * labelIntervalSpread,
+            child: labelBuilder(firstDateTime.add(interval * index * labelIntervalSpread))));
     return toAdd;
   }
 
@@ -125,6 +143,9 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
   /// Used if [paint] is null.
   final double strokeWidth;
 
+  /// The number of intervals a label will cover (e.g. 7 to spread over a week with day intervalls). (default 1)
+  final int labelIntervalSpread;
+
   /// The stroke cap of the line
   ///
   /// Used if [paint] is null.
@@ -142,10 +163,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       ..strokeWidth = strokeWidth
       ..strokeCap = strokeCap;
 
-    final defaultLabelTextStyle = Theme
-        .of(context)
-        .textTheme
-        .bodyText1!;
+    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyText1!;
 
     return RenderDynamicTimeline(
       firstDateTime: firstDateTime,
@@ -156,7 +174,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       intervalPainters: intervalPainters,
       crossAxisCount: crossAxisCount,
       maxCrossAxisIndicatorExtent: maxCrossAxisIndicatorExtent,
-      maxCrossAxisItemExtent: maxCrossAxisItemExtent??double.infinity,
+      maxCrossAxisItemExtent: maxCrossAxisItemExtent ?? double.infinity,
       minItemDuration: minItemDuration ?? defaultIntervalDuration,
       crossAxisSpacing: crossAxisSpacing,
       resizable: resizable,
@@ -169,8 +187,10 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       lastDateTime.difference(firstDateTime) ~/ 20;
 
   @override
-  void updateRenderObject(BuildContext context,
-      covariant RenderDynamicTimeline renderObject,) {
+  void updateRenderObject(
+    BuildContext context,
+    covariant RenderDynamicTimeline renderObject,
+  ) {
     var defaultIntervalDuration = _getDefaultIntervalDuration(firstDateTime, lastDateTime);
 
     final defaultLinePaint = Paint()
@@ -178,10 +198,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       ..strokeWidth = strokeWidth
       ..strokeCap = strokeCap;
 
-    final defaultLabelTextStyle = Theme
-        .of(context)
-        .textTheme
-        .bodyText1!;
+    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyText1!;
 
     renderObject
       ..firstDateTime = firstDateTime
@@ -192,7 +209,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       ..intervalPainters = intervalPainters
       ..crossAxisCount = crossAxisCount
       ..maxCrossAxisIndicatorExtent = maxCrossAxisIndicatorExtent
-      ..maxCrossAxisItemExtent = maxCrossAxisItemExtent??double.infinity
+      ..maxCrossAxisItemExtent = maxCrossAxisItemExtent ?? double.infinity
       ..minItemDuration = minItemDuration ?? defaultIntervalDuration
       ..crossAxisSpacing = crossAxisSpacing
       ..resizable = resizable

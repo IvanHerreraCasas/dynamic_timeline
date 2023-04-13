@@ -1,10 +1,10 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/material.dart';
 
-class DynamicTimelineLabelBuilderTests{
+class SimpleLabelTests {
   static void run() {
-    group('DynamicTimeline label builder tests', () {
+    group('Simple one interval labels', () {
       test('Creating a 2 days timeline with day interval '
           '--> label build gets called twice',() {
         var calls = 0;
@@ -15,8 +15,8 @@ class DynamicTimelineLabelBuilderTests{
             calls++;
             return Text('date');
           },
-        items: [],
-        intervalDuration: const Duration(days: 1),
+          items: [],
+          intervalDuration: const Duration(days: 1),
         );
 
         expect(calls, 2);
@@ -40,5 +40,6 @@ class DynamicTimelineLabelBuilderTests{
         expect(callDates[1], DateTime(2023,1,2));
       },);
 
-    });}
+    });
+  }
 }

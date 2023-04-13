@@ -33,7 +33,7 @@ class SampleCollectionCard extends StatelessWidget {
     return Card(
       child: SizedBox(
         width: 300,
-        height: 400,
+        height: 300,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: cardContent,
