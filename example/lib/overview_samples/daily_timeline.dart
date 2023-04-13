@@ -40,7 +40,7 @@ class DailyTimeline extends StatelessWidget {
           child: DynamicTimeline(
             firstDateTime: DateTime(1970, 1, 1, 7),
             lastDateTime: DateTime(1970, 1, 1, 22),
-            labelBuilder: (date) => Text(DateFormat('HH:mm').format(date),),
+            labelBuilder: LabelBuilder.fromString( (date) => DateFormat('HH:mm').format(date),),
             intervalDuration: const Duration(hours: 1),
             maxCrossAxisItemExtent: 200,
             intervalExtent: 80,

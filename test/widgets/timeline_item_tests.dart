@@ -1,4 +1,5 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
+import 'package:dynamic_timeline/src/rendering/label_builder.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/gestures.dart';
@@ -21,7 +22,11 @@ class TimelineItemTests {
         return DynamicTimeline(
           firstDateTime: DateTime(1970, 1, 1, 8),
           lastDateTime: DateTime(1970, 1, 1, 12),
-          labelBuilder: (date) => const Text('Date',),
+          labelBuilder: LabelBuilder(
+            builder: (labelDate) {
+              return Text('date');
+            },
+          ),
           axis: axis,
           intervalDuration: const Duration(hours: 1),
           crossAxisCount: 2,

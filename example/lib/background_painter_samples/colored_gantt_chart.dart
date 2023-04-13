@@ -67,7 +67,7 @@ class _ColoredGanttChartState extends State<ColoredGanttChart> {
               child: DynamicTimeline(
                 firstDateTime: DateTime(2022, 1, 1),
                 lastDateTime: DateTime(2022, 12, 31),
-                labelBuilder: (date) => Column(children: [
+                labelBuilder: LabelBuilder(builder: (date) => Column(children: [
                   Expanded(child: Container()),
                   Transform(
                     child: Text(
@@ -77,7 +77,7 @@ class _ColoredGanttChartState extends State<ColoredGanttChart> {
                     transform: new Matrix4.identity()..rotateZ(-70 * 3.1415927 / 180),
                   ),
                   SizedBox(width: double.infinity,height: 3)
-                ]),
+                ])),
                 axis: Axis.horizontal,
                 intervalDuration: const Duration(days: 1),
                 minItemDuration: const Duration(days: 1),

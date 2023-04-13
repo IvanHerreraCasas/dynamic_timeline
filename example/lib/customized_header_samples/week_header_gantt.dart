@@ -68,8 +68,10 @@ class _WeekHeaderGanttState extends State<WeekHeaderGantt> {
               child: DynamicTimeline(
                 firstDateTime: DateTime(2022, 1, 1),
                 lastDateTime: DateTime(2022, 12, 31),
-                labelIntervalSpread: 7,
-                labelBuilder: (date) => WeekHeader(date: date),
+                labelBuilder: LabelBuilder(
+                  labelIntervalSpread: 7,
+                  builder: (date) => WeekHeader(date: date),
+                ),
                 axis: Axis.horizontal,
                 intervalDuration: const Duration(days: 1),
                 minItemDuration: const Duration(days: 1),
@@ -79,10 +81,17 @@ class _WeekHeaderGanttState extends State<WeekHeaderGantt> {
                 maxCrossAxisItemExtent: 30,
                 crossAxisSpacing: 1,
                 intervalPainters: [
-                  ColoredIntervalPainter.createHorizontal(intervalSelector: (interval) => interval % 7 > 4, paint: Paint()..color=Color.fromARGB(255, 0xF5,0xF5,0xF5)),
-                  ColoredIntervalPainter.createHorizontal(intervalSelector: (interval) => interval % 7 < 5, paint: Paint()..color=Colors.white),
-                  IntervalDecorationPainter.createHorizontal(intervalSelector: (interval) => interval % 7 == 6 ||interval % 7 == 4,paint: Paint()..color=Color.fromARGB(255, 0xcf,0xcf,0xcf) ),
-                  IntervalDecorationPainter.createVertical(paint: Paint()..color=Color.fromARGB(255, 0xcf,0xcf,0xcf) )
+                  ColoredIntervalPainter.createHorizontal(
+                      intervalSelector: (interval) => interval % 7 > 4,
+                      paint: Paint()..color = Color.fromARGB(255, 0xF5, 0xF5, 0xF5)),
+                  ColoredIntervalPainter.createHorizontal(
+                      intervalSelector: (interval) => interval % 7 < 5,
+                      paint: Paint()..color = Colors.white),
+                  IntervalDecorationPainter.createHorizontal(
+                      intervalSelector: (interval) => interval % 7 == 6 || interval % 7 == 4,
+                      paint: Paint()..color = Color.fromARGB(255, 0xcf, 0xcf, 0xcf)),
+                  IntervalDecorationPainter.createVertical(
+                      paint: Paint()..color = Color.fromARGB(255, 0xcf, 0xcf, 0xcf))
                 ],
                 //intervalPainters: [VerticalIntervalPainter()],
                 items: items,

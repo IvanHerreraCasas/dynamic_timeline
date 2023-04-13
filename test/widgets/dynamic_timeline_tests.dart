@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_redundant_argument_values
 
 import 'package:dynamic_timeline/dynamic_timeline.dart';
+import 'package:dynamic_timeline/src/rendering/label_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -48,7 +49,11 @@ class DynamicTimelineTests {
         return DynamicTimeline(
           firstDateTime: firstDateTime ?? DateTime(1970, 1, 1, 8),
           lastDateTime: lastDateTime ?? DateTime(1970, 1, 1, 12),
-          labelBuilder: (date) => const Text('Date',),
+          labelBuilder: LabelBuilder(
+            builder: (labelDate) {
+              return Text('date');
+            },
+          ),
           axis: axis,
           intervalDuration: intervalDuration,
           intervalExtent: intervalExtent,
@@ -207,6 +212,10 @@ class DynamicTimelineTests {
           find.byType(DynamicTimeline),
         );
 
+
+        // TODO: form most complex types e.g. the tests are cheching it the
+        // TODO: objects are the same, which is not the same as checking if the
+        // TODO: they are equal!!
         expect(widget.firstDateTime, firstDateTime);
         expect(widget.lastDateTime, lastDateTime);
         expect(widget.axis, axis);
@@ -221,7 +230,7 @@ class DynamicTimelineTests {
         expect(widget.resizable, resizable);
         expect(widget.paint, paint);
         expect(widget.textStyle, textStyle);
-        expect(widget.children, items);
+        items.forEach((item) => expect(widget.children.contains(item), true));
       });
 
       group('renderObject', () {

@@ -1,6 +1,6 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
+import 'package:dynamic_timeline/src/rendering/label_builder.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/material.dart';
 
 class SimpleLabelTests {
   static void run() {
@@ -11,10 +11,10 @@ class SimpleLabelTests {
         DynamicTimeline(
           firstDateTime: DateTime(2023,1,1),
           lastDateTime: DateTime(2023,1,3) ,
-          labelBuilder: (labelDate)  {
+          labelBuilder: LabelBuilder.fromString( (labelDate)  {
             calls++;
-            return Text('date');
-          },
+            return 'date';
+          }),
           items: [],
           intervalDuration: const Duration(days: 1),
         );
@@ -28,10 +28,10 @@ class SimpleLabelTests {
         DynamicTimeline(
           firstDateTime: DateTime(2023,1,1),
           lastDateTime: DateTime(2023,1,3) ,
-          labelBuilder: (labelDate)  {
+          labelBuilder:LabelBuilder.fromString((labelDate)  {
             callDates.add(labelDate);
-            return Text('date');
-          },
+            return 'date';
+          }),
           items: [],
           intervalDuration: const Duration(days: 1),
         );

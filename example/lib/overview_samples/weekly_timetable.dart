@@ -78,7 +78,9 @@ class _WeeklyTimetableState extends State<WeeklyTimetable> {
                   DynamicTimeline(
                     firstDateTime: DateTime(1970, 01, 01, 7),
                     lastDateTime: DateTime(1970, 01, 01, 22),
-                    labelBuilder: (date) => Text(DateFormat('HH:mm').format(date),),
+                    labelBuilder: LabelBuilder.fromString(
+                      (date) => DateFormat('HH:mm').format(date),
+                    ),
                     intervalDuration: const Duration(hours: 1),
                     crossAxisCount: 7,
                     intervalExtent: 50,
