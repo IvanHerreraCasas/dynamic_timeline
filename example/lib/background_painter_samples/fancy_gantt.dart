@@ -5,6 +5,8 @@ import 'package:dynamic_timeline_example/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'gantt_row_header.dart';
+
 class FancyGantt extends StatefulWidget {
   const FancyGantt({Key? key}) : super(key: key);
 
@@ -13,6 +15,11 @@ class FancyGantt extends StatefulWidget {
 }
 
 class _FancyGantt extends State<FancyGantt> {
+  static const double rowHeaderHeight = 50;
+  static const double crossAxisCount = 6;
+  static const double rowHeight = 40;
+  static const double axisSpacing = 1;
+
   late final ScrollController scrollController;
   final items = [
     TimelineItem(
@@ -86,46 +93,70 @@ class _FancyGantt extends State<FancyGantt> {
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black87),
             ),
-            child: Scrollbar(
-              controller: scrollController,
-              thumbVisibility: true,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                controller: scrollController,
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  child: DynamicTimeline(
-                    firstDateTime: DateTime(2022, 1, 3),
-                    lastDateTime: DateTime(2022, 7, 31),
-                    labelBuilder: LabelBuilder(
-                      intervalExtend: 7,
-                      builder: (date) => WeekHeader(date: date),
-                    ),
-                    axis: Axis.horizontal,
-                    intervalDuration: const Duration(days: 1),
-                    minItemDuration: const Duration(days: 1),
-                    crossAxisCount: 6,
-                    intervalExtent: 20,
-                    maxCrossAxisIndicatorExtent: 50,
-                    maxCrossAxisItemExtent: 40,
-                    crossAxisSpacing: 1,
-                    intervalPainters: [
-                      ColoredIntervalPainter.createHorizontal(
-                          intervalSelector: (interval) => interval % 7 > 4,
-                          paint: Paint()..color = Color.fromARGB(255, 0xF5, 0xF5, 0xF5)),
-                      ColoredIntervalPainter.createHorizontal(
-                          intervalSelector: (interval) => interval % 7 < 5,
-                          paint: Paint()..color = Colors.white),
-                      IntervalDecorationPainter.createHorizontal(
-                          intervalSelector: (interval) => interval % 7 == 6 || interval % 7 == 4,
-                          paint: Paint()..color = Color.fromARGB(255, 0xcf, 0xcf, 0xcf)),
-                      IntervalDecorationPainter.createVertical(
-                          paint: Paint()..color = Color.fromARGB(255, 0xcf, 0xcf, 0xcf))
+            child: SizedBox(
+              child: Row(
+                children: [
+                   GanttRowHeader(
+                    crossAxisCount: crossAxisCount,
+                    axisSpacing: axisSpacing,
+                    rowHeight: rowHeight,
+                    rowHeaderHeight: rowHeaderHeight,
+                    employeeInformation: const [
+                      EmployeeInfo(name:"Joe Bloggs", position: "Sales" ),
+                      EmployeeInfo(name:"Jane Doe", position: "Marketing" ),
+                      EmployeeInfo(name:"John Q. Public", position: "Public relations" ),
+                      EmployeeInfo(name:"Joe Schmoe", position: "Development" ),
+                      EmployeeInfo(name:"Tom Dick", position: "Management" ),
+                      EmployeeInfo(name:"Jane Smith", position: "Management" ),
                     ],
-                    //intervalPainters: [VerticalIntervalPainter()],
-                    items: items,
                   ),
-                ),
+
+                  Expanded(
+                    child: Scrollbar(
+                      controller: scrollController,
+                      thumbVisibility: true,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        controller: scrollController,
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 10),
+                          child: DynamicTimeline(
+                            firstDateTime: DateTime(2022, 1, 3),
+                            lastDateTime: DateTime(2022, 7, 31),
+                            labelBuilder: LabelBuilder(
+                              intervalExtend: 7,
+                              builder: (date) => WeekHeader(date: date),
+                            ),
+                            axis: Axis.horizontal,
+                            intervalDuration: const Duration(days: 1),
+                            minItemDuration: const Duration(days: 1),
+                            crossAxisCount: crossAxisCount.toInt(),
+                            intervalExtent: 20,
+                            maxCrossAxisIndicatorExtent: rowHeaderHeight,
+                            maxCrossAxisItemExtent: rowHeight,
+                            crossAxisSpacing: axisSpacing,
+                            intervalPainters: [
+                              ColoredIntervalPainter.createHorizontal(
+                                  intervalSelector: (interval) => interval % 7 > 4,
+                                  paint: Paint()..color = Color.fromARGB(255, 0xF5, 0xF5, 0xF5)),
+                              ColoredIntervalPainter.createHorizontal(
+                                  intervalSelector: (interval) => interval % 7 < 5,
+                                  paint: Paint()..color = Colors.white),
+                              IntervalDecorationPainter.createHorizontal(
+                                  intervalSelector: (interval) =>
+                                      interval % 7 == 6 || interval % 7 == 4,
+                                  paint: Paint()..color = Color.fromARGB(255, 0xcf, 0xcf, 0xcf)),
+                              IntervalDecorationPainter.createVertical(
+                                  paint: Paint()..color = Color.fromARGB(255, 0xcf, 0xcf, 0xcf))
+                            ],
+                            //intervalPainters: [VerticalIntervalPainter()],
+                            items: items,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

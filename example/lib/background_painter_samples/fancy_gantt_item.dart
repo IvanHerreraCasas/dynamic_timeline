@@ -59,7 +59,6 @@ class GanttEntryRenderer extends RenderBox{
     return constraints.biggest;
   }
 
-
   @override
   void paint(PaintingContext context, Offset offset){
     var paint = Paint()..color=_color..style=PaintingStyle.fill;

@@ -14,14 +14,13 @@ A widget to create daily timelines, timetables, gantt charts* and more.
 
 ### Weekly timetable
 
+![Weekly timetable](https://raw.githubusercontent.com/IvanHerreraCasas/dynamic_timeline/main/screenshots/styled_weekly_timetable.png)
 ![Weekly timetable](https://raw.githubusercontent.com/IvanHerreraCasas/dynamic_timeline/main/screenshots/weekly_timetable.png)
 
 ### Gantt chart
 
+![Gantt chart](https://raw.githubusercontent.com/IvanHerreraCasas/dynamic_timeline/main/screenshots/styled_gantt_chart.png)
 ![Gantt chart](https://raw.githubusercontent.com/IvanHerreraCasas/dynamic_timeline/main/screenshots/gantt_chart.png)
-
-_\*Support to gantt chart must be improved._
-
 
 
 # Features
