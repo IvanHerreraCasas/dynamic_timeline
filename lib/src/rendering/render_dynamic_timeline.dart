@@ -286,7 +286,7 @@ class RenderDynamicTimeline extends RenderBox
 
       child = childParentData.nextSibling;
     }
-    intervalPainters.forEach(_layoutProcessor.updateLayoutDataFor);
+
   }
 
   double _getCrossAxisPositionFor(
@@ -300,6 +300,7 @@ class RenderDynamicTimeline extends RenderBox
 
   @override
   void paint(PaintingContext context, Offset offset) {
+    intervalPainters.forEach(_layoutProcessor.updateLayoutDataFor);
     context.pushClipRect(
       needsCompositing,
       offset,
@@ -307,6 +308,7 @@ class RenderDynamicTimeline extends RenderBox
       (context, offset) {
         final canvas = context.canvas;
 
+        print('painting ${intervalPainters.length} painters');
         intervalPainters.forEach((painter)=> painter.paint(canvas,offset));
 
         // paint children
