@@ -2,6 +2,7 @@ import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:dynamic_timeline/src/rendering/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shouldly/shouldly.dart';
 import '../helpers/helpers.dart';
 
 void main() {
@@ -39,6 +40,7 @@ void main() {
       StrokeCap strokeCap = StrokeCap.round,
       bool resizable = true,
       Paint? paint,
+      List<IntervalPainter> intervalPainters = const [],
       TextStyle? textStyle,
       List<TimelineItem>? items,
     }) {
@@ -62,6 +64,7 @@ void main() {
         strokeWidth: strokeWidth,
         strokeCap: strokeCap,
         resizable: resizable,
+        intervalPainters: intervalPainters,
         paint: paint,
         textStyle: textStyle,
         items: items ?? mockItems,
@@ -329,6 +332,55 @@ void main() {
         expect(renderObject.getMaxIntrinsicHeight(100), 400);
         expect(renderObject.getMinIntrinsicHeight(100), 400);
       });
+
+      //Bugfix: Missing layout information for background painter after "setState" call
+      testWidgets('Measuring the amount auf paint calls before and after set state'
+          '--> Should be same amount of calls', (tester) async {
+        final mockPainter = _mockIntervalPainter(
+            drawingAxis: Axis.vertical,
+            intervalSelector: (interval) => true,
+        );
+        await tester.pumpApp(DummyStatefulWrapper(child: buildSubject(intervalPainters: [mockPainter])));
+
+        var callsBeforeSetState = mockPainter.timesCalled;
+        mockPainter.timesCalled = 0;
+        var state = tester.state(find.byType(DummyStatefulWrapper));
+            state.setState(() {});
+
+        var callsAfterSetState = mockPainter.timesCalled;
+        callsBeforeSetState.should.beAbove(0);
+        callsBeforeSetState.should.be(callsAfterSetState);
+      });
     });
   });
+}
+
+
+class DummyStatefulWrapper extends StatefulWidget{
+  DummyStatefulWrapper({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  State<StatefulWidget> createState()  => DummyStatefulWrapperState();
+}
+
+class DummyStatefulWrapperState extends State<DummyStatefulWrapper>{
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
+  }
+
+}
+
+class _mockIntervalPainter extends IntervalPainter{
+  _mockIntervalPainter({required super.drawingAxis, required super.intervalSelector});
+
+  int timesCalled = 0;
+
+  @override
+  void paintCallback(Canvas canvas, Rect drawingRegion, int intervalIdx) {
+    timesCalled++;
+  }
+
 }
