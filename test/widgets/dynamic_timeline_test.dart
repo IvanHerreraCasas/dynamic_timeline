@@ -334,19 +334,23 @@ void main() {
       });
 
       //Bugfix: Missing layout information for background painter after "setState" call
-      testWidgets('Measuring the amount auf paint calls before and after set state'
+      testWidgets(
+          'Measuring the amount auf paint calls before and after set state'
           '--> Should be same amount of calls', (tester) async {
         final mockPainter = _mockIntervalPainter(
-            drawingAxis: Axis.vertical,
-            intervalSelector: (interval) => true,
+          drawingAxis: Axis.vertical,
+          intervalSelector: (interval) => true,
         );
-        await tester.pumpApp(DummyStatefulWrapper(child: buildSubject(intervalPainters: [mockPainter])));
+        await tester.pumpApp(DummyStatefulWrapper(
+          builder: () => buildSubject(intervalPainters: [mockPainter]),
+        ));
 
         var callsBeforeSetState = mockPainter.timesCalled;
         mockPainter.timesCalled = 0;
-        var state = tester.state(find.byType(DummyStatefulWrapper));
-            state.setState(() {});
 
+        tester.state(find.byType(DummyStatefulWrapper)).setState(() {});
+
+        await tester.pump();
         var callsAfterSetState = mockPainter.timesCalled;
         callsBeforeSetState.should.beAbove(0);
         callsBeforeSetState.should.be(callsAfterSetState);
@@ -355,25 +359,23 @@ void main() {
   });
 }
 
+class DummyStatefulWrapper extends StatefulWidget {
+  DummyStatefulWrapper({super.key, required this.builder});
 
-class DummyStatefulWrapper extends StatefulWidget{
-  DummyStatefulWrapper({super.key, required this.child});
-
-  final Widget child;
+  final Widget Function() builder;
 
   @override
-  State<StatefulWidget> createState()  => DummyStatefulWrapperState();
+  State<StatefulWidget> createState() => DummyStatefulWrapperState();
 }
 
-class DummyStatefulWrapperState extends State<DummyStatefulWrapper>{
+class DummyStatefulWrapperState extends State<DummyStatefulWrapper> {
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return widget.builder();
   }
-
 }
 
-class _mockIntervalPainter extends IntervalPainter{
+class _mockIntervalPainter extends IntervalPainter {
   _mockIntervalPainter({required super.drawingAxis, required super.intervalSelector});
 
   int timesCalled = 0;
@@ -382,5 +384,4 @@ class _mockIntervalPainter extends IntervalPainter{
   void paintCallback(Canvas canvas, Rect drawingRegion, int intervalIdx) {
     timesCalled++;
   }
-
 }
