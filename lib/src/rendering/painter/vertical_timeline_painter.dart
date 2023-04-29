@@ -1,5 +1,5 @@
-import '../dynamic_timeline_layout.dart';
 import 'package:flutter/material.dart';
+import '../rendering.dart';
 import 'dynamic_timeline_painter.dart';
 
 class VerticalTimelinePainter extends DynamicTimelinePainter{

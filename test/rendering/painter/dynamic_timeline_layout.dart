@@ -1,8 +1,6 @@
-import 'package:dynamic_timeline/src/rendering/dynamic_timeline_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shouldly/shouldly.dart';
-
 import 'test_layout_engine_factory.dart';
 
 class DynamicTimelineLayoutTests {

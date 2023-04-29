@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';

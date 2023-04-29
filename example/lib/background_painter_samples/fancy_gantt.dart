@@ -112,7 +112,7 @@ class _FancyGantt extends State<FancyGantt> {
                   ),
 
                   Expanded(
-                    child: Scrollbar(
+                    child:   Scrollbar(
                       controller: scrollController,
                       thumbVisibility: true,
                       child: SingleChildScrollView(

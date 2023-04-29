@@ -1,6 +1,6 @@
-import 'package:dynamic_timeline/src/rendering/dynamic_timeline_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import '../rendering.dart';
 
 abstract class DynamicTimelinePainter  {
   static final int labelSpacing = 10;
