@@ -1,5 +1,6 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:dynamic_timeline/src/rendering/rendering.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

@@ -1,10 +1,14 @@
+// ignore_for_file: public_member_api_docs, lines_longer_than_80_chars, always_use_package_imports
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import '../rendering/rendering.dart';
+
 
 class RenderTimelineItem extends RenderProxyBox
     implements MouseTrackerAnnotation {
+
   RenderTimelineItem({
     required DateTime startDateTime,
     required DateTime endDateTime,

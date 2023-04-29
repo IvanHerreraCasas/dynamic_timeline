@@ -1,5 +1,6 @@
 import 'package:flutter/src/widgets/framework.dart';
 import '../../dynamic_timeline.dart';
+import '../rendering/rendering.dart';
 import 'timeline_item.dart';
 
 class TimelineLabelContainer extends TimelineItem {

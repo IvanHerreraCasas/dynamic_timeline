@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, lines_longer_than_80_chars, always_use_package_imports
 import 'package:flutter/material.dart';
 import 'dynamic_timeline_painter.dart';
 import '../rendering.dart';
@@ -7,8 +8,9 @@ class HorizontalTimelinePainter extends DynamicTimelinePainter{
         super(layouter: layouter, linePaint: linePaint, labelTextStyle: labelTextStyle);
 
 
-  Offset _currentOffset = Offset(0,0);
+  Offset _currentOffset = Offset.zero;
 
+  @override
   void paint(Canvas canvas, Offset offset, Size size){
 
     // paint line

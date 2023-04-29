@@ -1,9 +1,11 @@
+// ignore_for_file: public_member_api_docs, lines_longer_than_80_chars, always_use_package_imports
 import 'dart:math';
 import 'package:dynamic_timeline/src/rendering/painter/interval_painter/interval_painter.dart';
 import 'package:flutter/material.dart';
 import 'painter/interval_painter/background_painter_data.dart';
 
 class DynamicTimelineLayout {
+
   DynamicTimelineLayout(
       {required this.axis,
       required this.maxCrossAxisItemExtent,
@@ -14,7 +16,7 @@ class DynamicTimelineLayout {
       required this.firstDateTime,
       required this.lastDateTime,
       required this.intervalDuration})
-      : _constraints = BoxConstraints(minWidth: 0, maxWidth: 0, maxHeight: 0, minHeight: 0);
+      : _constraints = const BoxConstraints(maxWidth: 0, maxHeight: 0);
 
   DateTime firstDateTime;
   Duration intervalDuration;

@@ -1,9 +1,19 @@
+// ignore_for_file: lines_longer_than_80_chars, always_use_package_imports
 import 'package:flutter/material.dart';
 import 'interval_painter.dart';
 
+/// An implementation of [IntervalPainter] that draws a horizontal or vertical interval decorations.
+/// To construct there are two factory methods available
+/// [IntervalDecorationPainter.createHorizontal] and [IntervalDecorationPainter.createVertical].
 class IntervalDecorationPainter extends IntervalPainter {
-  static IntervalDecorationPainter createHorizontal(
-          {Paint? paint, bool Function(int intervalIdx)? intervalSelector}) =>
+
+  /// Creates an implementations of [IntervalPainter] that draws a horizontal
+  /// decoration line at the bottom of the interval.
+  /// With [paint] you can specify the [Paint] to use for drawing the line.
+  /// With [intervalSelector] you can specify which intervals should be decorated.
+  /// e.g. every second interval only ..
+  factory IntervalDecorationPainter.createHorizontal(
+          {Paint? paint, bool Function(int intervalIdx)? intervalSelector,}) =>
       IntervalDecorationPainter._(
         _drawHorizontal,
         paint: paint,
@@ -11,8 +21,13 @@ class IntervalDecorationPainter extends IntervalPainter {
         drawingAxis: Axis.horizontal,
       );
 
-  static IntervalDecorationPainter createVertical(
-          {Paint? paint, bool Function(int intervalIdx)? intervalSelector}) =>
+  /// Creates an implementations of [IntervalPainter] that draws a vertical
+  /// decoration line at the right side of the interval.
+  /// With [paint] you can specify the [Paint] to use for drawing the line.
+  /// With [intervalSelector] you can specify which intervals should be decorated.
+  /// e.g. every second interval only ..
+  factory IntervalDecorationPainter.createVertical(
+          {Paint? paint, bool Function(int intervalIdx)? intervalSelector,}) =>
       IntervalDecorationPainter._(
         _drawVertical,
         paint: paint,
@@ -21,7 +36,7 @@ class IntervalDecorationPainter extends IntervalPainter {
       );
 
   IntervalDecorationPainter._(this._linePainter,
-      {required super.drawingAxis, bool Function(int intervalIdx)? intervalSelector, Paint? paint})
+      {required super.drawingAxis, bool Function(int intervalIdx)? intervalSelector, Paint? paint,})
       : _paint = paint ?? (Paint()..color = Colors.black26),
       super(intervalSelector: intervalSelector?? ((intervalIdx) => true));
 

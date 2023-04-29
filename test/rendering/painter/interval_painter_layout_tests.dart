@@ -1,4 +1,4 @@
-import 'package:dynamic_timeline/src/rendering/painter/interval_painter/colored_interval_painer.dart';
+import 'package:dynamic_timeline/src/rendering/painter/interval_painter/colored_interval_painter.dart';
 import 'package:dynamic_timeline/src/rendering/painter/interval_painter/background_painter_data.dart';
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter_test/flutter_test.dart';

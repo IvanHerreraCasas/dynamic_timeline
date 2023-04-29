@@ -1,5 +1,7 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:flutter/widgets.dart';
+import '../rendering/rendering.dart';
+
 
 /// {@template timeline_item}
 /// A widget that positions a child in a [DynamicTimeline]
