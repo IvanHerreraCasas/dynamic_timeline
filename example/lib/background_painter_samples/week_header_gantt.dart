@@ -68,7 +68,7 @@ class _WeekHeaderGanttState extends State<WeekHeaderGantt> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Colored Gantt Chart')),
+      appBar: AppBar(title: const Text('Week header Gantt Chart')),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(10),

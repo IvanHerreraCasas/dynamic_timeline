@@ -10,17 +10,15 @@ class Event extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(padding: EdgeInsets.all(5),child: Container(
+    return Container(
       alignment: Alignment.center,
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColorLight,
-        borderRadius: BorderRadius.circular(0),
-        border: Border.all(color: Colors.black),
-        boxShadow: [BoxShadow(color: Colors.black,blurRadius: 3,offset: Offset(2,2))]
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Text(title),
-    ),);
+    );
   }
 }
