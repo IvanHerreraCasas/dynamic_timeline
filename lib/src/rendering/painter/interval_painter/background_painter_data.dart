@@ -8,7 +8,7 @@ class BackgroundPainterData {
       this.crossAxisExtend = 0,
       this.numberOfIntervals = 0,
       this.mainAxisOffset = 0,
-      this.crossAxisOffset = 0});
+      this.crossAxisOffset = 0,});
 
   final double mainAxisExtend;
   final double crossAxisExtend;

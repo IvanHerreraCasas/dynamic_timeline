@@ -34,7 +34,7 @@ class DailyTimeline extends StatelessWidget {
       ),
       body: Center(
         child: Container(
-          decoration: BoxDecoration(),
+          decoration: const BoxDecoration(),
             child: SingleChildScrollView(
           padding: const EdgeInsets.all(40),
           child: DynamicTimeline(

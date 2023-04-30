@@ -62,8 +62,8 @@ class _FancyGantt extends State<FancyGantt> {
       SizedBox(
           width: double.infinity,
           child: Text(dateCaption,
-              textAlign: TextAlign.left, style: TextStyle(color: Colors.black54))),
-      SizedBox(height: 20, child: FancyGanttItem(color: Colors.indigo))
+              textAlign: TextAlign.left, style: const TextStyle(color: Colors.black54))),
+      const SizedBox(height: 20, child: FancyGanttItem(color: Colors.indigo))
     ]);
   }
 
@@ -116,7 +116,7 @@ class _FancyGantt extends State<FancyGantt> {
                         scrollDirection: Axis.horizontal,
                         controller: scrollController,
                         child: Container(
-                          margin: EdgeInsets.only(bottom: 10),
+                          margin: const EdgeInsets.only(bottom: 10),
                           child: DynamicTimeline(
                             firstDateTime: DateTime(2022, 1, 3),
                             lastDateTime: DateTime(2022, 7, 31),
@@ -135,16 +135,16 @@ class _FancyGantt extends State<FancyGantt> {
                             intervalPainters: [
                               ColoredIntervalPainter.createHorizontal(
                                   intervalSelector: (interval) => interval % 7 > 4,
-                                  paint: Paint()..color = Color.fromARGB(255, 0xF5, 0xF5, 0xF5)),
+                                  paint: Paint()..color = const Color.fromARGB(255, 0xF5, 0xF5, 0xF5)),
                               ColoredIntervalPainter.createHorizontal(
                                   intervalSelector: (interval) => interval % 7 < 5,
                                   paint: Paint()..color = Colors.white),
                               IntervalDecorationPainter.createHorizontal(
                                   intervalSelector: (interval) =>
                                       interval % 7 == 6 || interval % 7 == 4,
-                                  paint: Paint()..color = Color.fromARGB(255, 0xcf, 0xcf, 0xcf)),
+                                  paint: Paint()..color = const Color.fromARGB(255, 0xcf, 0xcf, 0xcf)),
                               IntervalDecorationPainter.createVertical(
-                                  paint: Paint()..color = Color.fromARGB(255, 0xcf, 0xcf, 0xcf))
+                                  paint: Paint()..color = const Color.fromARGB(255, 0xcf, 0xcf, 0xcf))
                             ],
                             //intervalPainters: [VerticalIntervalPainter()],
                             items: items,

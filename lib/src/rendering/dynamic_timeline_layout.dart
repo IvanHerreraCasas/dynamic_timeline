@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'painter/interval_painter/background_painter_data.dart';
 
 class DynamicTimelineLayout {
-
   DynamicTimelineLayout(
       {required this.axis,
       required this.maxCrossAxisItemExtent,
@@ -15,7 +14,7 @@ class DynamicTimelineLayout {
       required this.crossAxisCount,
       required this.firstDateTime,
       required this.lastDateTime,
-      required this.intervalDuration})
+      required this.intervalDuration,})
       : _constraints = const BoxConstraints(maxWidth: 0, maxHeight: 0);
 
   DateTime firstDateTime;
@@ -105,13 +104,14 @@ class DynamicTimelineLayout {
         : computeSize().width - intervalOffset;
 
     intervalPainter.setLayout(
-        data: BackgroundPainterData(
-      mainAxisExtend: intervalMainAxisExtend,
-      crossAxisExtend: crossAxisExtend,
-      numberOfIntervals: _isOnMainAxis(intervalPainter) ? _getIntervalCount() : crossAxisCount,
-      mainAxisOffset: intervalPainter.painterDirection == axis ? 0 : maxCrossAxisIndicatorExtent,
-      crossAxisOffset: intervalPainter.painterDirection == axis ? maxCrossAxisIndicatorExtent : 0,
-    ));
+      data: BackgroundPainterData(
+        mainAxisExtend: intervalMainAxisExtend,
+        crossAxisExtend: crossAxisExtend,
+        numberOfIntervals: _isOnMainAxis(intervalPainter) ? _getIntervalCount() : crossAxisCount,
+        mainAxisOffset: intervalPainter.painterDirection == axis ? 0 : maxCrossAxisIndicatorExtent,
+        crossAxisOffset: intervalPainter.painterDirection == axis ? maxCrossAxisIndicatorExtent : 0,
+      ),
+    );
   }
 
   int _getIntervalCount() =>

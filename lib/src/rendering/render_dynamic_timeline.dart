@@ -1,4 +1,5 @@
-// ignore_for_file: public_member_api_docs, lines_longer_than_80_chars, always_use_package_imports
+// ignore_for_file: public_member_api_docs, lines_longer_than_80_chars,
+// ignore_for_file: always_use_package_imports, curly_braces_in_flow_control_structures
 import 'package:flutter/rendering.dart';
 import 'painter/painter.dart';
 import 'rendering.dart';
@@ -39,9 +40,9 @@ class RenderDynamicTimeline extends RenderBox
         _resizable = resizable {
     _painter = axis == Axis.vertical
         ? VerticalTimelinePainter(
-            layouter: _layoutProcessor, linePaint: linePaint, labelTextStyle: labelTextStyle)
+            layouter: _layoutProcessor, linePaint: linePaint, labelTextStyle: labelTextStyle,)
         : HorizontalTimelinePainter(
-            layouter: _layoutProcessor, linePaint: linePaint, labelTextStyle: labelTextStyle);
+            layouter: _layoutProcessor, linePaint: linePaint, labelTextStyle: labelTextStyle,);
   }
 
   late final DynamicTimelinePainter _painter;
@@ -267,9 +268,11 @@ class RenderDynamicTimeline extends RenderBox
   }
 
   double _getCrossAxisPositionFor(
-      double maxCrossAxisItemExtent, int position, RenderTimelineItem? child) {
-    if (child?.isTimelineLabelItem ?? false == true)
-      return (crossAxisSpacing + maxCrossAxisItemExtent) * position;
+    double maxCrossAxisItemExtent,
+    int position,
+    RenderTimelineItem child,
+  ) {
+    if (child.isTimelineLabelItem) return (crossAxisSpacing + maxCrossAxisItemExtent) * position;
     return maxCrossAxisIndicatorExtent +
         crossAxisSpacing +
         (crossAxisSpacing + maxCrossAxisItemExtent) * position;
@@ -284,7 +287,8 @@ class RenderDynamicTimeline extends RenderBox
       (context, offset) {
         final canvas = context.canvas;
 
-        intervalPainters.forEach((painter) => painter.paint(canvas, offset));
+        for (final painter in intervalPainters) painter.paint(canvas, offset);
+
         // paint children
         defaultPaint(context, offset);
 
@@ -294,22 +298,14 @@ class RenderDynamicTimeline extends RenderBox
   }
 
   @override
-  double computeMaxIntrinsicWidth(double height) {
-    return size.width;
-  }
+  double computeMaxIntrinsicWidth(double height) => size.width;
 
   @override
-  double computeMinIntrinsicWidth(double height) {
-    return size.width;
-  }
+  double computeMinIntrinsicWidth(double height) => size.width;
 
   @override
-  double computeMaxIntrinsicHeight(double width) {
-    return size.height;
-  }
+  double computeMaxIntrinsicHeight(double width) => size.height;
 
   @override
-  double computeMinIntrinsicHeight(double width) {
-    return size.height;
-  }
+  double computeMinIntrinsicHeight(double width) => size.height;
 }

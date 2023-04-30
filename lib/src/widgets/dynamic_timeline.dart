@@ -48,7 +48,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
         ),
         super(
             key: key,
-            children: items+labelBuilder.Create(firstDateTime,lastDateTime,intervalDuration??_getDefaultIntervalDuration(firstDateTime, lastDateTime))
+            children: items+labelBuilder.create(firstDateTime,lastDateTime,intervalDuration??_getDefaultIntervalDuration(firstDateTime, lastDateTime))
           );
 
   /// The axis of the line.

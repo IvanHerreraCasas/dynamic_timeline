@@ -28,5 +28,4 @@ class HorizontalTimelinePainter extends DynamicTimelinePainter{
 
     _currentOffset = Offset( offset.dx, offset.dy + layouter.maxCrossAxisIndicatorExtent - DynamicTimelinePainter.labelSpacing);
   }
-
 }

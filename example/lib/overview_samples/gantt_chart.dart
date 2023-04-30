@@ -69,9 +69,9 @@ class _GanttChartState extends State<GanttChart> {
                               DateFormat('dd').format(date),
                             ),
                             alignment: FractionalOffset.center,
-                            transform: new Matrix4.identity()..rotateZ(-70 * 3.1415927 / 180),
+                            transform: Matrix4.identity()..rotateZ(-70 * 3.1415927 / 180),
                           ),
-                          SizedBox(width: double.infinity, height: 3)
+                          const SizedBox(width: double.infinity, height: 3)
                         ])),
                 axis: Axis.horizontal,
                 intervalDuration: const Duration(days: 1),

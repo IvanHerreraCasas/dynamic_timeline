@@ -95,15 +95,15 @@ class _WeekHeaderGanttState extends State<WeekHeaderGantt> {
                 intervalPainters: [
                   ColoredIntervalPainter.createHorizontal(
                       intervalSelector: (interval) => interval % 7 > 4,
-                      paint: Paint()..color = Color.fromARGB(255, 0xF5, 0xF5, 0xF5)),
+                      paint: Paint()..color = const Color.fromARGB(255, 0xF5, 0xF5, 0xF5)),
                   ColoredIntervalPainter.createHorizontal(
                       intervalSelector: (interval) => interval % 7 < 5,
                       paint: Paint()..color = Colors.white),
                   IntervalDecorationPainter.createHorizontal(
                       intervalSelector: (interval) => interval % 7 == 6 || interval % 7 == 4,
-                      paint: Paint()..color = Color.fromARGB(255, 0xcf, 0xcf, 0xcf)),
+                      paint: Paint()..color = const Color.fromARGB(255, 0xcf, 0xcf, 0xcf)),
                   IntervalDecorationPainter.createVertical(
-                      paint: Paint()..color = Color.fromARGB(255, 0xcf, 0xcf, 0xcf))
+                      paint: Paint()..color = const Color.fromARGB(255, 0xcf, 0xcf, 0xcf))
                 ],
                 //intervalPainters: [VerticalIntervalPainter()],
                 items: items,

@@ -4,10 +4,11 @@ import 'package:flutter/rendering.dart';
 import '../rendering.dart';
 
 abstract class DynamicTimelinePainter  {
-  static final int labelSpacing = 10;
 
   DynamicTimelinePainter({required this.layouter,required this.linePaint,
-  required this.labelTextStyle});
+  required this.labelTextStyle,});
+
+  static const int labelSpacing = 10;
 
   final DynamicTimelineLayout layouter;
   Paint linePaint;
