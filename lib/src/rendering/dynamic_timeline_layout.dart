@@ -81,13 +81,9 @@ class DynamicTimelineLayout {
     return min(mainAxisSize, attemptExtent);
   }
 
-  double getExtentSecondRate() {
-    return intervalExtent / intervalDuration.inSeconds;
-  }
+  double getExtentSecondRate() => intervalExtent / intervalDuration.inSeconds;
 
-  Duration _getTotalDuration() {
-    return lastDateTime.difference(firstDateTime);
-  }
+  Duration _getTotalDuration() => lastDateTime.difference(firstDateTime);
 
   Size computeSize() {
     final crossAxisExtent = _getCrossAxisExtent();

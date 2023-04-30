@@ -50,9 +50,10 @@ class RenderDynamicTimeline extends RenderBox
   List<IntervalPainter> _intervalPainters;
 
   List<IntervalPainter> get intervalPainters => _intervalPainters;
+
   set intervalPainters(List<IntervalPainter> value) {
     if (value == _intervalPainters) return;
-    _intervalPainters=value;
+    _intervalPainters = value;
     _intervalPainters.forEach(_layoutProcessor.updateLayoutDataFor);
     markParentNeedsLayout();
   }
@@ -204,8 +205,7 @@ class RenderDynamicTimeline extends RenderBox
   void performLayout() {
     _layoutProcessor.updateConstraints(constraints);
     size = _layoutProcessor.computeSize();
-    final maxCrossAxisItemExtent =
-        _layoutProcessor.getMaxCrossAxisItemExtent();
+    final maxCrossAxisItemExtent = _layoutProcessor.getMaxCrossAxisItemExtent();
 
     var child = firstChild;
 
