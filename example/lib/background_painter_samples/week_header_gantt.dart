@@ -2,7 +2,6 @@ import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:dynamic_timeline_example/widgets/week_header.dart';
 import 'package:dynamic_timeline_example/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class WeekHeaderGantt extends StatefulWidget {
   const WeekHeaderGantt({Key? key}) : super(key: key);

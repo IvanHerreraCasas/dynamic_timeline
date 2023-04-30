@@ -1,10 +1,7 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:dynamic_timeline_example/background_painter_samples/fancy_gantt_item.dart';
 import 'package:dynamic_timeline_example/widgets/week_header.dart';
-import 'package:dynamic_timeline_example/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
 import 'gantt_row_header.dart';
 
 class FancyGantt extends StatefulWidget {

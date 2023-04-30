@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class FancyGanttItem extends LeafRenderObjectWidget{
