@@ -54,7 +54,7 @@ class RenderDynamicTimeline extends RenderBox
     if (value == _intervalPainters) return;
     _intervalPainters=value;
     _intervalPainters.forEach(_layoutProcessor.updateLayoutDataFor);
-    markNeedsPaint();
+    markParentNeedsLayout();
   }
 
   DateTime get firstDateTime => _layoutProcessor.firstDateTime;
@@ -284,9 +284,7 @@ class RenderDynamicTimeline extends RenderBox
       (context, offset) {
         final canvas = context.canvas;
 
-
         intervalPainters.forEach((painter) => painter.paint(canvas, offset));
-
         // paint children
         defaultPaint(context, offset);
 

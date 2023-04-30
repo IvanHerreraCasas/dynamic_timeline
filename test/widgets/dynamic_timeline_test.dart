@@ -1,8 +1,10 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
+import 'package:dynamic_timeline/src/rendering/painter/interval_painter/background_painter_data.dart';
 import 'package:dynamic_timeline/src/rendering/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shouldly/shouldly.dart';
+import '../helpers/dummy_stateful_wrapper.dart';
 import '../helpers/helpers.dart';
 
 void main() {
@@ -337,51 +339,82 @@ void main() {
       testWidgets(
           'Measuring the amount auf paint calls before and after set state'
           '--> Should be same amount of calls', (tester) async {
-        final mockPainter = _mockIntervalPainter(
-          drawingAxis: Axis.vertical,
-          intervalSelector: (interval) => true,
+        final mockPainter = _MockIntervalPainter();
+        await tester.pumpApp(
+          DummyStatefulWrapper(
+            builder: () => buildSubject(intervalPainters: [mockPainter]),
+          ),
         );
-        await tester.pumpApp(DummyStatefulWrapper(
-          builder: () => buildSubject(intervalPainters: [mockPainter]),
-        ));
 
-        var callsBeforeSetState = mockPainter.timesCalled;
-        mockPainter.timesCalled = 0;
+        var callsBeforeSetState = mockPainter.timesPaintCalled;
+        mockPainter.timesPaintCalled = 0;
 
         tester.state(find.byType(DummyStatefulWrapper)).setState(() {});
 
         await tester.pump();
-        var callsAfterSetState = mockPainter.timesCalled;
-        callsBeforeSetState.should.beAbove(0);
-        callsBeforeSetState.should.be(callsAfterSetState);
+        var callsAfterSetState = mockPainter.timesPaintCalled;
+        callsBeforeSetState.should.beGreaterThan(0);
+        callsAfterSetState.should.be(callsBeforeSetState);
+      });
+
+      testWidgets(
+          'Measuring the amount auf layout after set state with a new painter list'
+              '--> Should be called at least once', (tester) async {
+        final mockPainter = _MockIntervalPainter();
+        await tester.pumpApp(
+          DummyStatefulWrapper(
+            builder: () => buildSubject(intervalPainters: [mockPainter]),
+          ),
+        );
+
+        mockPainter.timesSetLayoutCalled = 0;
+
+        tester.state(find.byType(DummyStatefulWrapper)).setState(() {});
+
+        await tester.pump();
+        mockPainter.timesSetLayoutCalled.should.beGreaterOrEqualThan(1);
+      });
+
+      testWidgets(
+          'Measuring the amount auf layout after set state with a old painter list'
+              '--> Should not be called', (tester) async {
+        final mockPainter = _MockIntervalPainter();
+        final painters = [mockPainter];
+        await tester.pumpApp(
+          DummyStatefulWrapper(
+            builder: () => buildSubject(intervalPainters: painters)
+          ),
+        );
+
+        mockPainter.timesSetLayoutCalled = 0;
+
+        tester.state(find.byType(DummyStatefulWrapper)).setState(() {});
+
+        await tester.pump();
+        mockPainter.timesSetLayoutCalled.should.be(0);
       });
     });
   });
 }
 
-class DummyStatefulWrapper extends StatefulWidget {
-  DummyStatefulWrapper({super.key, required this.builder});
+class _MockIntervalPainter extends IntervalPainter {
+  _MockIntervalPainter()
+      : super(
+          drawingAxis: Axis.vertical,
+          intervalSelector: (interval) => true,
+        );
 
-  final Widget Function() builder;
+  int timesPaintCalled = 0;
+  int timesSetLayoutCalled = 0;
 
   @override
-  State<StatefulWidget> createState() => DummyStatefulWrapperState();
-}
-
-class DummyStatefulWrapperState extends State<DummyStatefulWrapper> {
-  @override
-  Widget build(BuildContext context) {
-    return widget.builder();
+  void setLayout({required BackgroundPainterData data}) {
+    super.setLayout(data: data);
+    timesSetLayoutCalled++;
   }
-}
-
-class _mockIntervalPainter extends IntervalPainter {
-  _mockIntervalPainter({required super.drawingAxis, required super.intervalSelector});
-
-  int timesCalled = 0;
 
   @override
   void paintCallback(Canvas canvas, Rect drawingRegion, int intervalIdx) {
-    timesCalled++;
+    timesPaintCalled++;
   }
 }
