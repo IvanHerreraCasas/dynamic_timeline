@@ -1,8 +1,13 @@
 // ignore_for_file: public_member_api_docs, lines_longer_than_80_chars,
-// ignore_for_file: always_use_package_imports, curly_braces_in_flow_control_structures
+// ignore_for_file: curly_braces_in_flow_control_structures
+import 'package:dynamic_timeline/src/rendering/dynamic_timeline_layout.dart';
+import 'package:dynamic_timeline/src/rendering/dynamic_timeline_parent_data.dart';
+import 'package:dynamic_timeline/src/rendering/painter/dynamic_timeline_painter.dart';
+import 'package:dynamic_timeline/src/rendering/painter/horizontal_timeline_painter.dart';
+import 'package:dynamic_timeline/src/rendering/painter/interval_painter/interval_painter.dart';
+import 'package:dynamic_timeline/src/rendering/painter/vertical_timeline_painter.dart';
+import 'package:dynamic_timeline/src/rendering/render_timeline_item.dart';
 import 'package:flutter/rendering.dart';
-import 'painter/painter.dart';
-import 'rendering.dart';
 
 class RenderDynamicTimeline extends RenderBox
     with

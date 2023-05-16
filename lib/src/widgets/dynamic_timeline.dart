@@ -1,7 +1,7 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
+import 'package:dynamic_timeline/src/rendering/painter/interval_painter/interval_painter.dart';
+import 'package:dynamic_timeline/src/rendering/render_dynamic_timeline.dart';
 import 'package:flutter/material.dart';
-import '../rendering/painter/interval_painter/interval_painter.dart';
-import '../rendering/rendering.dart';
 
 
 /// {@template dynamic_timeline}

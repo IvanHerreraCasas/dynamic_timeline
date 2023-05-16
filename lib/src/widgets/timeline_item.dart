@@ -1,6 +1,6 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
+import 'package:dynamic_timeline/src/rendering/render_timeline_item.dart';
 import 'package:flutter/widgets.dart';
-import '../rendering/rendering.dart';
 
 
 /// {@template timeline_item}

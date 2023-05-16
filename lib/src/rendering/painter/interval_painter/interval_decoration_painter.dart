@@ -1,6 +1,6 @@
-// ignore_for_file: lines_longer_than_80_chars, always_use_package_imports
+// ignore_for_file: lines_longer_than_80_chars
+import 'package:dynamic_timeline/src/rendering/painter/interval_painter/interval_painter.dart';
 import 'package:flutter/material.dart';
-import 'interval_painter.dart';
 
 /// An implementation of [IntervalPainter] that draws a horizontal or vertical interval decorations.
 /// To construct there are two factory methods available

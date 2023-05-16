@@ -1,7 +1,8 @@
-// ignore_for_file: public_member_api_docs, lines_longer_than_80_chars, always_use_package_imports
+// ignore_for_file: public_member_api_docs, lines_longer_than_80_chars
+import 'package:dynamic_timeline/src/rendering/dynamic_timeline_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import '../rendering.dart';
+
 
 abstract class DynamicTimelinePainter  {
 

@@ -1,6 +1,7 @@
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:dynamic_timeline/src/rendering/painter/interval_painter/background_painter_data.dart';
-import 'package:dynamic_timeline/src/rendering/rendering.dart';
+import 'package:dynamic_timeline/src/rendering/painter/interval_painter/interval_painter.dart';
+import 'package:dynamic_timeline/src/rendering/render_dynamic_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shouldly/shouldly.dart';

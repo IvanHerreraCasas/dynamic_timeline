@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, lines_longer_than_80_chars, always_use_package_imports
+// ignore_for_file: public_member_api_docs, lines_longer_than_80_chars
 import 'dart:math';
 import 'package:dynamic_timeline/src/rendering/painter/interval_painter/interval_painter.dart';
 import 'package:flutter/material.dart';

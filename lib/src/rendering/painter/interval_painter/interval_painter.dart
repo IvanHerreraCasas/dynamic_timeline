@@ -1,11 +1,8 @@
-// ignore_for_file: lines_longer_than_80_chars, always_use_package_imports
+// ignore_for_file: lines_longer_than_80_chars
+import 'package:dynamic_timeline/src/rendering/painter/background_painter.dart';
+import 'package:dynamic_timeline/src/rendering/painter/interval_painter/background_painter_data.dart';
 import 'package:flutter/material.dart';
-import '../background_painter.dart';
-import 'background_painter_data.dart';
-import  'colored_interval_painter.dart';
 
-export 'colored_interval_painter.dart';
-export 'interval_decoration_painter.dart';
 
 /// {@template interval_painter}
 /// The abstract base class for interval painters.

@@ -1,7 +1,7 @@
-// ignore_for_file: lines_longer_than_80_chars, always_use_package_imports
+// ignore_for_file: lines_longer_than_80_chars
+import 'package:dynamic_timeline/dynamic_timeline.dart';
+import 'package:dynamic_timeline/src/widgets/timeline_label_container.dart';
 import 'package:flutter/material.dart';
-import '../../dynamic_timeline.dart';
-import '../widgets/timeline_label_container.dart';
 
 /// {@template label_builder}
 /// The label builder provides the main infrastructure for building the main axis

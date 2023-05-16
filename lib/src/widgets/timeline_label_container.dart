@@ -1,7 +1,8 @@
-import 'package:flutter/src/widgets/framework.dart';
-import '../../dynamic_timeline.dart';
-import '../rendering/rendering.dart';
-import 'timeline_item.dart';
+// ignore_for_file: public_member_api_docs, lines_longer_than_80_chars
+import 'package:dynamic_timeline/dynamic_timeline.dart';
+import 'package:dynamic_timeline/src/rendering/render_timeline_item.dart';
+import 'package:dynamic_timeline/src/widgets/timeline_item.dart';
+import 'package:flutter/material.dart';
 
 class TimelineLabelContainer extends TimelineItem {
   TimelineLabelContainer(
@@ -13,7 +14,7 @@ class TimelineLabelContainer extends TimelineItem {
             key: key,
             startDateTime: startDateTime,
             endDateTime: startDateTime.add(interval),
-            child: child);
+            child: child,);
 
   @override
   RenderObject createRenderObject(BuildContext context) {
