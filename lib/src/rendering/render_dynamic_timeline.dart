@@ -60,7 +60,7 @@ class RenderDynamicTimeline extends RenderBox
   set intervalPainters(List<IntervalPainter> value) {
     if (value == _intervalPainters) return;
     _intervalPainters = value;
-    _intervalPainters.forEach(_layoutProcessor.updateLayoutDataFor);
+    _intervalPainters.forEach(_layoutProcessor.updateLayoutData);
     markParentNeedsLayout();
   }
 
@@ -240,7 +240,7 @@ class RenderDynamicTimeline extends RenderBox
           _layoutProcessor.getExtentSecondRate() * differenceFromFirstDate.inSeconds;
 
       final crossAxisPosition =
-          _getCrossAxisPositionFor(maxCrossAxisItemExtent, position, timeLineChild);
+          _getCrossAxisPosition(maxCrossAxisItemExtent, position, timeLineChild);
 
       if (axis == Axis.vertical) {
         child.layout(
@@ -269,10 +269,10 @@ class RenderDynamicTimeline extends RenderBox
       }
       child = childParentData.nextSibling;
     }
-    _intervalPainters.forEach(_layoutProcessor.updateLayoutDataFor);
+    _intervalPainters.forEach(_layoutProcessor.updateLayoutData);
   }
 
-  double _getCrossAxisPositionFor(
+  double _getCrossAxisPosition(
     double maxCrossAxisItemExtent,
     int position,
     RenderTimelineItem child,

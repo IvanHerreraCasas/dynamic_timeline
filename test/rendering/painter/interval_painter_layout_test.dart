@@ -37,7 +37,7 @@ void main() {
       // initialization for "_recentSize"
       layoutEngine
         ..updateConstraints(elementSizeConstraint)
-        ..updateLayoutDataFor(painter);
+        ..updateLayoutData(painter);
 
       painter.data.mainAxisExtend.should.be(layoutEngine.intervalExtent);
       painter.data.crossAxisExtend.should
@@ -63,7 +63,7 @@ void main() {
       // initialization for "_recentSize"
       layoutEngine
         ..updateConstraints(elementSizeConstraint)
-        ..updateLayoutDataFor(painter);
+        ..updateLayoutData(painter);
 
       // 170 = (elementSizeConstraint.maxWidth-layoutEngine.maxCrossAxisIndicatorExtent)/2;
       painter.data.mainAxisExtend.should.be(170);
@@ -89,7 +89,7 @@ void main() {
       // initialization for "_recentSize"
       layoutEngine
         ..updateConstraints(elementSizeConstraint)
-        ..updateLayoutDataFor(painter);
+        ..updateLayoutData(painter);
 
       painter.data.crossAxisExtend.should.be(150);
       // 220 = (elementSizeConstraint.maxHeight-layoutEngine.maxCrossAxisIndicatorExtent)/2;
@@ -115,7 +115,7 @@ void main() {
       // initialization for "_recentSize"
       layoutEngine
         ..updateConstraints(elementSizeConstraint)
-        ..updateLayoutDataFor(painter);
+        ..updateLayoutData(painter);
 
       painter.data.crossAxisExtend.should
           .be(elementSizeConstraint.maxWidth - layoutEngine.maxCrossAxisIndicatorExtent);

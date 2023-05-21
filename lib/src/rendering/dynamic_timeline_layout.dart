@@ -94,7 +94,7 @@ class DynamicTimelineLayout {
         : Size(mainAxisExtent, crossAxisExtent);
   }
 
-  void updateLayoutDataFor(IntervalPainter intervalPainter) {
+  void updateLayoutData(IntervalPainter intervalPainter) {
     final intervalMainAxisExtend = _isOnMainAxis(intervalPainter)
         ? getExtentSecondRate() * intervalDuration.inSeconds
         : getMaxCrossAxisItemExtent() + crossAxisSpacing;
