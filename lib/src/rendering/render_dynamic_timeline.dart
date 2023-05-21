@@ -188,7 +188,7 @@ class RenderDynamicTimeline extends RenderBox
   void setupParentData(covariant RenderObject child) {
     if (child.parentData is! DynamicTimelineParentData) {
       child.parentData = DynamicTimelineParentData(
-        microsecondExtent: intervalExtent / intervalDuration.inMicroseconds,
+        secondExtent: intervalExtent / intervalDuration.inSeconds,
         minItemDuration: minItemDuration,
         axis: axis,
         resizable: resizable,

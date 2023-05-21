@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 class DynamicTimelineParentData extends ContainerBoxParentData<RenderBox> {
 
   DynamicTimelineParentData({
-    required this.microsecondExtent,
+    required this.secondExtent,
     required this.minItemDuration,
     required this.axis,
     required this.resizable,
@@ -13,7 +13,7 @@ class DynamicTimelineParentData extends ContainerBoxParentData<RenderBox> {
   DateTime? startDateTime;
   DateTime? endDateTime;
   int? position;
-  final double microsecondExtent;
+  final double secondExtent;
   final Duration minItemDuration;
   final Axis axis;
   final bool resizable;
