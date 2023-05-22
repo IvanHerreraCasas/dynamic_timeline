@@ -10,12 +10,14 @@ void main() {
       '--> the calculated size should be the same as the constraints',
       () {
         final layoutEngine = TestLayoutEngineFactory.create()
-          ..updateConstraints(const BoxConstraints(
-            maxHeight: 500,
-            minHeight: 500,
-            maxWidth: 300,
-            minWidth: 300,
-          ));
+          ..updateConstraints(
+            const BoxConstraints(
+              maxHeight: 500,
+              minHeight: 500,
+              maxWidth: 300,
+              minWidth: 300,
+            ),
+          );
         final newSize = layoutEngine.computeSize();
         newSize.width.should.be(300);
       },
@@ -25,13 +27,16 @@ void main() {
       '--> maxCrossAxisIndicatorExtent+ '
       '(crossAxisSpacing+maxCrossAxisItemExtent)*2 = 144',
       () {
-        final layoutEngine = TestLayoutEngineFactory.create(maxCrossAxisItemExtent: 40)
-          ..updateConstraints(const BoxConstraints(
-            maxHeight: 500,
-            minHeight: 500,
-            maxWidth: 300,
-            minWidth: 300,
-          ));
+        final layoutEngine =
+            TestLayoutEngineFactory.create(maxCrossAxisItemExtent: 40)
+              ..updateConstraints(
+                const BoxConstraints(
+                  maxHeight: 500,
+                  minHeight: 500,
+                  maxWidth: 300,
+                  minWidth: 300,
+                ),
+              );
         final newSize = layoutEngine.computeSize();
 
         newSize.width.should.be(144);
@@ -39,32 +44,36 @@ void main() {
     );
 
     test(
-      'Computer size with fixed main axis item extent smaller than constraint'
+      'Computer size with fixed main axis item extent smaller than constraint '
       '--> chooses the calculated value (smaller than the constraint)',
       () {
         final layoutEngine = TestLayoutEngineFactory.create()
-          ..updateConstraints(const BoxConstraints(
-            maxHeight: 500,
-            minHeight: 500,
-            maxWidth: 300,
-            minWidth: 300,
-          ));
+          ..updateConstraints(
+            const BoxConstraints(
+              maxHeight: 500,
+              minHeight: 500,
+              maxWidth: 300,
+              minWidth: 300,
+            ),
+          );
         final newSize = layoutEngine.computeSize();
 
         newSize.height.should.beLessThan(500);
       },
     );
     test(
-      'Computer size with fixed main axis item extent bigger than constraint'
+      'Computer size with fixed main axis item extent bigger than constraint '
       '--> chooses the constraint value',
       () {
         final layoutEngine = TestLayoutEngineFactory.create()
-          ..updateConstraints(const BoxConstraints(
-            maxHeight: 100,
-            minHeight: 100,
-            maxWidth: 300,
-            minWidth: 300,
-          ));
+          ..updateConstraints(
+            const BoxConstraints(
+              maxHeight: 100,
+              minHeight: 100,
+              maxWidth: 300,
+              minWidth: 300,
+            ),
+          );
         final newSize = layoutEngine.computeSize();
         newSize.height.should.be(100);
       },
@@ -80,12 +89,13 @@ void main() {
           maxWidth: 300,
           minWidth: 300,
         );
-        final layoutEngineHorizontal =
-            TestLayoutEngineFactory.create(axis: Axis.horizontal, maxCrossAxisItemExtent: 40)
-              ..updateConstraints(sizeConstraint);
-        final layoutEngineVertical =
-            TestLayoutEngineFactory.create(axis: Axis.vertical, maxCrossAxisItemExtent: 40)
-              ..updateConstraints(sizeConstraint);
+        final layoutEngineHorizontal = TestLayoutEngineFactory.create(
+          axis: Axis.horizontal,
+          maxCrossAxisItemExtent: 40,
+        )..updateConstraints(sizeConstraint);
+        final layoutEngineVertical = TestLayoutEngineFactory.create(
+          maxCrossAxisItemExtent: 40,
+        )..updateConstraints(sizeConstraint);
 
         final newSizeHorizontal = layoutEngineHorizontal.computeSize();
         final newSizeVertical = layoutEngineVertical.computeSize();

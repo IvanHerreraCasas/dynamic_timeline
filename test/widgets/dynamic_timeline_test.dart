@@ -1,3 +1,5 @@
+// ignore_for_file: flutter_style_todos, lines_longer_than_80_chars
+
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:dynamic_timeline/src/rendering/painter/interval_painter/background_painter_data.dart';
 import 'package:dynamic_timeline/src/rendering/painter/interval_painter/interval_painter.dart';
@@ -52,7 +54,7 @@ void main() {
         lastDateTime: lastDateTime ?? DateTime(1970, 1, 1, 12),
         labelBuilder: LabelBuilder(
           builder: (labelDate) {
-            return Text('date');
+            return const Text('date');
           },
         ),
         axis: axis,
@@ -89,7 +91,8 @@ void main() {
           ),
         );
 
-        final renderDynamicTimeline = tester.renderObject<RenderDynamicTimeline>(
+        final renderDynamicTimeline =
+            tester.renderObject<RenderDynamicTimeline>(
           find.byType(DynamicTimeline),
         );
 
@@ -114,9 +117,10 @@ void main() {
 
       group('defaults', () {
         testWidgets('minItemDuration takes 1/20 of the total', (tester) async {
-          await tester.pumpApp(buildSubject(minItemDuration: null));
+          await tester.pumpApp(buildSubject());
 
-          final renderDynamicTimeline = tester.renderObject<RenderDynamicTimeline>(
+          final renderDynamicTimeline =
+              tester.renderObject<RenderDynamicTimeline>(
             find.byType(DynamicTimeline),
           );
 
@@ -126,9 +130,11 @@ void main() {
           );
         });
 
-        testWidgets('linePaint uses the given color, stroke width and cap', (tester) async {
-          await tester.pumpApp(buildSubject(paint: null));
-          final renderDynamicTimeline = tester.renderObject<RenderDynamicTimeline>(
+        testWidgets('linePaint uses the given color, stroke width and cap',
+            (tester) async {
+          await tester.pumpApp(buildSubject());
+          final renderDynamicTimeline =
+              tester.renderObject<RenderDynamicTimeline>(
             find.byType(DynamicTimeline),
           );
 
@@ -139,9 +145,10 @@ void main() {
 
         testWidgets('labelTextStyle uses textTheme bodyText1', (tester) async {
           await tester.pumpApp(
-            buildSubject(textStyle: null),
+            buildSubject(),
           );
-          final renderDynamicTimeline = tester.renderObject<RenderDynamicTimeline>(
+          final renderDynamicTimeline =
+              tester.renderObject<RenderDynamicTimeline>(
             find.byType(DynamicTimeline),
           );
 
@@ -221,7 +228,9 @@ void main() {
       expect(widget.resizable, resizable);
       expect(widget.paint, paint);
       expect(widget.textStyle, textStyle);
-      items.forEach((item) => expect(widget.children.contains(item), true));
+      for (final item in items) {
+        expect(widget.children.contains(item), true);
+      }
     });
 
     group('renderObject', () {
@@ -338,7 +347,7 @@ void main() {
 
       //Bugfix: Missing layout information for background painter after "setState" call
       testWidgets(
-          'Measuring the amount auf paint calls before and after set state'
+          'Measuring the amount auf paint calls before and after set state '
           '--> Should be same amount of calls', (tester) async {
         final mockPainter = _MockIntervalPainter();
         await tester.pumpApp(
@@ -347,20 +356,21 @@ void main() {
           ),
         );
 
-        var callsBeforeSetState = mockPainter.timesPaintCalled;
+        final callsBeforeSetState = mockPainter.timesPaintCalled;
         mockPainter.timesPaintCalled = 0;
 
+        // ignore: invalid_use_of_protected_member
         tester.state(find.byType(DummyStatefulWrapper)).setState(() {});
 
         await tester.pump();
-        var callsAfterSetState = mockPainter.timesPaintCalled;
+        final callsAfterSetState = mockPainter.timesPaintCalled;
         callsBeforeSetState.should.beGreaterThan(0);
         callsAfterSetState.should.be(callsBeforeSetState);
       });
 
       testWidgets(
-          'Measuring the amount auf layout after set state with a new painter list'
-              '--> Should be called at least once', (tester) async {
+          'Measuring the amount auf layout after set state with a new painter list '
+          '--> Should be called at least once', (tester) async {
         final mockPainter = _MockIntervalPainter();
         await tester.pumpApp(
           DummyStatefulWrapper(
@@ -370,6 +380,7 @@ void main() {
 
         mockPainter.timesSetLayoutCalled = 0;
 
+        // ignore: invalid_use_of_protected_member
         tester.state(find.byType(DummyStatefulWrapper)).setState(() {});
 
         await tester.pump();
@@ -377,18 +388,19 @@ void main() {
       });
 
       testWidgets(
-          'Measuring the amount auf layout after set state with a old painter list'
-              '--> Should not be called', (tester) async {
+          'Measuring the amount auf layout after set state with a old painter list '
+          '--> Should not be called', (tester) async {
         final mockPainter = _MockIntervalPainter();
         final painters = [mockPainter];
         await tester.pumpApp(
           DummyStatefulWrapper(
-            builder: () => buildSubject(intervalPainters: painters)
+            builder: () => buildSubject(intervalPainters: painters),
           ),
         );
 
         mockPainter.timesSetLayoutCalled = 0;
 
+        // ignore: invalid_use_of_protected_member
         tester.state(find.byType(DummyStatefulWrapper)).setState(() {});
 
         await tester.pump();

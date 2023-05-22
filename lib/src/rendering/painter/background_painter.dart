@@ -14,5 +14,6 @@ abstract class BackgroundPainter {
       Offset canvasOffset,
       );
 
+  // ignore: use_setters_to_change_properties
   void setLayout({required BackgroundPainterData data}) => this.data = data;
 }

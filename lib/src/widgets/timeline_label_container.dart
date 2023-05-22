@@ -5,16 +5,17 @@ import 'package:dynamic_timeline/src/widgets/timeline_item.dart';
 import 'package:flutter/material.dart';
 
 class TimelineLabelContainer extends TimelineItem {
-  TimelineLabelContainer(
-      {Key? key,
-      required DateTime startDateTime,
-      required Duration interval,
-      required Widget child})
-      : super(
-            key: key,
-            startDateTime: startDateTime,
-            endDateTime: startDateTime.add(interval),
-            child: child,);
+  TimelineLabelContainer({
+    Key? key,
+    required DateTime startDateTime,
+    required Duration interval,
+    required Widget child,
+  }) : super(
+          key: key,
+          startDateTime: startDateTime,
+          endDateTime: startDateTime.add(interval),
+          child: child,
+        );
 
   @override
   RenderObject createRenderObject(BuildContext context) {

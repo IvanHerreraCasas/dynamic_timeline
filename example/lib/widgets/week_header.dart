@@ -8,8 +8,8 @@ class WeekHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var backgroundGray = Color.fromARGB(255, 0xF5, 0xF5, 0xF5);
-    var separatorGray = Color.fromARGB(255, 0xcf, 0xcf, 0xcf);
+    var backgroundGray = const Color.fromARGB(255, 0xF5, 0xF5, 0xF5);
+    var separatorGray = const Color.fromARGB(255, 0xcf, 0xcf, 0xcf);
     return Container(
       decoration: BoxDecoration(
           border: Border(right: BorderSide(color: separatorGray)),
@@ -17,15 +17,15 @@ class WeekHeader extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            Spacer(),
+            const Spacer(),
             Text(
               '${DateFormat('dd').format(date)} - '
-              '${DateFormat('dd. MMM').format(date.add(Duration(days: 6)))}',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              '${DateFormat('dd. MMM').format(date.add(const Duration(days: 6)))}',
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 5),
-            Text('Week ${weekNumber(date.add(Duration(days: 3)))}',style: TextStyle(fontSize: 11)),
-            Spacer(),
+            const SizedBox(height: 5),
+            Text('Week ${weekNumber(date.add(const Duration(days: 3)))}',style: const TextStyle(fontSize: 11)),
+            const Spacer(),
           ],
         ),
       ),

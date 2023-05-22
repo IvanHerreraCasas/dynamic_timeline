@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, lines_longer_than_80_chars
 import 'dart:math';
+import 'package:dynamic_timeline/src/rendering/painter/interval_painter/background_painter_data.dart';
 import 'package:dynamic_timeline/src/rendering/painter/interval_painter/interval_painter.dart';
 import 'package:flutter/material.dart';
-import 'painter/interval_painter/background_painter_data.dart';
 
 class DynamicTimelineLayout {
   DynamicTimelineLayout(
@@ -28,6 +28,7 @@ class DynamicTimelineLayout {
   Axis axis;
   BoxConstraints _constraints;
 
+  // ignore: use_setters_to_change_properties
   void updateConstraints(BoxConstraints constraints) => _constraints = constraints;
 
   double getMaxCrossAxisItemExtent() {

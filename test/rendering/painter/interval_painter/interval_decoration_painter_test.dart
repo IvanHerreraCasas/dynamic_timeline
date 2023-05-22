@@ -1,17 +1,20 @@
-import 'package:dynamic_timeline/src/rendering/painter/interval_painter/background_painter_data.dart';
+// ignore_for_file: cascade_invocations
+
 import 'package:dynamic_timeline/dynamic_timeline.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:dynamic_timeline/src/rendering/painter/interval_painter/background_painter_data.dart';
 import 'package:flutter/material.dart';
-import '../../../helpers/helpers.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:shouldly/shouldly.dart';
+
+import '../../../helpers/helpers.dart';
 
 void main() {
   group('Interval painter decoration tests', () {
     test(
         'Vertical decoration line gets painted correctly '
         '--> coordinates as expected from the painter data', () {
-      var canvas = _FakeCanvas();
-      var idp = IntervalDecorationPainter.createVertical();
+      final canvas = _FakeCanvas();
+      final idp = IntervalDecorationPainter.createVertical();
 
       idp.data = BackgroundPainterData(
         crossAxisExtend: 300,
@@ -32,8 +35,8 @@ void main() {
     test(
         'Horizontal decoration line gets painted correctly '
         '--> coordinates as expected from the painter data', () {
-      var canvas = _FakeCanvas();
-      var idp = IntervalDecorationPainter.createHorizontal();
+      final canvas = _FakeCanvas();
+      final idp = IntervalDecorationPainter.createHorizontal();
 
       idp.data = BackgroundPainterData(
         crossAxisExtend: 300,
@@ -54,9 +57,9 @@ void main() {
     test(
         'Interval selector for even index validation for vertical decorator '
         '--> for 3 intervals there are only 2 painted ', () {
-      var canvas = _FakeCanvas();
-      var idp = IntervalDecorationPainter.createHorizontal(
-        intervalSelector: (idx) => idx % 2 == 0,
+      final canvas = _FakeCanvas();
+      final idp = IntervalDecorationPainter.createHorizontal(
+        intervalSelector: (idx) => idx.isEven,
       );
 
       idp.data = BackgroundPainterData(
@@ -74,8 +77,8 @@ void main() {
     test(
         'Interval selector for odd index validation for horizontal decorator '
         '--> for 3 intervals there are only 1 painted ', () {
-      var canvas = _FakeCanvas();
-      var idp = IntervalDecorationPainter.createHorizontal(
+      final canvas = _FakeCanvas();
+      final idp = IntervalDecorationPainter.createHorizontal(
         intervalSelector: (idx) => idx % 2 != 0,
       );
 
@@ -92,8 +95,8 @@ void main() {
     });
 
     test('Changing the decoration color to red on a horizontal decorator', () {
-      var canvas = _FakeCanvas();
-      var idp = IntervalDecorationPainter.createHorizontal(
+      final canvas = _FakeCanvas();
+      final idp = IntervalDecorationPainter.createHorizontal(
         intervalSelector: (idx) => idx % 2 != 0,
         paint: Paint()..color = Colors.red,
       );
@@ -111,8 +114,8 @@ void main() {
     });
 
     test('Changing the decoration color to green on a vertical decorator', () {
-      var canvas = _FakeCanvas();
-      var idp = IntervalDecorationPainter.createVertical(
+      final canvas = _FakeCanvas();
+      final idp = IntervalDecorationPainter.createVertical(
         paint: Paint()..color = Colors.green,
       );
 
@@ -144,9 +147,9 @@ class _FakeCanvas extends Fake implements Canvas {
 }
 
 class _FakeDrawLineCall {
+
+  _FakeDrawLineCall(this.p1, this.p2, this.paint);
   final Offset p1;
   final Offset p2;
   final Paint paint;
-
-  _FakeDrawLineCall(this.p1, this.p2, this.paint);
 }
