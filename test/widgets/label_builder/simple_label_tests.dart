@@ -1,5 +1,6 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'package:dynamic_timeline/dynamic_timeline.dart';
-import 'package:dynamic_timeline/src/rendering/label_builder.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -16,7 +17,7 @@ void main() {
             calls++;
             return 'date';
           }),
-          items: [],
+          items: const [],
           intervalDuration: const Duration(days: 1),
         );
 
@@ -28,7 +29,7 @@ void main() {
       'Creating a 2 days timeline with day interval '
       '--> label build gets called with the correct dates',
       () {
-        List<DateTime> callDates = [];
+        final callDates = <DateTime>[];
         DynamicTimeline(
           firstDateTime: DateTime(2023, 1, 1),
           lastDateTime: DateTime(2023, 1, 3),
@@ -36,7 +37,7 @@ void main() {
             callDates.add(labelDate);
             return 'date';
           }),
-          items: [],
+          items: const [],
           intervalDuration: const Duration(days: 1),
         );
 

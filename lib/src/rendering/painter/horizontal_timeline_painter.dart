@@ -8,7 +8,6 @@ class HorizontalTimelinePainter extends DynamicTimelinePainter{
         super(layouter: layouter, linePaint: linePaint, labelTextStyle: labelTextStyle);
 
 
-  Offset _currentOffset = Offset.zero;
 
   @override
   void paint(Canvas canvas, Offset offset, Size size){
@@ -26,6 +25,5 @@ class HorizontalTimelinePainter extends DynamicTimelinePainter{
       linePaint,
     );
 
-    _currentOffset = Offset( offset.dx, offset.dy + layouter.maxCrossAxisIndicatorExtent - DynamicTimelinePainter.labelSpacing);
   }
 }

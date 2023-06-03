@@ -1,10 +1,13 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:dynamic_timeline/src/rendering/dynamic_timeline_layout.dart';
 import 'package:flutter/material.dart';
 
-class TestLayoutEngineFactory{
-
-  static DynamicTimelineLayout create(
-      {double maxCrossAxisItemExtent = double.infinity, Axis axis = Axis.vertical}) {
+class TestLayoutEngineFactory {
+  static DynamicTimelineLayout create({
+    double maxCrossAxisItemExtent = double.infinity,
+    Axis axis = Axis.vertical,
+  }) {
     return DynamicTimelineLayout(
       intervalExtent: 50,
       crossAxisCount: 2,

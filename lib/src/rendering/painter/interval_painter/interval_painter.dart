@@ -1,8 +1,8 @@
 // ignore_for_file: lines_longer_than_80_chars
 import 'package:dynamic_timeline/src/rendering/painter/background_painter.dart';
 import 'package:dynamic_timeline/src/rendering/painter/interval_painter/background_painter_data.dart';
+import 'package:dynamic_timeline/src/rendering/painter/interval_painter/colored_interval_painter.dart';
 import 'package:flutter/material.dart';
-
 
 /// {@template interval_painter}
 /// The abstract base class for interval painters.
@@ -14,15 +14,17 @@ import 'package:flutter/material.dart';
 /// {@endtemplate}
 abstract class IntervalPainter extends BackgroundPainter {
   /// {@macro interval_painter}
-  IntervalPainter(
-      {required Axis drawingAxis, required bool Function(int intervalIdx) intervalSelector,})
-      : _regionCalculation = drawingAxis == Axis.horizontal
+  IntervalPainter({
+    required Axis drawingAxis,
+    required bool Function(int intervalIdx) intervalSelector,
+  })  : _regionCalculation = drawingAxis == Axis.horizontal
             ? _horizontalRegionCalculation
             : _verticalRegionCalculation,
         _painterDirection = drawingAxis,
         _intervalSelector = intervalSelector;
 
-  final Rect Function(BackgroundPainterData data, Offset canvasOffset, int idx) _regionCalculation;
+  final Rect Function(BackgroundPainterData data, Offset canvasOffset, int idx)
+      _regionCalculation;
   final Axis _painterDirection;
   final bool Function(int intervalIdx) _intervalSelector;
 
@@ -32,7 +34,7 @@ abstract class IntervalPainter extends BackgroundPainter {
   @override
   void paint(Canvas canvas, Offset canvasOffset) {
     for (var idx = 0; idx < data.numberOfIntervals; idx++) {
-      if(!_intervalSelector(idx)) continue;
+      if (!_intervalSelector(idx)) continue;
       paintCallback(canvas, _regionCalculation(data, canvasOffset, idx), idx);
     }
   }
@@ -46,16 +48,28 @@ abstract class IntervalPainter extends BackgroundPainter {
   void paintCallback(Canvas canvas, Rect drawingRegion, int intervalIdx);
 
   static Rect _horizontalRegionCalculation(
-      BackgroundPainterData data, Offset canvasOffset, int idx,) {
-    return Rect.fromLTWH(canvasOffset.dx + data.mainAxisOffset + idx * data.mainAxisExtend,
-        canvasOffset.dy + data.crossAxisOffset, data.mainAxisExtend, data.crossAxisExtend,);
+    BackgroundPainterData data,
+    Offset canvasOffset,
+    int idx,
+  ) {
+    return Rect.fromLTWH(
+      canvasOffset.dx + data.mainAxisOffset + idx * data.mainAxisExtend,
+      canvasOffset.dy + data.crossAxisOffset,
+      data.mainAxisExtend,
+      data.crossAxisExtend,
+    );
   }
 
-  static Rect _verticalRegionCalculation(BackgroundPainterData data, Offset canvasOffset, int idx) {
+  static Rect _verticalRegionCalculation(
+    BackgroundPainterData data,
+    Offset canvasOffset,
+    int idx,
+  ) {
     return Rect.fromLTWH(
-        canvasOffset.dx + data.crossAxisOffset,
-        canvasOffset.dy + data.mainAxisOffset + idx * data.mainAxisExtend,
-        data.crossAxisExtend,
-        data.mainAxisExtend,);
+      canvasOffset.dx + data.crossAxisOffset,
+      canvasOffset.dy + data.mainAxisOffset + idx * data.mainAxisExtend,
+      data.crossAxisExtend,
+      data.mainAxisExtend,
+    );
   }
 }

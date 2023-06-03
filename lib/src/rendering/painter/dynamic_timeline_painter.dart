@@ -18,6 +18,3 @@ abstract class DynamicTimelinePainter  {
 
   void paint(Canvas canvas, Offset offset, Size size);
 }
-
-
-

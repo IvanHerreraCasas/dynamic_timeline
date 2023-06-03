@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:dynamic_timeline/src/rendering/painter/interval_painter/interval_painter.dart';
 import 'package:dynamic_timeline/src/rendering/render_dynamic_timeline.dart';
@@ -48,7 +50,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
         ),
         super(
             key: key,
-            children: items+labelBuilder.create(firstDateTime,lastDateTime,intervalDuration??_getDefaultIntervalDuration(firstDateTime, lastDateTime))
+            children: items+labelBuilder.create(firstDateTime,lastDateTime,intervalDuration??_getDefaultIntervalDuration(firstDateTime, lastDateTime)),
           );
 
   /// The axis of the line.
@@ -117,7 +119,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    Duration defaultIntervalDuration = _getDefaultIntervalDuration(firstDateTime, lastDateTime);
+    final defaultIntervalDuration = _getDefaultIntervalDuration(firstDateTime, lastDateTime);
 
     final defaultLinePaint = Paint()
       ..color = color
@@ -152,7 +154,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     BuildContext context,
     covariant RenderDynamicTimeline renderObject,
   ) {
-    var defaultIntervalDuration = _getDefaultIntervalDuration(firstDateTime, lastDateTime);
+    final defaultIntervalDuration = _getDefaultIntervalDuration(firstDateTime, lastDateTime);
 
     final defaultLinePaint = Paint()
       ..color = color

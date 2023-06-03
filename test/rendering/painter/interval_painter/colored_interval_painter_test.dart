@@ -1,23 +1,26 @@
+// ignore_for_file: lines_longer_than_80_chars, cascade_invocations
+
 import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:dynamic_timeline/src/rendering/painter/interval_painter/background_painter_data.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shouldly/shouldly.dart';
+
 import '../../../helpers/helpers.dart';
-import 'package:flutter/material.dart';
 
 void main() {
   group('Colored interval painter tests', () {
     test(
         'Calling the painter on 3 intervals and a callback always returning a color '
         '--> The fake canvas gets called all 3 times', () {
-      var canvas = _FakeCanvas();
-      var cip = ColoredIntervalPainter.createHorizontal(
-          paint: Paint()..color = Colors.red, intervalSelector: (idx) => true);
+      final canvas = _FakeCanvas();
+      final cip = ColoredIntervalPainter.createHorizontal(
+        paint: Paint()..color = Colors.red,
+        intervalSelector: (idx) => true,
+      );
       cip.data = BackgroundPainterData(
         crossAxisExtend: 300,
         mainAxisExtend: 500,
-        mainAxisOffset: 0,
-        crossAxisOffset: 0,
         numberOfIntervals: 3,
       );
       cip.paint(canvas, Offset.zero);
@@ -26,16 +29,15 @@ void main() {
 
     test(
         'Calling the painter on 3 intervals and default interval selector '
-        '--> only even intervals get painted so there should be only to calls to draw rect', () {
-      var canvas = _FakeCanvas();
-      var cip = ColoredIntervalPainter.createHorizontal(
+        '--> only even intervals get painted so there should be only to calls to draw rect',
+        () {
+      final canvas = _FakeCanvas();
+      final cip = ColoredIntervalPainter.createHorizontal(
         paint: Paint()..color = Colors.yellow,
       );
       cip.data = BackgroundPainterData(
         crossAxisExtend: 300,
         mainAxisExtend: 500,
-        mainAxisOffset: 0,
-        crossAxisOffset: 0,
         numberOfIntervals: 3,
       );
       cip.paint(canvas, Offset.zero);
@@ -47,13 +49,11 @@ void main() {
         'Calling the painter on 3 intervals with default callback '
         '--> The fake canvas gets called all 2 times since the default only triggers '
         ' on even elements', () {
-      var canvas = _FakeCanvas();
-      var cip = ColoredIntervalPainter.createHorizontal();
+      final canvas = _FakeCanvas();
+      final cip = ColoredIntervalPainter.createHorizontal();
       cip.data = BackgroundPainterData(
         crossAxisExtend: 300,
         mainAxisExtend: 500,
-        mainAxisOffset: 0,
-        crossAxisOffset: 0,
         numberOfIntervals: 3,
       );
       cip.paint(canvas, Offset.zero);
@@ -63,8 +63,9 @@ void main() {
     test(
         'Calling a horizontal painter on 1 interval '
         '--> Gets called with all the right parameters', () {
-      var canvas = _FakeCanvas();
-      var cip = ColoredIntervalPainter.createHorizontal(paint: Paint()..color = Colors.red);
+      final canvas = _FakeCanvas();
+      final cip = ColoredIntervalPainter.createHorizontal(
+          paint: Paint()..color = Colors.red,);
       cip.data = BackgroundPainterData(
         crossAxisExtend: 300,
         mainAxisExtend: 500,
@@ -83,8 +84,9 @@ void main() {
     test(
         'Calling a vertical painter on 1 interval '
         '--> Gets called with all the right parameters', () {
-      var canvas = _FakeCanvas();
-      var cip = ColoredIntervalPainter.createVertical(paint: Paint()..color = Colors.green);
+      final canvas = _FakeCanvas();
+      final cip = ColoredIntervalPainter.createVertical(
+          paint: Paint()..color = Colors.green,);
       cip.data = BackgroundPainterData(
         crossAxisExtend: 300,
         mainAxisExtend: 500,
@@ -102,10 +104,11 @@ void main() {
     });
 
     test(
-        'Calling a vertical painter on 2 intervals with always true selector'
+        'Calling a vertical painter on 2 intervals with always true selector '
         '--> Draw rect should be called twice', () {
-      var canvas = _FakeCanvas();
-      var cip = ColoredIntervalPainter.createVertical(intervalSelector: (idx) => true);
+      final canvas = _FakeCanvas();
+      final cip = ColoredIntervalPainter.createVertical(
+          intervalSelector: (idx) => true,);
       cip.data = BackgroundPainterData(
         crossAxisExtend: 300,
         mainAxisExtend: 500,
@@ -124,7 +127,8 @@ class _FakeCanvas extends Fake implements Canvas {
   final List<_FakeDrawRectCall> _drawRectCalls = [];
 
   @override
-  void drawRect(Rect rect, Paint paint) => _drawRectCalls.add(_FakeDrawRectCall(rect, paint));
+  void drawRect(Rect rect, Paint paint) =>
+      _drawRectCalls.add(_FakeDrawRectCall(rect, paint));
 
   int get numDrawRectCalls => _drawRectCalls.length;
 
@@ -132,8 +136,8 @@ class _FakeCanvas extends Fake implements Canvas {
 }
 
 class _FakeDrawRectCall {
-  final Rect rect;
-  final Paint paint;
 
   _FakeDrawRectCall(this.rect, this.paint);
+  final Rect rect;
+  final Paint paint;
 }

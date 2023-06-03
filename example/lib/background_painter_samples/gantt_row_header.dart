@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class GanttRowHeader extends StatelessWidget {
   static const double headerWidth = 150;
-  static const boxDecoration = const BoxDecoration(
+  static const boxDecoration = BoxDecoration(
     border: Border(
       top: BorderSide(
         color: Color.fromARGB(255, 0xcf, 0xcf, 0xcf),
@@ -37,9 +37,9 @@ class GanttRowHeader extends StatelessWidget {
                 child: Column(
                   children: [
                     const Spacer(),
-                    Text(e.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(e.name, style: const TextStyle(fontWeight: FontWeight.bold)),
                     const Spacer(),
-                    Text(e.position, style: TextStyle(fontSize: 10, fontStyle: FontStyle.italic)),
+                    Text(e.position, style: const TextStyle(fontSize: 10, fontStyle: FontStyle.italic)),
                     const Spacer(),
                   ],
                 ),
@@ -62,7 +62,7 @@ class GanttRowHeader extends StatelessWidget {
               )
             ] +
             employeeInfoHeaders +
-            <Widget>[Spacer()],
+            <Widget>[const Spacer()],
       ),
       height: (rowHeaderHeight + crossAxisCount * (rowHeight + axisSpacing) + 10),
     );
