@@ -5,10 +5,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
-
 class RenderTimelineItem extends RenderProxyBox
     implements MouseTrackerAnnotation {
-
   RenderTimelineItem({
     required DateTime startDateTime,
     required DateTime endDateTime,
@@ -39,8 +37,8 @@ class RenderTimelineItem extends RenderProxyBox
     markParentNeedsLayout();
   }
 
-  final bool _isTimelineLabelItem ;
-  bool  get isTimelineLabelItem => _isTimelineLabelItem;
+  final bool _isTimelineLabelItem;
+  bool get isTimelineLabelItem => _isTimelineLabelItem;
 
   DateTime _endDateTime;
 

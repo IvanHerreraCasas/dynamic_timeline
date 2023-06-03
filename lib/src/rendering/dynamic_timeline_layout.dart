@@ -5,17 +5,17 @@ import 'package:dynamic_timeline/src/rendering/painter/interval_painter/interval
 import 'package:flutter/material.dart';
 
 class DynamicTimelineLayout {
-  DynamicTimelineLayout(
-      {required this.axis,
-      required this.maxCrossAxisItemExtent,
-      required this.intervalExtent,
-      required this.maxCrossAxisIndicatorExtent,
-      required this.crossAxisSpacing,
-      required this.crossAxisCount,
-      required this.firstDateTime,
-      required this.lastDateTime,
-      required this.intervalDuration,})
-      : _constraints = const BoxConstraints(maxWidth: 0, maxHeight: 0);
+  DynamicTimelineLayout({
+    required this.axis,
+    required this.maxCrossAxisItemExtent,
+    required this.intervalExtent,
+    required this.maxCrossAxisIndicatorExtent,
+    required this.crossAxisSpacing,
+    required this.crossAxisCount,
+    required this.firstDateTime,
+    required this.lastDateTime,
+    required this.intervalDuration,
+  }) : _constraints = const BoxConstraints(maxWidth: 0, maxHeight: 0);
 
   DateTime firstDateTime;
   Duration intervalDuration;
@@ -29,15 +29,17 @@ class DynamicTimelineLayout {
   BoxConstraints _constraints;
 
   // ignore: use_setters_to_change_properties
-  void updateConstraints(BoxConstraints constraints) => _constraints = constraints;
+  void updateConstraints(BoxConstraints constraints) =>
+      _constraints = constraints;
 
   double getMaxCrossAxisItemExtent() {
     if (maxCrossAxisItemExtent.isFinite) return maxCrossAxisItemExtent;
 
     final crossAxisExtent = _getCrossAxisExtent();
 
-    final freeSpaceExtent =
-        crossAxisExtent - maxCrossAxisIndicatorExtent - crossAxisSpacing * crossAxisCount;
+    final freeSpaceExtent = crossAxisExtent -
+        maxCrossAxisIndicatorExtent -
+        crossAxisSpacing * crossAxisCount;
 
     return freeSpaceExtent / crossAxisCount;
   }
@@ -47,8 +49,8 @@ class DynamicTimelineLayout {
 
     if (maxCrossAxisItemExtent.isInfinite) return crossAxisSize;
 
-    final attemptExtent =
-        maxCrossAxisIndicatorExtent + (crossAxisSpacing + maxCrossAxisItemExtent) * crossAxisCount;
+    final attemptExtent = maxCrossAxisIndicatorExtent +
+        (crossAxisSpacing + maxCrossAxisItemExtent) * crossAxisCount;
 
     return min(
       crossAxisSize,
@@ -99,7 +101,8 @@ class DynamicTimelineLayout {
     final intervalMainAxisExtend = _isOnMainAxis(intervalPainter)
         ? getExtentSecondRate() * intervalDuration.inSeconds
         : getMaxCrossAxisItemExtent() + crossAxisSpacing;
-    final intervalOffset = _isOnMainAxis(intervalPainter) ? maxCrossAxisIndicatorExtent : 0;
+    final intervalOffset =
+        _isOnMainAxis(intervalPainter) ? maxCrossAxisIndicatorExtent : 0;
     final crossAxisExtend = intervalPainter.painterDirection == Axis.horizontal
         ? computeSize().height - intervalOffset
         : computeSize().width - intervalOffset;
@@ -108,15 +111,23 @@ class DynamicTimelineLayout {
       data: BackgroundPainterData(
         mainAxisExtend: intervalMainAxisExtend,
         crossAxisExtend: crossAxisExtend,
-        numberOfIntervals: _isOnMainAxis(intervalPainter) ? _getIntervalCount() : crossAxisCount,
-        mainAxisOffset: intervalPainter.painterDirection == axis ? 0 : maxCrossAxisIndicatorExtent,
-        crossAxisOffset: intervalPainter.painterDirection == axis ? maxCrossAxisIndicatorExtent : 0,
+        numberOfIntervals: _isOnMainAxis(intervalPainter)
+            ? _getIntervalCount()
+            : crossAxisCount,
+        mainAxisOffset: intervalPainter.painterDirection == axis
+            ? 0
+            : maxCrossAxisIndicatorExtent,
+        crossAxisOffset: intervalPainter.painterDirection == axis
+            ? maxCrossAxisIndicatorExtent
+            : 0,
       ),
     );
   }
 
-  int _getIntervalCount() =>
-      (lastDateTime.difference(firstDateTime).inMinutes / intervalDuration.inMinutes).floor();
+  int _getIntervalCount() => (lastDateTime.difference(firstDateTime).inMinutes /
+          intervalDuration.inMinutes)
+      .floor();
 
-  bool _isOnMainAxis(IntervalPainter intervalPainter) => intervalPainter.painterDirection == axis;
+  bool _isOnMainAxis(IntervalPainter intervalPainter) =>
+      intervalPainter.painterDirection == axis;
 }

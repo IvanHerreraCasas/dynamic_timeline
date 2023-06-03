@@ -13,7 +13,8 @@ class ColoredIntervalPainter extends IntervalPainter {
   })  : _paint = paint ?? (Paint()..color = Colors.black12),
         super(
           drawingAxis: axis,
-          intervalSelector: intervalSelector ?? ((intervalIdx) => intervalIdx.isEven),
+          intervalSelector:
+              intervalSelector ?? ((intervalIdx) => intervalIdx.isEven),
         );
 
   /// Creates a [ColoredIntervalPainter] that paints the horizontal intervals.

@@ -147,7 +147,6 @@ class _FakeCanvas extends Fake implements Canvas {
 }
 
 class _FakeDrawLineCall {
-
   _FakeDrawLineCall(this.p1, this.p2, this.paint);
   final Offset p1;
   final Offset p2;

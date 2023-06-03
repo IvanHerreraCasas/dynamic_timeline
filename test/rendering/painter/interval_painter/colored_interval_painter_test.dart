@@ -65,7 +65,8 @@ void main() {
         '--> Gets called with all the right parameters', () {
       final canvas = _FakeCanvas();
       final cip = ColoredIntervalPainter.createHorizontal(
-          paint: Paint()..color = Colors.red,);
+        paint: Paint()..color = Colors.red,
+      );
       cip.data = BackgroundPainterData(
         crossAxisExtend: 300,
         mainAxisExtend: 500,
@@ -86,7 +87,8 @@ void main() {
         '--> Gets called with all the right parameters', () {
       final canvas = _FakeCanvas();
       final cip = ColoredIntervalPainter.createVertical(
-          paint: Paint()..color = Colors.green,);
+        paint: Paint()..color = Colors.green,
+      );
       cip.data = BackgroundPainterData(
         crossAxisExtend: 300,
         mainAxisExtend: 500,
@@ -108,7 +110,8 @@ void main() {
         '--> Draw rect should be called twice', () {
       final canvas = _FakeCanvas();
       final cip = ColoredIntervalPainter.createVertical(
-          intervalSelector: (idx) => true,);
+        intervalSelector: (idx) => true,
+      );
       cip.data = BackgroundPainterData(
         crossAxisExtend: 300,
         mainAxisExtend: 500,
@@ -136,7 +139,6 @@ class _FakeCanvas extends Fake implements Canvas {
 }
 
 class _FakeDrawRectCall {
-
   _FakeDrawRectCall(this.rect, this.paint);
   final Rect rect;
   final Paint paint;

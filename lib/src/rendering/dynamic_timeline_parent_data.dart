@@ -2,7 +2,6 @@
 import 'package:flutter/rendering.dart';
 
 class DynamicTimelineParentData extends ContainerBoxParentData<RenderBox> {
-
   DynamicTimelineParentData({
     required this.secondExtent,
     required this.minItemDuration,

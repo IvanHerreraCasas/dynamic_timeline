@@ -14,7 +14,6 @@ class VerticalTimelinePainter extends DynamicTimelinePainter {
           labelTextStyle: labelTextStyle,
         );
 
-
   @override
   void paint(Canvas canvas, Offset offset, Size size) {
     // paint line
@@ -29,6 +28,5 @@ class VerticalTimelinePainter extends DynamicTimelinePainter {
       ),
       linePaint,
     );
-
   }
 }

@@ -45,9 +45,15 @@ class RenderDynamicTimeline extends RenderBox
         _resizable = resizable {
     _painter = axis == Axis.vertical
         ? VerticalTimelinePainter(
-            layouter: _layoutProcessor, linePaint: linePaint, labelTextStyle: labelTextStyle,)
+            layouter: _layoutProcessor,
+            linePaint: linePaint,
+            labelTextStyle: labelTextStyle,
+          )
         : HorizontalTimelinePainter(
-            layouter: _layoutProcessor, linePaint: linePaint, labelTextStyle: labelTextStyle,);
+            layouter: _layoutProcessor,
+            linePaint: linePaint,
+            labelTextStyle: labelTextStyle,
+          );
   }
 
   late final DynamicTimelinePainter _painter;
@@ -232,15 +238,19 @@ class RenderDynamicTimeline extends RenderBox
 
       final childDuration = endDateTime.difference(startDateTime);
 
-      final childMainAxisExtent = _layoutProcessor.getExtentSecondRate() * childDuration.inSeconds;
+      final childMainAxisExtent =
+          _layoutProcessor.getExtentSecondRate() * childDuration.inSeconds;
 
       final differenceFromFirstDate = startDateTime.difference(firstDateTime);
 
-      final mainAxisPosition =
-          _layoutProcessor.getExtentSecondRate() * differenceFromFirstDate.inSeconds;
+      final mainAxisPosition = _layoutProcessor.getExtentSecondRate() *
+          differenceFromFirstDate.inSeconds;
 
-      final crossAxisPosition =
-          _getCrossAxisPosition(maxCrossAxisItemExtent, position, timeLineChild);
+      final crossAxisPosition = _getCrossAxisPosition(
+        maxCrossAxisItemExtent,
+        position,
+        timeLineChild,
+      );
 
       if (axis == Axis.vertical) {
         child.layout(
@@ -277,7 +287,8 @@ class RenderDynamicTimeline extends RenderBox
     int position,
     RenderTimelineItem child,
   ) {
-    if (child.isTimelineLabelItem) return (crossAxisSpacing + maxCrossAxisItemExtent) * position;
+    if (child.isTimelineLabelItem)
+      return (crossAxisSpacing + maxCrossAxisItemExtent) * position;
     return maxCrossAxisIndicatorExtent +
         crossAxisSpacing +
         (crossAxisSpacing + maxCrossAxisItemExtent) * position;

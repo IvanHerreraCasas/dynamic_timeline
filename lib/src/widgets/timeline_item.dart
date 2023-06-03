@@ -2,7 +2,6 @@ import 'package:dynamic_timeline/dynamic_timeline.dart';
 import 'package:dynamic_timeline/src/rendering/render_timeline_item.dart';
 import 'package:flutter/widgets.dart';
 
-
 /// {@template timeline_item}
 /// A widget that positions a child in a [DynamicTimeline]
 /// and can be resized with drag gestures on the start and end sides.
