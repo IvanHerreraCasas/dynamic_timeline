@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DummyStatefulWrapper extends StatefulWidget {
-  const DummyStatefulWrapper({super.key, required this.builder});
+  const DummyStatefulWrapper({required this.builder, super.key});
 
   final Widget Function() builder;
 

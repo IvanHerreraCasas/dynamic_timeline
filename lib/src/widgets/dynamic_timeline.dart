@@ -18,9 +18,11 @@ import 'package:flutter/material.dart';
 class DynamicTimeline extends MultiChildRenderObjectWidget {
   /// {@macro dynamic_timeline}
   DynamicTimeline({
-    Key? key,
     required this.firstDateTime,
     required this.lastDateTime,
+    required LabelBuilder labelBuilder,
+    required List<TimelineItem> items,
+    super.key,
     this.axis = Axis.vertical,
     this.intervalDuration,
     this.intervalExtent = 100,
@@ -36,8 +38,6 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     this.paint,
     this.textStyle,
     this.intervalPainters = const [],
-    required LabelBuilder labelBuilder,
-    required List<TimelineItem> items,
   })  : assert(
           maxCrossAxisItemExtent != double.infinity,
           "max cross axis item extent can't be infinite. ",
@@ -48,7 +48,6 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
           'firstDateTime: $firstDateTime --- lastDateTime: $lastDateTime',
         ),
         super(
-          key: key,
           children: items +
               labelBuilder.create(
                 firstDateTime,
@@ -130,7 +129,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       ..strokeWidth = strokeWidth
       ..strokeCap = strokeCap;
 
-    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyText1!;
+    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyLarge!;
 
     return RenderDynamicTimeline(
       firstDateTime: firstDateTime,
@@ -169,7 +168,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
       ..strokeWidth = strokeWidth
       ..strokeCap = strokeCap;
 
-    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyText1!;
+    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyLarge!;
 
     renderObject
       ..firstDateTime = firstDateTime

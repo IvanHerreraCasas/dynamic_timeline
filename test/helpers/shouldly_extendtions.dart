@@ -9,10 +9,10 @@ extension ColorShouldyExtension on Color {
 
 class ColorAssertions extends BaseAssertions<Color, ColorAssertions> {
   ColorAssertions(
-    Color? subject, {
-    bool isReversed = false,
-    String? subjectLabel,
-  }) : super(subject, isReversed: isReversed, subjectLabel: subjectLabel);
+    super.subject, {
+    super.isReversed,
+    super.subjectLabel,
+  });
 
   @override
   ColorAssertions be(Color expected) {
