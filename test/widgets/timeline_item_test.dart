@@ -412,7 +412,8 @@ void main() {
 
             await tester.pump();
 
-            final newLeftLocation = tester.getTopLeft(find.byType(TimelineItem));
+            final newLeftLocation =
+                tester.getTopLeft(find.byType(TimelineItem));
 
             expect(newLeftLocation.dx, expectedLeftLocation.dx);
 

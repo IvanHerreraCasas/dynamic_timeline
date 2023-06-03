@@ -25,7 +25,11 @@ class ColorAssertions extends BaseAssertions<Color, ColorAssertions> {
   }
 
   @override
-  ColorAssertions copy(Color? subject, {bool isReversed = false, String? subjectLabel}) {
+  ColorAssertions copy(
+    Color? subject, {
+    bool isReversed = false,
+    String? subjectLabel,
+  }) {
     return ColorAssertions(
       subject,
       isReversed: isReversed,

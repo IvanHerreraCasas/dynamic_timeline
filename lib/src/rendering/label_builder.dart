@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 /// a simple string will be converted into text label for the given interval size.
 /// {@endtemplate}
 class LabelBuilder {
-
   /// {@macro label_builder}
   LabelBuilder({
     required this.builder,
@@ -22,10 +21,12 @@ class LabelBuilder {
   /// interval size [intervalExtend] which determines how many intervals of the timeline
   /// are covered by a single label and a converter function [converter] which converts
   /// the given interval [DateTime] to the output string.
-  factory LabelBuilder.fromString(String Function(DateTime date) converter) => LabelBuilder(
-      builder: (labelDate) {
-        return Text(converter(labelDate));
-      },);
+  factory LabelBuilder.fromString(String Function(DateTime date) converter) =>
+      LabelBuilder(
+        builder: (labelDate) {
+          return Text(converter(labelDate));
+        },
+      );
 
   /// The number of intervals a label will cover (e.g. 7 to spread over a week with day intervals). (default 1)
   final int intervalExtend;
@@ -36,7 +37,10 @@ class LabelBuilder {
   /// Automatically builds a list of labels starting from [firstDateTime] going
   /// to [lastDateTime] with the given [intervalDuration].
   List<TimelineItem> create(
-      DateTime firstDateTime, DateTime lastDateTime, Duration intervalDuration,) {
+    DateTime firstDateTime,
+    DateTime lastDateTime,
+    Duration intervalDuration,
+  ) {
     final toAdd = _buildAllLabels(
       firstDateTime,
       lastDateTime,
@@ -51,7 +55,8 @@ class LabelBuilder {
     Duration interval,
   ) {
     final numberOfIntervals =
-        ((lastDateTime.difference(firstDateTime).inMinutes / interval.inMinutes).floor() /
+        ((lastDateTime.difference(firstDateTime).inMinutes / interval.inMinutes)
+                    .floor() /
                 intervalExtend)
             .ceil();
     final toAdd = List<TimelineItem>.generate(

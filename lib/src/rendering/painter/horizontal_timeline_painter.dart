@@ -3,15 +3,19 @@ import 'package:dynamic_timeline/src/rendering/dynamic_timeline_layout.dart';
 import 'package:dynamic_timeline/src/rendering/painter/dynamic_timeline_painter.dart';
 import 'package:flutter/material.dart';
 
-class HorizontalTimelinePainter extends DynamicTimelinePainter{
-  HorizontalTimelinePainter({required DynamicTimelineLayout layouter, required Paint linePaint, required TextStyle labelTextStyle}) :
-        super(layouter: layouter, linePaint: linePaint, labelTextStyle: labelTextStyle);
-
-
+class HorizontalTimelinePainter extends DynamicTimelinePainter {
+  HorizontalTimelinePainter({
+    required DynamicTimelineLayout layouter,
+    required Paint linePaint,
+    required TextStyle labelTextStyle,
+  }) : super(
+          layouter: layouter,
+          linePaint: linePaint,
+          labelTextStyle: labelTextStyle,
+        );
 
   @override
-  void paint(Canvas canvas, Offset offset, Size size){
-
+  void paint(Canvas canvas, Offset offset, Size size) {
     // paint line
     canvas.drawLine(
       Offset(
@@ -24,6 +28,5 @@ class HorizontalTimelinePainter extends DynamicTimelinePainter{
       ),
       linePaint,
     );
-
   }
 }

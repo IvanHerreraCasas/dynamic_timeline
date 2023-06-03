@@ -5,7 +5,6 @@ import 'package:dynamic_timeline/src/rendering/painter/interval_painter/interval
 import 'package:dynamic_timeline/src/rendering/render_dynamic_timeline.dart';
 import 'package:flutter/material.dart';
 
-
 /// {@template dynamic_timeline}
 /// A widget that displays a timeline and positions its children using their
 /// start and end date times.
@@ -49,9 +48,15 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
           'firstDateTime: $firstDateTime --- lastDateTime: $lastDateTime',
         ),
         super(
-            key: key,
-            children: items+labelBuilder.create(firstDateTime,lastDateTime,intervalDuration??_getDefaultIntervalDuration(firstDateTime, lastDateTime)),
-          );
+          key: key,
+          children: items +
+              labelBuilder.create(
+                firstDateTime,
+                lastDateTime,
+                intervalDuration ??
+                    _getDefaultIntervalDuration(firstDateTime, lastDateTime),
+              ),
+        );
 
   /// The axis of the line.
   final Axis axis;
@@ -107,8 +112,6 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
   /// Used if [paint] is null.
   final double strokeWidth;
 
-
-
   /// The stroke cap of the line
   ///
   /// Used if [paint] is null.
@@ -119,7 +122,8 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final defaultIntervalDuration = _getDefaultIntervalDuration(firstDateTime, lastDateTime);
+    final defaultIntervalDuration =
+        _getDefaultIntervalDuration(firstDateTime, lastDateTime);
 
     final defaultLinePaint = Paint()
       ..color = color
@@ -146,7 +150,10 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     );
   }
 
-  static Duration _getDefaultIntervalDuration(DateTime firstDateTime, DateTime lastDateTime) =>
+  static Duration _getDefaultIntervalDuration(
+    DateTime firstDateTime,
+    DateTime lastDateTime,
+  ) =>
       lastDateTime.difference(firstDateTime) ~/ 20;
 
   @override
@@ -154,7 +161,8 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     BuildContext context,
     covariant RenderDynamicTimeline renderObject,
   ) {
-    final defaultIntervalDuration = _getDefaultIntervalDuration(firstDateTime, lastDateTime);
+    final defaultIntervalDuration =
+        _getDefaultIntervalDuration(firstDateTime, lastDateTime);
 
     final defaultLinePaint = Paint()
       ..color = color

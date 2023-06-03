@@ -6,14 +6,15 @@ import 'package:flutter/material.dart';
 /// To construct there are two factory methods available
 /// [IntervalDecorationPainter.createHorizontal] and [IntervalDecorationPainter.createVertical].
 class IntervalDecorationPainter extends IntervalPainter {
-
   /// Creates an implementations of [IntervalPainter] that draws a horizontal
   /// decoration line at the bottom of the interval.
   /// With [paint] you can specify the [Paint] to use for drawing the line.
   /// With [intervalSelector] you can specify which intervals should be decorated.
   /// e.g. every second interval only ..
-  factory IntervalDecorationPainter.createHorizontal(
-          {Paint? paint, bool Function(int intervalIdx)? intervalSelector,}) =>
+  factory IntervalDecorationPainter.createHorizontal({
+    Paint? paint,
+    bool Function(int intervalIdx)? intervalSelector,
+  }) =>
       IntervalDecorationPainter._(
         _drawHorizontal,
         paint: paint,
@@ -26,8 +27,10 @@ class IntervalDecorationPainter extends IntervalPainter {
   /// With [paint] you can specify the [Paint] to use for drawing the line.
   /// With [intervalSelector] you can specify which intervals should be decorated.
   /// e.g. every second interval only ..
-  factory IntervalDecorationPainter.createVertical(
-          {Paint? paint, bool Function(int intervalIdx)? intervalSelector,}) =>
+  factory IntervalDecorationPainter.createVertical({
+    Paint? paint,
+    bool Function(int intervalIdx)? intervalSelector,
+  }) =>
       IntervalDecorationPainter._(
         _drawVertical,
         paint: paint,
@@ -35,12 +38,16 @@ class IntervalDecorationPainter extends IntervalPainter {
         drawingAxis: Axis.vertical,
       );
 
-  IntervalDecorationPainter._(this._linePainter,
-      {required super.drawingAxis, bool Function(int intervalIdx)? intervalSelector, Paint? paint,})
-      : _paint = paint ?? (Paint()..color = Colors.black26),
-      super(intervalSelector: intervalSelector?? ((intervalIdx) => true));
+  IntervalDecorationPainter._(
+    this._linePainter, {
+    required super.drawingAxis,
+    bool Function(int intervalIdx)? intervalSelector,
+    Paint? paint,
+  })  : _paint = paint ?? (Paint()..color = Colors.black26),
+        super(intervalSelector: intervalSelector ?? ((intervalIdx) => true));
 
-  final void Function(Canvas canvas, Rect drawingRegion, Paint paint) _linePainter;
+  final void Function(Canvas canvas, Rect drawingRegion, Paint paint)
+      _linePainter;
   final Paint _paint;
 
   @override
@@ -52,5 +59,9 @@ class IntervalDecorationPainter extends IntervalPainter {
       canvas.drawLine(drawingRegion.topRight, drawingRegion.bottomRight, paint);
 
   static void _drawVertical(Canvas canvas, Rect drawingRegion, Paint paint) =>
-      canvas.drawLine(drawingRegion.bottomLeft, drawingRegion.bottomRight, paint);
+      canvas.drawLine(
+        drawingRegion.bottomLeft,
+        drawingRegion.bottomRight,
+        paint,
+      );
 }
