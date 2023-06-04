@@ -156,7 +156,7 @@ void main() {
 
           expect(
             renderDynamicTimeline.labelTextStyle,
-            Theme.of(element).textTheme.bodyText1,
+            Theme.of(element).textTheme.bodyLarge,
           );
         });
       });
