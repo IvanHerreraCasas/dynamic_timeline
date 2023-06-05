@@ -33,7 +33,7 @@ void main() {
       DateTime? lastDateTime,
       String? Function(DateTime)? labelBuilder,
       Axis axis = Axis.vertical,
-      Duration intervalDuration = const Duration(hours: 1),
+      Duration? intervalDuration = const Duration(hours: 1),
       double intervalExtent = 100,
       int crossAxisCount = 2,
       double maxCrossAxisIndicatorExtent = 60,
@@ -116,6 +116,21 @@ void main() {
       });
 
       group('defaults', () {
+
+        testWidgets('intervalDuration takes 1/20 of the total', (tester) async {
+          await tester.pumpApp(buildSubject(intervalDuration: null));
+
+          final renderDynamicTimeline =
+              tester.renderObject<RenderDynamicTimeline>(
+            find.byType(DynamicTimeline),
+          );
+
+          expect(
+            renderDynamicTimeline.minItemDuration,
+            const Duration(hours: 4) ~/ 20,
+          );
+        });
+
         testWidgets('minItemDuration takes 1/20 of the total', (tester) async {
           await tester.pumpApp(buildSubject());
 
