@@ -116,7 +116,6 @@ void main() {
       });
 
       group('defaults', () {
-
         testWidgets('intervalDuration takes 1/20 of the total', (tester) async {
           await tester.pumpApp(buildSubject(intervalDuration: null));
 
