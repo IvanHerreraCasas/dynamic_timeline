@@ -17,6 +17,7 @@ class _GanttChartState extends State<GanttChart> {
       startDateTime: DateTime(2022, 1, 1),
       endDateTime: DateTime(2022, 1, 15),
       child: const Event(title: 'Event 1'),
+      position: 0,
     ),
     TimelineItem(
       startDateTime: DateTime(2022, 1, 20),
@@ -50,7 +51,7 @@ class _GanttChartState extends State<GanttChart> {
       appBar: AppBar(title: const Text('Gantt Chart')),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(40),
+          padding: const EdgeInsets.all(10),
           child: Scrollbar(
             controller: scrollController,
             thumbVisibility: true,
@@ -60,13 +61,24 @@ class _GanttChartState extends State<GanttChart> {
               child: DynamicTimeline(
                 firstDateTime: DateTime(2022, 1, 1),
                 lastDateTime: DateTime(2022, 12, 31),
-                labelBuilder: DateFormat('dd').format,
+                labelBuilder: LabelBuilder(
+                    builder: (date) => Column(children: [
+                          Expanded(child: Container()),
+                          Transform(
+                            child: Text(
+                              DateFormat('dd').format(date),
+                            ),
+                            alignment: FractionalOffset.center,
+                            transform: Matrix4.identity()..rotateZ(-70 * 3.1415927 / 180),
+                          ),
+                          const SizedBox(width: double.infinity, height: 3)
+                        ])),
                 axis: Axis.horizontal,
                 intervalDuration: const Duration(days: 1),
                 minItemDuration: const Duration(days: 1),
                 crossAxisCount: 3,
                 intervalExtent: 20,
-                maxCrossAxisItemExtent: 100,
+                maxCrossAxisItemExtent: 30,
                 items: items,
               ),
             ),

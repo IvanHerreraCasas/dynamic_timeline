@@ -1,4 +1,8 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:dynamic_timeline/dynamic_timeline.dart';
+import 'package:dynamic_timeline/src/rendering/painter/interval_painter/interval_painter.dart';
+import 'package:dynamic_timeline/src/rendering/render_dynamic_timeline.dart';
 import 'package:flutter/material.dart';
 
 /// {@template dynamic_timeline}
@@ -14,15 +18,16 @@ import 'package:flutter/material.dart';
 class DynamicTimeline extends MultiChildRenderObjectWidget {
   /// {@macro dynamic_timeline}
   DynamicTimeline({
-    Key? key,
     required this.firstDateTime,
     required this.lastDateTime,
-    required this.labelBuilder,
+    required LabelBuilder labelBuilder,
+    required List<TimelineItem> items,
+    super.key,
     this.axis = Axis.vertical,
     this.intervalDuration,
     this.intervalExtent = 100,
     this.crossAxisCount = 1,
-    this.maxCrossAxisIndicatorExtent = 60,
+    this.maxCrossAxisIndicatorExtent = 80,
     this.maxCrossAxisItemExtent,
     this.minItemDuration,
     this.crossAxisSpacing = 20,
@@ -32,7 +37,7 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     this.resizable = true,
     this.paint,
     this.textStyle,
-    required List<TimelineItem> items,
+    this.intervalPainters = const [],
   })  : assert(
           maxCrossAxisItemExtent != double.infinity,
           "max cross axis item extent can't be infinite. ",
@@ -42,7 +47,15 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
           'firstDateTime must be before lastDateTime:   '
           'firstDateTime: $firstDateTime --- lastDateTime: $lastDateTime',
         ),
-        super(key: key, children: items);
+        super(
+          children: items +
+              labelBuilder.create(
+                firstDateTime,
+                lastDateTime,
+                intervalDuration ??
+                    _getDefaultIntervalDuration(firstDateTime, lastDateTime),
+              ),
+        );
 
   /// The axis of the line.
   final Axis axis;
@@ -53,16 +66,16 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
   /// The last datetime in the timeline.
   final DateTime lastDateTime;
 
-  /// Called to build the label of each mark.
-  ///
-  /// Note: DateFormat can be used.
-  final String? Function(DateTime) labelBuilder;
-
   /// The lenght of time between each mark.
   final Duration? intervalDuration;
 
   /// The number of logical pixels between each mark.
   final double intervalExtent;
+
+  /// Interval painter are used to color the background of the timeline.
+  /// intervals can be along the items direction (cross axis)
+  /// or the time direction (main axis).
+  final List<IntervalPainter> intervalPainters;
 
   /// If true the items can be resized, dragging in the main axis extremes.
   final bool resizable;
@@ -109,25 +122,25 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
   @override
   RenderObject createRenderObject(BuildContext context) {
     final defaultIntervalDuration =
-        lastDateTime.difference(firstDateTime) ~/ 20;
+        _getDefaultIntervalDuration(firstDateTime, lastDateTime);
 
     final defaultLinePaint = Paint()
       ..color = color
       ..strokeWidth = strokeWidth
       ..strokeCap = strokeCap;
 
-    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyText1!;
+    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyLarge!;
 
     return RenderDynamicTimeline(
       firstDateTime: firstDateTime,
       lastDateTime: lastDateTime,
-      labelBuilder: labelBuilder,
       axis: axis,
       intervalDuration: intervalDuration ?? defaultIntervalDuration,
       intervalExtent: intervalExtent,
+      intervalPainters: intervalPainters,
       crossAxisCount: crossAxisCount,
       maxCrossAxisIndicatorExtent: maxCrossAxisIndicatorExtent,
-      maxCrossAxisItemExtent: maxCrossAxisItemExtent,
+      maxCrossAxisItemExtent: maxCrossAxisItemExtent ?? double.infinity,
       minItemDuration: minItemDuration ?? defaultIntervalDuration,
       crossAxisSpacing: crossAxisSpacing,
       resizable: resizable,
@@ -136,31 +149,37 @@ class DynamicTimeline extends MultiChildRenderObjectWidget {
     );
   }
 
+  static Duration _getDefaultIntervalDuration(
+    DateTime firstDateTime,
+    DateTime lastDateTime,
+  ) =>
+      lastDateTime.difference(firstDateTime) ~/ 20;
+
   @override
   void updateRenderObject(
     BuildContext context,
     covariant RenderDynamicTimeline renderObject,
   ) {
     final defaultIntervalDuration =
-        lastDateTime.difference(firstDateTime) ~/ 20;
+        _getDefaultIntervalDuration(firstDateTime, lastDateTime);
 
     final defaultLinePaint = Paint()
       ..color = color
       ..strokeWidth = strokeWidth
       ..strokeCap = strokeCap;
 
-    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyText1!;
+    final defaultLabelTextStyle = Theme.of(context).textTheme.bodyLarge!;
 
     renderObject
       ..firstDateTime = firstDateTime
       ..lastDateTime = lastDateTime
-      ..labelBuilder = labelBuilder
       ..axis = axis
       ..intervalDuration = intervalDuration ?? defaultIntervalDuration
       ..intervalExtent = intervalExtent
+      ..intervalPainters = intervalPainters
       ..crossAxisCount = crossAxisCount
       ..maxCrossAxisIndicatorExtent = maxCrossAxisIndicatorExtent
-      ..maxCrossAxisItemExtent = maxCrossAxisItemExtent
+      ..maxCrossAxisItemExtent = maxCrossAxisItemExtent ?? double.infinity
       ..minItemDuration = minItemDuration ?? defaultIntervalDuration
       ..crossAxisSpacing = crossAxisSpacing
       ..resizable = resizable

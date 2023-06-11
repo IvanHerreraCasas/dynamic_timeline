@@ -12,8 +12,9 @@ class DailyTimeline extends StatelessWidget {
     final items = [
       TimelineItem(
         startDateTime: DateTime(1970, 1, 1, 7),
-        endDateTime: DateTime(1970, 1, 1, 8),
+        endDateTime: DateTime(1970, 1, 1, 11),
         child: const Event(title: 'Event 1'),
+
       ),
       TimelineItem(
         startDateTime: DateTime(1970, 1, 1, 10),
@@ -32,19 +33,21 @@ class DailyTimeline extends StatelessWidget {
         title: const Text('Daily timeline'),
       ),
       body: Center(
-        child: SingleChildScrollView(
+        child: Container(
+          decoration: const BoxDecoration(),
+            child: SingleChildScrollView(
           padding: const EdgeInsets.all(40),
           child: DynamicTimeline(
             firstDateTime: DateTime(1970, 1, 1, 7),
             lastDateTime: DateTime(1970, 1, 1, 22),
-            labelBuilder: DateFormat('HH:mm').format,
+            labelBuilder: LabelBuilder.fromString( (date) => DateFormat('HH:mm').format(date),),
             intervalDuration: const Duration(hours: 1),
             maxCrossAxisItemExtent: 200,
             intervalExtent: 80,
             minItemDuration: const Duration(minutes: 30),
             items: items,
           ),
-        ),
+        )),
       ),
     );
   }

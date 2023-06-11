@@ -4,7 +4,7 @@ version: 0.1.2
 repository: https://github.com/IvanHerreraCasas/dynamic_timeline
 
 environment:
-  sdk: ">=2.16.0 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -13,4 +13,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  very_good_analysis: ^3.0.0
+  mockito: ^5.4.0
+  shouldly: ^0.5.0+1
+  very_good_analysis: ^5.0.0

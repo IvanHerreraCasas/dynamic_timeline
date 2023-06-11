@@ -1,5 +1,7 @@
-import 'package:dynamic_timeline_example/pages/pages.dart';
+import 'package:dynamic_timeline_example/sample_collections/overview_samples.dart';
 import 'package:flutter/material.dart';
+
+import 'sample_collections/background_painter_samples.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,41 +27,17 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
           children: [
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const DailyTimeline(),
-                ),
-              ),
-              child: const Text('Daily timeline'),
+            Spacer(),
+            OverviewSamples(),
+            SizedBox(
+              width: 40,
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const WeeklyTimetable(),
-                ),
-              ),
-              child: const Text('Weekly timeline'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const GanttChart(),
-                ),
-              ),
-              child: const Text('Gantt chart'),
-            ),
+            BackgroundPainterSamples(),
+            Spacer(),
           ],
         ),
       ),
