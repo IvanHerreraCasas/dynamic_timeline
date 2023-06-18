@@ -104,6 +104,7 @@ class RenderDynamicTimeline extends RenderBox
 
     _layoutProcessor.axis = value;
     markNeedsLayout();
+    _updateChildrenParentData();
   }
 
   Duration get intervalDuration => _layoutProcessor.intervalDuration;
@@ -113,6 +114,7 @@ class RenderDynamicTimeline extends RenderBox
 
     _layoutProcessor.intervalDuration = value;
     markNeedsLayout();
+    _updateChildrenParentData();
   }
 
   double get intervalExtent => _layoutProcessor.intervalExtent;
@@ -122,6 +124,7 @@ class RenderDynamicTimeline extends RenderBox
 
     _layoutProcessor.intervalExtent = value;
     markNeedsLayout();
+    _updateChildrenParentData();
   }
 
   int get crossAxisCount => _layoutProcessor.crossAxisCount;
@@ -161,6 +164,7 @@ class RenderDynamicTimeline extends RenderBox
     if (value == _minItemDuration) return;
 
     _minItemDuration = value;
+    _updateChildrenParentData();
   }
 
   double get crossAxisSpacing => _layoutProcessor.crossAxisSpacing;
@@ -180,6 +184,7 @@ class RenderDynamicTimeline extends RenderBox
     if (value == _resizable) return;
 
     _resizable = value;
+    _updateChildrenParentData();
   }
 
   Paint get linePaint => _painter.linePaint;
@@ -188,6 +193,20 @@ class RenderDynamicTimeline extends RenderBox
     if (value == _painter.linePaint) return;
     _painter.linePaint = value;
     markNeedsPaint();
+  }
+
+  void _updateChildrenParentData() {
+    var child = firstChild;
+
+    while (child != null) {
+      final childParentData = (child.parentData! as DynamicTimelineParentData)
+        ..secondExtent = intervalExtent / intervalDuration.inSeconds
+        ..minItemDuration = minItemDuration
+        ..axis = axis
+        ..resizable = resizable;
+
+      child = childParentData.nextSibling;
+    }
   }
 
   @override
